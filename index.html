@@ -1445,6 +1445,41 @@
     border: 0;
     display: block;
   }
+  .plan-tour-iframe[hidden] { display: none; }
+  .plan-tour-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 14px;
+    padding: 32px;
+    background: var(--bg);
+  }
+  .plan-tour-placeholder .placeholder-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .plan-tour-placeholder .placeholder-title {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .plan-tour-placeholder .placeholder-meta {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+    max-width: 340px;
+  }
   .plan-svg {
     width: 100%;
     height: auto;
@@ -2811,10 +2846,15 @@
         </div>
 
         <div class="plan-view plan-view-3d" data-view="3d"
-             data-tour-1br="https://my.matterport.com/show/?m=SxQL3iGyoDo&amp;play=1&amp;qs=1"
-             data-tour-2br="https://my.matterport.com/show/?m=SxQL3iGyoDo&amp;play=1&amp;qs=1">
+             data-tour-1br=""
+             data-tour-2br="">
           <div class="plan-tour-frame">
-            <iframe class="plan-tour-iframe" title="3D walkthrough tour" allow="xr-spatial-tracking; fullscreen" allowfullscreen loading="lazy"></iframe>
+            <iframe class="plan-tour-iframe" title="3D walkthrough tour" allow="xr-spatial-tracking; fullscreen" allowfullscreen loading="lazy" hidden></iframe>
+            <div class="plan-tour-placeholder">
+              <span class="placeholder-eyebrow">3D tour</span>
+              <p class="placeholder-title">3D Tour <span class="italic">Coming Soon</span></p>
+              <p class="placeholder-meta">Matterport walkthroughs for each layout are on the way — schedule a tour to walk the home in person.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -3605,10 +3645,15 @@
 
   function applyTourSrc() {
     if (!planTourEl || !planTourIframe) return;
-    if (activeView !== '3d') return;
+    const placeholder = planTourEl.querySelector('.plan-tour-placeholder');
     const url = planTourEl.dataset['tour' + activePlan.charAt(0).toUpperCase() + activePlan.slice(1)];
-    if (url && planTourIframe.getAttribute('src') !== url) {
-      planTourIframe.setAttribute('src', url);
+    if (activeView === '3d' && url) {
+      if (planTourIframe.getAttribute('src') !== url) planTourIframe.setAttribute('src', url);
+      planTourIframe.hidden = false;
+      if (placeholder) placeholder.style.display = 'none';
+    } else {
+      planTourIframe.hidden = true;
+      if (placeholder) placeholder.style.display = '';
     }
   }
 
