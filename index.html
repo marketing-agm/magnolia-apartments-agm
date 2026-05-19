@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Magnolia Crestview · Apartments in Magnolia, Seattle</title>
-<meta name="description" content="Studios through 2BR/2BA apartments in Magnolia, Seattle. Updated kitchens, private decks, views. Steps from Discovery Park. From $1,395/mo." />
+<meta name="description" content="1BR and 2BR/2BA apartments in Magnolia, Seattle. Updated kitchens, private decks, views. Steps from Discovery Park. From $1,595/mo." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,30..100,0..1;1,9..144,300..700,30..100,0..1&family=Geist:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -1073,6 +1073,19 @@
     min-height: 130px;
   }
   .unit-card-plan svg { max-width: 100%; max-height: 100px; }
+  .unit-plan-placeholder {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.25;
+    text-align: center;
+    color: var(--ink-2);
+    letter-spacing: -0.01em;
+  }
+  .unit-plan-placeholder em {
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    color: var(--ink);
+  }
   .unit-plan-label {
     position: absolute;
     top: 14px;
@@ -1294,7 +1307,7 @@
   }
   .plan-switcher {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 0;
     border: 1px solid var(--rule);
     border-radius: var(--radius-lg);
@@ -1383,6 +1396,36 @@
   .plan-svg.is-active {
     display: block;
     animation: cardIn 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .plan-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 14px;
+    max-width: 320px;
+  }
+  .plan-placeholder .placeholder-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .plan-placeholder .placeholder-title {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 34px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .plan-placeholder .placeholder-meta {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
   }
 
   .plan-details {
@@ -2396,7 +2439,7 @@
     <div class="hero-grid">
       <div>
         <div class="hero-meta reveal">
-          <span class="pill"><span class="dot"></span>6 homes available</span>
+          <span class="pill"><span class="dot"></span>9 homes available</span>
           <span class="pill pill--accent">1 Month Free · 12-Month Lease</span>
         </div>
 
@@ -2412,9 +2455,9 @@
         </div>
 
         <div class="stat-row reveal" data-delay="3">
-          <div class="stat"><div class="stat-label">Available</div><div class="stat-value">6<span class="unit">homes</span></div></div>
-          <div class="stat"><div class="stat-label">Floor Plans</div><div class="stat-value">3<span class="unit">layouts</span></div></div>
-          <div class="stat"><div class="stat-label">Starting at</div><div class="stat-value">$1,395</div></div>
+          <div class="stat"><div class="stat-label">Available</div><div class="stat-value">9<span class="unit">homes</span></div></div>
+          <div class="stat"><div class="stat-label">Floor Plans</div><div class="stat-value">2<span class="unit">layouts</span></div></div>
+          <div class="stat"><div class="stat-label">Starting at</div><div class="stat-value">$1,595</div></div>
           <div class="stat"><div class="stat-label">Move-in</div><div class="stat-value">Now</div></div>
         </div>
 
@@ -2543,12 +2586,12 @@
     <div class="about-body">
       <aside class="col-aside reveal">
         <p>“Upper-floor homes capture breathtaking views of the Magnolia neighborhood and the Seattle skyline beyond.”</p>
-        <div class="meta-line">Six homes · Studio – 2 BR · Magnolia, Seattle</div>
+        <div class="meta-line">Nine homes · 1 BR – 2 BR · Magnolia, Seattle</div>
       </aside>
       <div class="col-main reveal" data-delay="1">
-        <p>Magnolia Crestview is a small, well-kept building with a handful of homes — studios through generously sized two-bedrooms. The two-bedroom plans are cavernous by Seattle standards: full updated kitchens, two bathrooms in the largest layouts, abundant closet space, and private decks with built-in storage.</p>
+        <p>Magnolia Crestview is a small, well-kept building with a handful of homes — bright one-bedrooms and generously sized two-bedrooms. The two-bedroom plans are spacious by Seattle standards: full updated kitchens, two bathrooms, abundant closet space, and private decks with built-in storage.</p>
         <p>Every layout was drawn to maximize daily livability. Real bedrooms with real closets. Pass-through kitchens, not galleys. Outdoor space that's actually yours. It's a building that works whether you're solo, partnered, or sharing the rent.</p>
-        <p>Homes don't come available often, and when they do, they go fast. Six are open now.</p>
+        <p>Homes don't come available often, and when they do, they go fast. Nine are open now.</p>
       </div>
     </div>
   </div>
@@ -2603,9 +2646,9 @@
     <div class="section-head">
       <div class="reveal">
         <div class="eyebrow">Available homes</div>
-        <h2 class="display">Six homes, <span class="italic">ready now.</span></h2>
+        <h2 class="display">Nine homes, <span class="italic">ready now.</span></h2>
       </div>
-      <p class="lede reveal" data-delay="1">From efficient studios to two-bedrooms with private decks. Filter by what matters to you — bedrooms, availability, price.</p>
+      <p class="lede reveal" data-delay="1">Bright one-bedrooms and spacious two-bedroom, two-bath homes — every unit with a private deck. Filter by what matters to you — bedrooms, availability, price.</p>
     </div>
 
     <!-- Filter bar -->
@@ -2614,7 +2657,6 @@
         <span class="filter-label">Bedrooms</span>
         <div class="pill-toggle" role="tablist" aria-label="Filter by bedrooms">
           <button class="pill-tab is-active" data-filter="beds" data-value="all">All</button>
-          <button class="pill-tab" data-filter="beds" data-value="0">Studio</button>
           <button class="pill-tab" data-filter="beds" data-value="1">1 BR</button>
           <button class="pill-tab" data-filter="beds" data-value="2">2 BR</button>
         </div>
@@ -2640,7 +2682,7 @@
         </div>
       </div>
       <div class="filter-meta">
-        Showing <span id="results-count">6</span> of 6 homes
+        Showing <span id="results-count">9</span> of 9 homes
       </div>
     </div>
 
@@ -2663,299 +2705,56 @@
     <div class="section-head">
       <div class="reveal">
         <div class="eyebrow">Floor plans</div>
-        <h2 class="display">Three layouts, <span class="italic">drawn carefully.</span></h2>
+        <h2 class="display">Two layouts, <span class="italic">designed for living.</span></h2>
       </div>
-      <p class="lede reveal" data-delay="1">Every plan in the building was designed for how people actually live. Walk through each one.</p>
+      <p class="lede reveal" data-delay="1">Bright one-bedrooms with private decks and spacious two-bedroom, two-bath homes — every plan built around how people actually live.</p>
     </div>
 
     <div class="plan-switcher reveal" role="tablist" aria-label="Floor plan selector">
-      <button class="plan-tab is-active" data-plan="studio" role="tab">
-        <span class="tab-title">Studio</span>
-        <span class="tab-meta">~460 sqft · from $1,395</span>
-      </button>
-      <button class="plan-tab" data-plan="1br" role="tab">
+      <button class="plan-tab is-active" data-plan="1br" role="tab">
         <span class="tab-title">1 Bedroom</span>
-        <span class="tab-meta">620–650 sqft · from $1,595</span>
+        <span class="tab-meta">600 sqft · from $1,595</span>
       </button>
       <button class="plan-tab" data-plan="2br" role="tab">
         <span class="tab-title">2 Bedroom</span>
-        <span class="tab-meta">850–1,050 sqft · from $1,795</span>
+        <span class="tab-meta">1,000 sqft · from $1,995</span>
       </button>
     </div>
 
     <div class="plan-display reveal" data-delay="1">
       <div class="plan-svg-wrap">
-        <!-- STUDIO PLAN -->
-        <svg class="plan-svg is-active" data-plan="studio" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="g1" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#181715" stroke-width="0.3" opacity="0.07"/>
-            </pattern>
-          </defs>
-          <rect width="480" height="360" fill="url(#g1)"/>
-          <!-- Outer walls -->
-          <rect x="40" y="40" width="400" height="280" fill="#fbf7ee" stroke="#181715" stroke-width="4"/>
-          <!-- Bath -->
-          <line x1="300" y1="40" x2="300" y2="150" stroke="#181715" stroke-width="3"/>
-          <line x1="300" y1="150" x2="440" y2="150" stroke="#181715" stroke-width="3"/>
-          <!-- Bath door -->
-          <line x1="320" y1="150" x2="350" y2="150" stroke="#fbf7ee" stroke-width="5"/>
-          <path d="M320 150 A30 30 0 0 0 320 120" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- Entry door -->
-          <line x1="380" y1="320" x2="420" y2="320" stroke="#fbf7ee" stroke-width="6"/>
-          <path d="M380 320 A40 40 0 0 1 420 280" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- Kitchen counter -->
-          <rect x="40" y="40" width="240" height="34" fill="none" stroke="#181715" stroke-width="1.2"/>
-          <!-- Sink -->
-          <rect x="80" y="48" width="40" height="20" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <circle cx="100" cy="58" r="2" fill="#6e6a63"/>
-          <!-- Stove -->
-          <rect x="160" y="48" width="40" height="20" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <circle cx="170" cy="54" r="2.5" fill="none" stroke="#6e6a63" stroke-width="0.6"/>
-          <circle cx="190" cy="54" r="2.5" fill="none" stroke="#6e6a63" stroke-width="0.6"/>
-          <circle cx="170" cy="62" r="2.5" fill="none" stroke="#6e6a63" stroke-width="0.6"/>
-          <circle cx="190" cy="62" r="2.5" fill="none" stroke="#6e6a63" stroke-width="0.6"/>
-          <!-- Fridge -->
-          <rect x="234" y="40" width="42" height="42" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <line x1="234" y1="55" x2="276" y2="55" stroke="#6e6a63" stroke-width="0.5"/>
-          <!-- Bath fixtures -->
-          <ellipse cx="395" cy="70" rx="11" ry="14" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <rect x="315" y="55" width="34" height="22" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <circle cx="332" cy="66" r="1.5" fill="#6e6a63"/>
-          <rect x="315" y="100" width="115" height="42" rx="6" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- Closet -->
-          <line x1="50" y1="240" x2="130" y2="240" stroke="#181715" stroke-width="2"/>
-          <line x1="130" y1="240" x2="130" y2="320" stroke="#181715" stroke-width="2"/>
-          <line x1="50" y1="240" x2="130" y2="300" stroke="#6e6a63" stroke-width="0.8" stroke-dasharray="2 3"/>
-          <!-- Furniture -->
-          <g opacity="0.45" stroke="#6e6a63" fill="none" stroke-width="0.8">
-            <rect x="170" y="190" width="80" height="105" rx="4"/>
-            <rect x="180" y="200" width="60" height="22" rx="2"/>
-            <rect x="290" y="210" width="90" height="42" rx="5"/>
-            <circle cx="335" cy="160" r="18"/>
-          </g>
-          <!-- Labels -->
-          <g font-family="JetBrains Mono" font-size="10" fill="#6e6a63" font-weight="600" letter-spacing="0.5">
-            <text x="120" y="110">KITCHEN</text>
-            <text x="345" y="95">BATH</text>
-            <text x="160" y="170">LIVING / SLEEPING</text>
-            <text x="60" y="290">CLOSET</text>
-          </g>
-          <!-- Dims -->
-          <g font-family="JetBrains Mono" font-size="9" fill="#181715" opacity="0.45">
-            <text x="220" y="340">22'-0"</text>
-            <text x="20" y="180" transform="rotate(-90 20 180)">15'-0"</text>
-          </g>
-          <!-- North arrow -->
-          <g transform="translate(415, 325)">
-            <circle r="13" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-            <path d="M0 -9 L4 5 L0 1 L-4 5 Z" fill="#2b4634"/>
-            <text x="-3" y="-15" font-family="JetBrains Mono" font-size="8" fill="#6e6a63" font-weight="600">N</text>
-          </g>
-        </svg>
-
-        <!-- 1BR PLAN -->
-        <svg class="plan-svg" data-plan="1br" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
-          <rect width="480" height="360" fill="url(#g1)"/>
-          <rect x="40" y="40" width="400" height="280" fill="#fbf7ee" stroke="#181715" stroke-width="4"/>
-          <!-- Bedroom partition (right side) -->
-          <line x1="270" y1="40" x2="270" y2="320" stroke="#181715" stroke-width="3"/>
-          <!-- Bedroom door opening -->
-          <line x1="270" y1="160" x2="270" y2="190" stroke="#fbf7ee" stroke-width="5"/>
-          <path d="M270 160 A30 30 0 0 1 300 160" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- Bath wall -->
-          <line x1="270" y1="225" x2="380" y2="225" stroke="#181715" stroke-width="3"/>
-          <line x1="380" y1="225" x2="380" y2="320" stroke="#181715" stroke-width="3"/>
-          <!-- Bath door -->
-          <line x1="320" y1="225" x2="350" y2="225" stroke="#fbf7ee" stroke-width="5"/>
-          <path d="M320 225 A30 30 0 0 0 320 195" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- Entry door -->
-          <line x1="80" y1="320" x2="120" y2="320" stroke="#fbf7ee" stroke-width="6"/>
-          <path d="M80 320 A40 40 0 0 1 120 280" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- Kitchen counter -->
-          <rect x="40" y="40" width="200" height="32" fill="none" stroke="#181715" stroke-width="1.2"/>
-          <rect x="65" y="48" width="38" height="18" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <rect x="125" y="48" width="38" height="18" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <circle cx="135" cy="53" r="2" fill="none" stroke="#6e6a63" stroke-width="0.5"/>
-          <circle cx="153" cy="53" r="2" fill="none" stroke="#6e6a63" stroke-width="0.5"/>
-          <circle cx="135" cy="61" r="2" fill="none" stroke="#6e6a63" stroke-width="0.5"/>
-          <circle cx="153" cy="61" r="2" fill="none" stroke="#6e6a63" stroke-width="0.5"/>
-          <rect x="195" y="40" width="42" height="42" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- Bedroom closet -->
-          <line x1="380" y1="80" x2="430" y2="80" stroke="#181715" stroke-width="2"/>
-          <line x1="380" y1="40" x2="380" y2="80" stroke="#181715" stroke-width="2"/>
-          <line x1="380" y1="80" x2="430" y2="50" stroke="#6e6a63" stroke-width="0.8" stroke-dasharray="2 3"/>
-          <!-- Bath fixtures -->
-          <ellipse cx="365" cy="255" rx="10" ry="13" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <rect x="285" y="240" width="32" height="20" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <rect x="285" y="280" width="90" height="34" rx="5" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- Furniture -->
-          <g opacity="0.45" stroke="#6e6a63" fill="none" stroke-width="0.8">
-            <!-- Sofa -->
-            <rect x="70" y="160" width="120" height="40" rx="5"/>
-            <!-- TV -->
-            <rect x="80" y="240" width="100" height="6" rx="1"/>
-            <!-- Dining -->
-            <circle cx="220" cy="180" r="22"/>
-            <!-- Bed -->
-            <rect x="310" y="80" width="100" height="70" rx="4"/>
-            <rect x="320" y="90" width="80" height="20" rx="2"/>
-            <!-- Nightstand -->
-            <rect x="295" y="85" width="14" height="20"/>
-          </g>
-          <g font-family="JetBrains Mono" font-size="10" fill="#6e6a63" font-weight="600" letter-spacing="0.5">
-            <text x="100" y="110">KITCHEN</text>
-            <text x="100" y="230">LIVING</text>
-            <text x="345" y="65">BEDROOM</text>
-            <text x="305" y="265">BATH</text>
-          </g>
-          <g font-family="JetBrains Mono" font-size="9" fill="#181715" opacity="0.45">
-            <text x="220" y="340">28'-0"</text>
-            <text x="20" y="180" transform="rotate(-90 20 180)">20'-0"</text>
-          </g>
-          <g transform="translate(415, 325)">
-            <circle r="13" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-            <path d="M0 -9 L4 5 L0 1 L-4 5 Z" fill="#2b4634"/>
-            <text x="-3" y="-15" font-family="JetBrains Mono" font-size="8" fill="#6e6a63" font-weight="600">N</text>
-          </g>
-        </svg>
-
-        <!-- 2BR PLAN -->
-        <svg class="plan-svg" data-plan="2br" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
-          <rect width="480" height="360" fill="url(#g1)"/>
-          <!-- Deck (outside, bottom) -->
-          <rect x="60" y="320" width="380" height="32" fill="none" stroke="#6e6a63" stroke-width="1.2" stroke-dasharray="3 3"/>
-          <text x="220" y="342" font-family="JetBrains Mono" font-size="9" fill="#6e6a63" font-weight="600" letter-spacing="0.5">PRIVATE DECK</text>
-          <!-- Main outer walls -->
-          <rect x="40" y="40" width="400" height="280" fill="#fbf7ee" stroke="#181715" stroke-width="4"/>
-          <!-- Central wall splitting living and bedrooms -->
-          <line x1="220" y1="40" x2="220" y2="170" stroke="#181715" stroke-width="3"/>
-          <line x1="220" y1="170" x2="40" y2="170" stroke="#181715" stroke-width="3"/>
-          <!-- Bedroom 1 (top right) divider -->
-          <line x1="340" y1="40" x2="340" y2="170" stroke="#181715" stroke-width="3"/>
-          <!-- Bath 1 (between BR1 and BR2) -->
-          <line x1="220" y1="190" x2="340" y2="190" stroke="#181715" stroke-width="3"/>
-          <line x1="340" y1="170" x2="340" y2="320" stroke="#181715" stroke-width="3"/>
-          <!-- Bath 2 (between living and BR2) -->
-          <line x1="220" y1="170" x2="220" y2="240" stroke="#181715" stroke-width="3"/>
-          <line x1="220" y1="240" x2="120" y2="240" stroke="#181715" stroke-width="3"/>
-          <line x1="120" y1="240" x2="120" y2="320" stroke="#181715" stroke-width="3"/>
-          <!-- Doors -->
-          <line x1="245" y1="170" x2="275" y2="170" stroke="#fbf7ee" stroke-width="5"/>
-          <path d="M245 170 A30 30 0 0 1 275 170" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <line x1="370" y1="170" x2="400" y2="170" stroke="#fbf7ee" stroke-width="5"/>
-          <path d="M370 170 A30 30 0 0 1 400 170" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <line x1="260" y1="190" x2="290" y2="190" stroke="#fbf7ee" stroke-width="5"/>
-          <line x1="135" y1="240" x2="165" y2="240" stroke="#fbf7ee" stroke-width="5"/>
-          <!-- Deck door from living -->
-          <line x1="80" y1="320" x2="115" y2="320" stroke="#fbf7ee" stroke-width="6"/>
-          <!-- Entry door (top) -->
-          <line x1="370" y1="40" x2="410" y2="40" stroke="#fbf7ee" stroke-width="6"/>
-          <path d="M370 40 A40 40 0 0 0 370 80" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- Kitchen (right side living area, near top) -->
-          <rect x="40" y="40" width="170" height="32" fill="none" stroke="#181715" stroke-width="1.2"/>
-          <rect x="55" y="48" width="34" height="18" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <rect x="105" y="48" width="34" height="18" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <circle cx="115" cy="53" r="2" fill="none" stroke="#6e6a63" stroke-width="0.5"/>
-          <circle cx="129" cy="53" r="2" fill="none" stroke="#6e6a63" stroke-width="0.5"/>
-          <circle cx="115" cy="61" r="2" fill="none" stroke="#6e6a63" stroke-width="0.5"/>
-          <circle cx="129" cy="61" r="2" fill="none" stroke="#6e6a63" stroke-width="0.5"/>
-          <rect x="160" y="40" width="42" height="42" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-          <!-- BR1 closet -->
-          <line x1="305" y1="80" x2="335" y2="80" stroke="#181715" stroke-width="2"/>
-          <line x1="305" y1="40" x2="305" y2="80" stroke="#181715" stroke-width="2"/>
-          <line x1="305" y1="80" x2="335" y2="55" stroke="#6e6a63" stroke-width="0.8" stroke-dasharray="2 3"/>
-          <!-- BR2 closet -->
-          <line x1="380" y1="230" x2="410" y2="230" stroke="#181715" stroke-width="2"/>
-          <line x1="380" y1="190" x2="380" y2="230" stroke="#181715" stroke-width="2"/>
-          <line x1="380" y1="230" x2="410" y2="205" stroke="#6e6a63" stroke-width="0.8" stroke-dasharray="2 3"/>
-          <!-- Bath 1 fixtures -->
-          <ellipse cx="305" cy="220" rx="9" ry="11" fill="none" stroke="#6e6a63" stroke-width="0.7"/>
-          <rect x="232" y="200" width="26" height="16" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.7"/>
-          <rect x="232" y="225" width="80" height="32" rx="5" fill="none" stroke="#6e6a63" stroke-width="0.7"/>
-          <!-- Bath 2 fixtures -->
-          <ellipse cx="200" cy="215" rx="9" ry="11" fill="none" stroke="#6e6a63" stroke-width="0.7"/>
-          <rect x="130" y="205" width="24" height="16" rx="2" fill="none" stroke="#6e6a63" stroke-width="0.7"/>
-          <rect x="170" y="230" width="40" height="10" rx="3" fill="none" stroke="#6e6a63" stroke-width="0.7"/>
-          <!-- Furniture -->
-          <g opacity="0.45" stroke="#6e6a63" fill="none" stroke-width="0.8">
-            <!-- Living sofa -->
-            <rect x="60" y="250" width="50" height="60" rx="5"/>
-            <!-- Sofa 2 -->
-            <rect x="155" y="270" width="60" height="40" rx="5"/>
-            <!-- Coffee table -->
-            <rect x="130" y="285" width="20" height="14" rx="2"/>
-            <!-- Dining -->
-            <circle cx="100" cy="120" r="25"/>
-            <!-- Bedroom 1 bed -->
-            <rect x="240" y="85" width="80" height="65" rx="4"/>
-            <rect x="250" y="95" width="60" height="18" rx="2"/>
-            <!-- BR1 nightstands -->
-            <rect x="225" y="90" width="12" height="18"/>
-            <rect x="323" y="90" width="12" height="18"/>
-            <!-- Bedroom 2 bed -->
-            <rect x="350" y="220" width="60" height="85" rx="4"/>
-            <rect x="360" y="230" width="40" height="20" rx="2"/>
-          </g>
-          <g font-family="JetBrains Mono" font-size="10" fill="#6e6a63" font-weight="600" letter-spacing="0.5">
-            <text x="68" y="110">KITCHEN</text>
-            <text x="80" y="200">LIVING / DINING</text>
-            <text x="240" y="65">BEDROOM 1</text>
-            <text x="355" y="200">BEDROOM 2</text>
-            <text x="245" y="215">BATH 1</text>
-            <text x="138" y="225">BATH 2</text>
-          </g>
-          <g font-family="JetBrains Mono" font-size="9" fill="#181715" opacity="0.45">
-            <text x="220" y="20">32'-0"</text>
-            <text x="20" y="180" transform="rotate(-90 20 180)">22'-0"</text>
-          </g>
-          <g transform="translate(415, 65)">
-            <circle r="13" fill="none" stroke="#6e6a63" stroke-width="0.8"/>
-            <path d="M0 -9 L4 5 L0 1 L-4 5 Z" fill="#2b4634"/>
-            <text x="-3" y="-15" font-family="JetBrains Mono" font-size="8" fill="#6e6a63" font-weight="600">N</text>
-          </g>
-        </svg>
+        <div class="plan-placeholder">
+          <span class="placeholder-eyebrow">Floor plan</span>
+          <p class="placeholder-title">Floor Plans <span class="italic">Coming Soon</span></p>
+          <p class="placeholder-meta">Detailed drawings will be available shortly — schedule a tour to walk the layout in person.</p>
+        </div>
       </div>
 
       <aside class="plan-details">
-        <div class="plan-content is-active" data-plan="studio">
-          <span class="eyebrow">Studio</span>
-          <h3 class="display">Compact. <span class="italic">Complete.</span></h3>
-          <p>A single-room layout with a real kitchen, full bath, and a generous closet. Best for solo dwellers who want to keep costs lean without compromising on the neighborhood.</p>
+        <div class="plan-content is-active" data-plan="1br">
+          <span class="eyebrow">1 Bedroom · 1 Bath</span>
+          <h3 class="display">Bright 1BR, <span class="italic">private deck.</span></h3>
+          <p>An open kitchen and living area connect to a separate bedroom with closet and a full bath. Every one-bedroom in the building includes a private deck and a quick walk to Discovery Park.</p>
           <ul class="plan-stats">
-            <li><span>Square feet</span><strong>~460</strong></li>
+            <li><span>Square feet</span><strong>600</strong></li>
             <li><span>Bathroom</span><strong>1 full</strong></li>
-            <li><span>Closet</span><strong>1 large</strong></li>
-            <li><span>Kitchen</span><strong>Full appliances</strong></li>
-            <li><span>Starting at</span><strong>$1,395 / mo</strong></li>
-          </ul>
-          <a href="#availability" class="btn btn-ghost">See available studios →</a>
-        </div>
-
-        <div class="plan-content" data-plan="1br">
-          <span class="eyebrow">1 Bedroom</span>
-          <h3 class="display">Real bedroom. <span class="italic">Real living.</span></h3>
-          <p>An open kitchen and living area connect to a separate bedroom with closet and bathroom — the layout most renters mean when they say they want a "real" one-bedroom.</p>
-          <ul class="plan-stats">
-            <li><span>Square feet</span><strong>620 – 650</strong></li>
-            <li><span>Bathroom</span><strong>1 full</strong></li>
-            <li><span>Closets</span><strong>Bedroom + entry</strong></li>
-            <li><span>Outdoor</span><strong>Private balcony</strong></li>
+            <li><span>Outdoor</span><strong>Private deck</strong></li>
+            <li><span>Views</span><strong>Neighborhood &amp; skyline</strong></li>
             <li><span>Starting at</span><strong>$1,595 / mo</strong></li>
           </ul>
           <a href="#availability" class="btn btn-ghost">See available 1 BRs →</a>
         </div>
 
         <div class="plan-content" data-plan="2br">
-          <span class="eyebrow">2 Bedroom</span>
-          <h3 class="display">Cavernous, <span class="italic">by Seattle standards.</span></h3>
-          <p>Two true bedrooms, two full bathrooms in our largest plan, a generous open kitchen, and a private deck with built-in storage. The layout gives every roommate, partner, or family member their own space.</p>
+          <span class="eyebrow">2 Bedroom · 2 Bath</span>
+          <h3 class="display">Spacious 2BR/2BA, <span class="italic">by Seattle standards.</span></h3>
+          <p>Two true bedrooms, two full bathrooms, an updated kitchen, and a private deck with built-in storage. The layout gives every roommate, partner, or family member their own space — steps from Discovery Park.</p>
           <ul class="plan-stats">
-            <li><span>Square feet</span><strong>850 – 1,050</strong></li>
-            <li><span>Bathrooms</span><strong>1 or 2 full</strong></li>
-            <li><span>Closets</span><strong>2 bedroom + entry</strong></li>
+            <li><span>Square feet</span><strong>1,000</strong></li>
+            <li><span>Bathrooms</span><strong>2 full</strong></li>
+            <li><span>Kitchen</span><strong>Updated</strong></li>
             <li><span>Outdoor</span><strong>Private deck</strong></li>
-            <li><span>Starting at</span><strong>$1,795 / mo</strong></li>
+            <li><span>Starting at</span><strong>$1,995 / mo</strong></li>
           </ul>
           <a href="#availability" class="btn btn-ghost">See available 2 BRs →</a>
         </div>
@@ -3400,7 +3199,7 @@
           <span class="brand-mark" aria-hidden="true"></span>
           <span>Magnolia <em style="font-style:italic;font-variation-settings:'opsz' 144, 'SOFT' 100;">Crestview</em></span>
         </div>
-        <p style="max-width:48ch;">Studios through two-bedroom apartments in one of Seattle's most livable neighborhoods, professionally managed by AGM Real Estate Group, LLC.</p>
+        <p style="max-width:48ch;">One and two-bedroom apartments in one of Seattle's most livable neighborhoods, professionally managed by AGM Real Estate Group, LLC.</p>
       </div>
       <div class="col">
         <h6>Property</h6>
@@ -3459,111 +3258,76 @@
   // ============== UNITS DATA & RENDERING ==============
   const UNITS = [
     {
-      id: '101', beds: 0, baths: 1, sqft: 460, rent: 1395,
+      id: '103', beds: 1, baths: 1, sqft: 600, rent: 1595,
       floor: 'Ground floor', floorNum: 1,
       available: 'Now', availType: 'now',
-      features: ['Garden view', 'Built-in storage'],
-      plan: 'studio'
-    },
-    {
-      id: '203', beds: 1, baths: 1, sqft: 620, rent: 1595,
-      floor: 'Mid floor', floorNum: 2,
-      available: 'Now', availType: 'now',
-      features: ['Private balcony', 'Large closets'],
+      features: ['Private deck', 'Walk to Discovery Park'],
       plan: '1br'
     },
     {
-      id: '305', beds: 1, baths: 1, sqft: 650, rent: 1695,
-      floor: 'Upper floor', floorNum: 3,
-      available: 'Jun 15', availType: 'soon',
-      features: ['Cascade views', 'Private balcony'],
+      id: '203', beds: 1, baths: 1, sqft: 600, rent: 1595,
+      floor: 'Second floor', floorNum: 2,
+      available: 'Now', availType: 'now',
+      features: ['Private deck', 'Bright interior'],
       plan: '1br'
     },
     {
-      id: '210', beds: 2, baths: 1, sqft: 850, rent: 1795,
-      floor: 'Mid floor', floorNum: 2,
+      id: '204', beds: 1, baths: 1, sqft: 600, rent: 1595,
+      floor: 'Second floor', floorNum: 2,
       available: 'Now', availType: 'now',
-      features: ['Private balcony', 'Pass-through kitchen'],
-      plan: '2br1ba'
+      features: ['Private deck', 'Walk to Discovery Park'],
+      plan: '1br'
+    },
+    {
+      id: '306', beds: 1, baths: 1, sqft: 600, rent: 1695,
+      floor: 'Third floor', floorNum: 3,
+      available: 'Now', availType: 'now',
+      features: ['Private deck', 'Neighborhood views'],
+      plan: '1br'
+    },
+    {
+      id: '403', beds: 1, baths: 1, sqft: 600, rent: 1695,
+      floor: 'Upper floor', floorNum: 4,
+      available: 'Now', availType: 'now',
+      features: ['Private deck', 'Skyline views'],
+      plan: '1br'
+    },
+    {
+      id: '301', beds: 2, baths: 2, sqft: 1000, rent: 1995,
+      floor: 'Third floor', floorNum: 3,
+      available: 'Now', availType: 'now',
+      features: ['Private deck', 'Updated kitchen', 'Neighborhood views'],
+      plan: '2br2ba'
+    },
+    {
+      id: '307', beds: 2, baths: 2, sqft: 1000, rent: 1995,
+      floor: 'Third floor', floorNum: 3,
+      available: 'Now', availType: 'now',
+      features: ['Private deck', 'Updated kitchen', 'Neighborhood views'],
+      plan: '2br2ba'
+    },
+    {
+      id: '402', beds: 2, baths: 2, sqft: 1000, rent: null,
+      floor: 'Upper floor', floorNum: 4,
+      available: 'Now', availType: 'now',
+      features: ['Private deck', 'Updated kitchen', 'Skyline views'],
+      plan: '2br2ba'
     },
     {
       id: '407', beds: 2, baths: 2, sqft: 1000, rent: 1995,
       floor: 'Upper floor', floorNum: 4,
       available: 'Now', availType: 'now',
-      features: ['Skyline views', 'Private deck', 'Updated kitchen'],
+      features: ['Private deck', 'Updated kitchen', 'Skyline views'],
       plan: '2br2ba',
       featured: true
-    },
-    {
-      id: '411', beds: 2, baths: 2, sqft: 1050, rent: 2095,
-      floor: 'Upper floor · Corner', floorNum: 4,
-      available: 'Jul 1', availType: 'soon',
-      features: ['Corner unit', 'Skyline views', 'Private deck'],
-      plan: '2br2ba'
     }
   ];
 
   const filters = { beds: 'all', avail: 'all' };
   let sortBy = 'price-asc';
 
-  // Compact floor plan thumbnails (inline)
-  const PLAN_THUMBS = {
-    'studio': `<svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg">
-      <rect x="8" y="8" width="124" height="74" fill="#fbf7ee" stroke="#181715" stroke-width="1.6"/>
-      <line x1="92" y1="8" x2="92" y2="34" stroke="#181715" stroke-width="1.2"/>
-      <line x1="92" y1="34" x2="132" y2="34" stroke="#181715" stroke-width="1.2"/>
-      <line x1="8" y1="22" x2="86" y2="22" stroke="#6e6a63" stroke-width="0.6"/>
-      <line x1="8" y1="60" x2="36" y2="60" stroke="#181715" stroke-width="1"/>
-      <line x1="36" y1="60" x2="36" y2="82" stroke="#181715" stroke-width="1"/>
-      <text x="32" y="52" font-family="JetBrains Mono" font-size="6.5" fill="#6e6a63" font-weight="600">LIVING</text>
-      <text x="100" y="24" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">BA</text>
-      <text x="32" y="16" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">KITCHEN</text>
-    </svg>`,
-    '1br': `<svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg">
-      <rect x="8" y="8" width="124" height="74" fill="#fbf7ee" stroke="#181715" stroke-width="1.6"/>
-      <line x1="76" y1="8" x2="76" y2="82" stroke="#181715" stroke-width="1.2"/>
-      <line x1="76" y1="56" x2="132" y2="56" stroke="#181715" stroke-width="1.2"/>
-      <line x1="8" y1="22" x2="68" y2="22" stroke="#6e6a63" stroke-width="0.5"/>
-      <text x="14" y="16" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">KITCHEN</text>
-      <text x="22" y="56" font-family="JetBrains Mono" font-size="6.5" fill="#6e6a63" font-weight="600">LIVING</text>
-      <text x="86" y="38" font-family="JetBrains Mono" font-size="6.5" fill="#6e6a63" font-weight="600">BR</text>
-      <text x="92" y="74" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">BA</text>
-    </svg>`,
-    '2br1ba': `<svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg">
-      <rect x="8" y="8" width="124" height="74" fill="#fbf7ee" stroke="#181715" stroke-width="1.6"/>
-      <line x1="64" y1="8" x2="64" y2="50" stroke="#181715" stroke-width="1.2"/>
-      <line x1="64" y1="50" x2="8" y2="50" stroke="#181715" stroke-width="1.2"/>
-      <line x1="100" y1="8" x2="100" y2="50" stroke="#181715" stroke-width="1.2"/>
-      <line x1="100" y1="50" x2="132" y2="50" stroke="#181715" stroke-width="1.2"/>
-      <line x1="8" y1="22" x2="58" y2="22" stroke="#6e6a63" stroke-width="0.5"/>
-      <text x="20" y="16" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">KITCHEN</text>
-      <text x="70" y="30" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">BR 1</text>
-      <text x="106" y="30" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">BA</text>
-      <text x="18" y="70" font-family="JetBrains Mono" font-size="6.5" fill="#6e6a63" font-weight="600">LIVING</text>
-      <text x="92" y="70" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">BR 2</text>
-    </svg>`,
-    '2br2ba': `<svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg">
-      <rect x="8" y="8" width="124" height="74" fill="#fbf7ee" stroke="#181715" stroke-width="1.6"/>
-      <line x1="64" y1="8" x2="64" y2="50" stroke="#181715" stroke-width="1.2"/>
-      <line x1="64" y1="50" x2="8" y2="50" stroke="#181715" stroke-width="1.2"/>
-      <line x1="98" y1="8" x2="98" y2="50" stroke="#181715" stroke-width="1.2"/>
-      <line x1="64" y1="50" x2="64" y2="82" stroke="#181715" stroke-width="1.2"/>
-      <line x1="98" y1="50" x2="98" y2="82" stroke="#181715" stroke-width="1.2"/>
-      <line x1="64" y1="68" x2="98" y2="68" stroke="#181715" stroke-width="1"/>
-      <line x1="8" y1="22" x2="58" y2="22" stroke="#6e6a63" stroke-width="0.5"/>
-      <text x="20" y="16" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">KITCHEN</text>
-      <text x="70" y="30" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">BR 1</text>
-      <text x="106" y="30" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">BA</text>
-      <text x="20" y="70" font-family="JetBrains Mono" font-size="6.5" fill="#6e6a63" font-weight="600">LIVING</text>
-      <text x="70" y="62" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">BR 2</text>
-      <text x="106" y="78" font-family="JetBrains Mono" font-size="6" fill="#6e6a63" font-weight="600">BA</text>
-    </svg>`
-  };
-
   const PLAN_LABELS = {
-    'studio': 'Studio · 1 BA',
     '1br': '1 BR · 1 BA',
-    '2br1ba': '2 BR · 1 BA',
     '2br2ba': '2 BR · 2 BA'
   };
 
@@ -3572,11 +3336,12 @@
     if (filters.beds !== 'all') list = list.filter(u => u.beds === parseInt(filters.beds, 10));
     if (filters.avail !== 'all') list = list.filter(u => u.availType === filters.avail);
 
+    const priceOf = u => (u.rent == null ? Infinity : u.rent);
     switch (sortBy) {
-      case 'price-asc': list.sort((a, b) => a.rent - b.rent); break;
-      case 'price-desc': list.sort((a, b) => b.rent - a.rent); break;
+      case 'price-asc': list.sort((a, b) => priceOf(a) - priceOf(b)); break;
+      case 'price-desc': list.sort((a, b) => (b.rent ?? -Infinity) - (a.rent ?? -Infinity)); break;
       case 'size-desc': list.sort((a, b) => b.sqft - a.sqft); break;
-      case 'beds-asc': list.sort((a, b) => a.beds - b.beds || a.rent - b.rent); break;
+      case 'beds-asc': list.sort((a, b) => a.beds - b.beds || priceOf(a) - priceOf(b)); break;
     }
     return list;
   }
@@ -3591,12 +3356,15 @@
     const featured = unit.featured ? '<span class="badge-featured">Featured</span>' : '';
     const featureTags = unit.features.map(f => `<li>${f}</li>`).join('');
     const availClass = unit.availType === 'soon' ? 'avail soon' : 'avail';
+    const priceHTML = unit.rent == null
+      ? `<div class="price price--inquire">Inquire</div>`
+      : `<div class="price">$${unit.rent.toLocaleString()}<span>/mo</span></div>`;
     return `
       <article class="unit-card${unit.featured ? ' is-featured' : ''}" style="animation-delay:${idx * 50}ms">
         <div class="unit-card-plan">
           <span class="unit-plan-label">${PLAN_LABELS[unit.plan]}</span>
           ${featured}
-          ${PLAN_THUMBS[unit.plan]}
+          <span class="unit-plan-placeholder">Floor Plan<br><em>Coming Soon</em></span>
         </div>
         <div class="unit-card-body">
           <div class="unit-card-head">
@@ -3611,7 +3379,7 @@
             <div><strong>${unit.sqft.toLocaleString()}</strong><span>sqft</span></div>
           </div>
           <div class="unit-card-price">
-            <div class="price">$${unit.rent.toLocaleString()}<span>/mo</span></div>
+            ${priceHTML}
             <div class="${availClass}"><span class="dot"></span>${unit.available}</div>
           </div>
           <ul class="unit-card-features">${featureTags}</ul>
@@ -3944,7 +3712,7 @@
       });
       L.marker([PROPERTY.lat, PROPERTY.lng], { icon: homeIcon, zIndexOffset: 1000 })
         .addTo(map)
-        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>Magnolia Crestview</h4><p>2701 W Manor Pl<br>Seattle, WA 98199</p><div class="foot"><span>6 homes</span><span>From $1,395</span></div></div>`);
+        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>Magnolia Crestview</h4><p>2701 W Manor Pl<br>Seattle, WA 98199</p><div class="foot"><span>9 homes</span><span>From $1,595</span></div></div>`);
 
       // Bus routes — drawn once, beneath the markers, always visible
       BUS_ROUTES.forEach(r => {
@@ -4059,11 +3827,11 @@
 
     // Units (6)
     { id: 13, cat: 'units',    size: 'hero',   title: 'Unit 407',            desc: '2 BR · 2 BA · 1,000 sqft · Top floor · $1,995/mo',    imgId: '1522708323590-d24dbb6b0267', seed: 'mc-unt-1' },
-    { id: 14, cat: 'units',    size: 'wide',   title: 'Unit 305',            desc: '1 BR · 650 sqft · Cascade views · $1,695/mo',         imgId: '1556228720-195a672e8a03', seed: 'mc-unt-2' },
-    { id: 15, cat: 'units',    size: 'tall',   title: 'Studio 101',          desc: 'Compact and complete · ~460 sqft · $1,395/mo',        imgId: '1631679706909-1844bbd07221', seed: 'mc-unt-3' },
-    { id: 16, cat: 'units',    size: 'square', title: 'Walk-in closet',      desc: 'Built-in shelving and storage throughout',            imgId: '1558211583-d26f610c1eb1', seed: 'mc-unt-4' },
-    { id: 17, cat: 'units',    size: 'square', title: 'Unit 411 (corner)',   desc: '2 BR · 1,050 sqft · Light from three sides',          imgId: '1600585154340-be6161a56a0c', seed: 'mc-unt-5' },
-    { id: 18, cat: 'units',    size: 'square', title: 'Unit 210',            desc: '2 BR · 850 sqft · Mid floor · $1,795/mo',             imgId: '1502672023488-70e25813eb80', seed: 'mc-unt-6' },
+    { id: 14, cat: 'units',    size: 'wide',   title: 'Unit 306',            desc: '1 BR · 600 sqft · Private deck · $1,695/mo',          imgId: '1556228720-195a672e8a03', seed: 'mc-unt-2' },
+    { id: 15, cat: 'units',    size: 'tall',   title: 'Unit 103',            desc: '1 BR · 600 sqft · Ground floor · $1,595/mo',          imgId: '1631679706909-1844bbd07221', seed: 'mc-unt-3' },
+    { id: 16, cat: 'units',    size: 'square', title: 'Built-in storage',    desc: 'Closets and shelving throughout',                     imgId: '1558211583-d26f610c1eb1', seed: 'mc-unt-4' },
+    { id: 17, cat: 'units',    size: 'square', title: 'Unit 402',            desc: '2 BR · 2 BA · 1,000 sqft · Upper floor · Skyline views', imgId: '1600585154340-be6161a56a0c', seed: 'mc-unt-5' },
+    { id: 18, cat: 'units',    size: 'square', title: 'Unit 203',            desc: '1 BR · 600 sqft · Second floor · $1,595/mo',          imgId: '1502672023488-70e25813eb80', seed: 'mc-unt-6' },
 
     // Neighborhood (6)
     { id: 19, cat: 'neighborhood', size: 'hero',   title: 'Discovery Park',     desc: '534 acres of trails, beach, and old-growth forest',  imgId: '1502175353174-a7a525c47ddf', seed: 'mc-nbh-1' },
