@@ -178,6 +178,12 @@
     transition: background 180ms ease, transform 180ms ease;
   }
   .nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+  .nav-cta--secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .nav-cta--secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-1px); }
   @media (max-width: 720px) {
     .nav-links a:not(.nav-cta) { display: none; }
   }
@@ -2379,6 +2385,7 @@
       <a href="#gallery">Gallery</a>
       <a href="#neighborhood">Neighborhood</a>
       <a href="#tour" class="nav-cta">Schedule a tour →</a>
+      <a href="https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state" class="nav-cta nav-cta--secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
     </nav>
   </div>
 </header>
