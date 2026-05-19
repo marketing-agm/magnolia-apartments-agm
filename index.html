@@ -1379,13 +1379,71 @@
     background: var(--bg);
     padding: 36px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 24px;
     min-height: 380px;
     border-right: 1px solid var(--rule);
   }
   @media (max-width: 880px) {
     .plan-svg-wrap { border-right: none; border-bottom: 1px solid var(--rule); }
+  }
+
+  .plan-view-toggle {
+    align-self: center;
+    display: inline-flex;
+    padding: 4px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    gap: 2px;
+  }
+  .plan-view-tab {
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    background: transparent;
+    transition: background 180ms ease, color 180ms ease;
+    cursor: pointer;
+  }
+  .plan-view-tab:hover { color: var(--ink); }
+  .plan-view-tab.is-active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .plan-view {
+    display: none;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .plan-view.is-active {
+    display: flex;
+    animation: cardIn 400ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .plan-tour-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .plan-tour-iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
   }
   .plan-svg {
     width: 100%;
@@ -2739,10 +2797,25 @@
 
     <div class="plan-display reveal" data-delay="1">
       <div class="plan-svg-wrap">
-        <div class="plan-placeholder">
-          <span class="placeholder-eyebrow">Floor plan</span>
-          <p class="placeholder-title">Floor Plans <span class="italic">Coming Soon</span></p>
-          <p class="placeholder-meta">Detailed drawings will be available shortly — schedule a tour to walk the layout in person.</p>
+        <div class="plan-view-toggle" role="tablist" aria-label="Floor plan view">
+          <button class="plan-view-tab is-active" data-view="2d" role="tab" aria-selected="true">Floor plan</button>
+          <button class="plan-view-tab" data-view="3d" role="tab" aria-selected="false">3D tour</button>
+        </div>
+
+        <div class="plan-view plan-view-2d is-active" data-view="2d">
+          <div class="plan-placeholder">
+            <span class="placeholder-eyebrow">Floor plan</span>
+            <p class="placeholder-title">Floor Plans <span class="italic">Coming Soon</span></p>
+            <p class="placeholder-meta">Detailed drawings will be available shortly — schedule a tour to walk the layout in person.</p>
+          </div>
+        </div>
+
+        <div class="plan-view plan-view-3d" data-view="3d"
+             data-tour-1br="https://my.matterport.com/show/?m=SxQL3iGyoDo&amp;play=1&amp;qs=1"
+             data-tour-2br="https://my.matterport.com/show/?m=SxQL3iGyoDo&amp;play=1&amp;qs=1">
+          <div class="plan-tour-frame">
+            <iframe class="plan-tour-iframe" title="3D walkthrough tour" allow="xr-spatial-tracking; fullscreen" allowfullscreen loading="lazy"></iframe>
+          </div>
         </div>
       </div>
 
@@ -3525,9 +3598,24 @@
   renderUnits();
 
   // ============== FLOOR PLAN SWITCHER ==============
+  const planTourEl = document.querySelector('.plan-view-3d');
+  const planTourIframe = document.querySelector('.plan-tour-iframe');
+  let activePlan = '1br';
+  let activeView = '2d';
+
+  function applyTourSrc() {
+    if (!planTourEl || !planTourIframe) return;
+    if (activeView !== '3d') return;
+    const url = planTourEl.dataset['tour' + activePlan.charAt(0).toUpperCase() + activePlan.slice(1)];
+    if (url && planTourIframe.getAttribute('src') !== url) {
+      planTourIframe.setAttribute('src', url);
+    }
+  }
+
   document.querySelectorAll('.plan-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       const target = tab.dataset.plan;
+      activePlan = target;
       document.querySelectorAll('.plan-tab').forEach(t => t.classList.toggle('is-active', t === tab));
       document.querySelectorAll('.plan-svg').forEach(svg => {
         svg.classList.toggle('is-active', svg.dataset.plan === target);
@@ -3535,6 +3623,23 @@
       document.querySelectorAll('.plan-content').forEach(c => {
         c.classList.toggle('is-active', c.dataset.plan === target);
       });
+      applyTourSrc();
+    });
+  });
+
+  document.querySelectorAll('.plan-view-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const view = tab.dataset.view;
+      activeView = view;
+      document.querySelectorAll('.plan-view-tab').forEach(t => {
+        const on = t === tab;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('.plan-view').forEach(v => {
+        v.classList.toggle('is-active', v.dataset.view === view);
+      });
+      applyTourSrc();
     });
   });
 
