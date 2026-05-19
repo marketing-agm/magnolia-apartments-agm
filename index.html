@@ -3664,7 +3664,28 @@
   });
 
   // ============== INTERACTIVE NEIGHBORHOOD MAP ==============
-  const PROPERTY = { lat: 47.6443, lng: -122.4001 };
+  const PROPERTY = { lat: 47.6528, lng: -122.3915 };
+
+  // Straight-line (great-circle) distance from the property, in miles
+  function haversineMiles(a, b) {
+    const R = 3958.8;
+    const toRad = d => d * Math.PI / 180;
+    const dLat = toRad(b.lat - a.lat);
+    const dLng = toRad(b.lng - a.lng);
+    const h = Math.sin(dLat / 2) ** 2 +
+      Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.asin(Math.sqrt(h));
+  }
+
+  function formatDistance(mi) {
+    return mi < 0.1 ? 'Doorstep' : `${mi.toFixed(1)} mi`;
+  }
+
+  function formatTime(mi) {
+    if (mi < 0.1) return 'At your doorstep';
+    if (mi <= 1.3) return `${Math.max(1, Math.round(mi * 20))} min walk`;
+    return `${Math.max(1, Math.round(mi / 25 * 60))} min drive`;
+  }
 
   const CATEGORIES = {
     parks:    { label: 'Parks & Outdoors', color: '#2b4634' },
@@ -3674,40 +3695,47 @@
     schools:  { label: 'Schools',          color: '#6b4a7a' }
   };
 
-  // Ordered roughly by distance from the property
+  // Grouped by category; the list is sorted by computed distance at render time
   const PLACES = [
     // Parks
-    { id: 1,  name: 'Kiwanis Memorial Preserve',  cat: 'parks',    desc: 'Wooded trail loop, quiet refuge',                      lat: 47.6396, lng: -122.4067, distance: '0.4 mi', time: '8 min walk' },
-    { id: 2,  name: 'Discovery Park',             cat: 'parks',    desc: '534-acre park, beach trails, lighthouse',             lat: 47.6585, lng: -122.4225, distance: '0.8 mi', time: 'Walkable' },
-    { id: 3,  name: 'Magnolia Park',              cat: 'parks',    desc: 'Waterfront park overlooking Puget Sound',             lat: 47.6332, lng: -122.4012, distance: '0.6 mi', time: '12 min walk' },
-    { id: 4,  name: 'Ella Bailey Park',           cat: 'parks',    desc: 'Open lawn with city skyline views',                   lat: 47.6493, lng: -122.3915, distance: '0.7 mi', time: '14 min walk' },
-    { id: 5,  name: 'Lawton Park',                cat: 'parks',    desc: 'Tennis courts, playground, open lawn',                lat: 47.6540, lng: -122.4117, distance: '0.6 mi', time: '12 min walk' },
+    { id: 1,  name: 'Kiwanis Memorial Preserve',  cat: 'parks',    desc: 'Wooded trail loop, quiet refuge',                      lat: 47.6602, lng: -122.4031 },
+    { id: 2,  name: 'Discovery Park',             cat: 'parks',    desc: '534-acre park, beach trails, lighthouse',             lat: 47.6618, lng: -122.4219 },
+    { id: 3,  name: 'Magnolia Park',              cat: 'parks',    desc: 'Waterfront park overlooking Puget Sound',             lat: 47.6338, lng: -122.3984 },
+    { id: 4,  name: 'Ella Bailey Park',           cat: 'parks',    desc: 'Open lawn with city skyline views',                   lat: 47.6407, lng: -122.3911 },
+    { id: 5,  name: 'Lawton Park',                cat: 'parks',    desc: 'Tennis courts, playground, open lawn',                lat: 47.6553, lng: -122.3911 },
 
     // Food
-    { id: 6,  name: 'Magnolia Smokery',           cat: 'food',     desc: 'BBQ takeout, locally beloved',                        lat: 47.6452, lng: -122.3958, distance: '0.3 mi', time: '7 min walk' },
-    { id: 7,  name: "Mason's Lobster Rolls",      cat: 'food',     desc: 'East Coast seafood in Magnolia Village',              lat: 47.6446, lng: -122.3963, distance: '0.3 mi', time: '8 min walk' },
-    { id: 8,  name: 'Serendipity Café',           cat: 'food',     desc: 'Coffee, breakfast, neighborhood gathering',           lat: 47.6450, lng: -122.3949, distance: '0.4 mi', time: '8 min walk' },
-    { id: 9,  name: "Szmania's Restaurant",       cat: 'food',     desc: 'Continental fine dining, a Magnolia institution',     lat: 47.6438, lng: -122.3974, distance: '0.4 mi', time: '8 min walk' },
-    { id: 10, name: "Niko's Gyros",               cat: 'food',     desc: 'Casual Greek favorites',                              lat: 47.6442, lng: -122.3942, distance: '0.4 mi', time: '9 min walk' },
-    { id: 11, name: 'Magnolia Bistro',            cat: 'food',     desc: 'Italian dining in the village',                       lat: 47.6434, lng: -122.3960, distance: '0.4 mi', time: '8 min walk' },
+    { id: 6,  name: 'Magnolia Smokery',           cat: 'food',     desc: 'BBQ takeout, locally beloved',                        lat: 47.6402, lng: -122.3983 },
+    { id: 7,  name: "Mason's Lobster Rolls",      cat: 'food',     desc: 'East Coast seafood in Magnolia Village',              lat: 47.6401, lng: -122.3990 },
+    { id: 8,  name: 'Serendipity Café',           cat: 'food',     desc: 'Coffee, breakfast, neighborhood gathering',           lat: 47.6400, lng: -122.3996 },
+    { id: 9,  name: "Szmania's Restaurant",       cat: 'food',     desc: 'Continental fine dining, a Magnolia institution',     lat: 47.6402, lng: -122.3998 },
+    { id: 10, name: "Niko's Gyros",               cat: 'food',     desc: 'Casual Greek favorites',                              lat: 47.6399, lng: -122.4001 },
+    { id: 11, name: 'Magnolia Bistro',            cat: 'food',     desc: 'Italian dining in the village',                       lat: 47.6401, lng: -122.3986 },
 
     // Shopping
-    { id: 12, name: 'Magnolia Village',           cat: 'shopping', desc: 'Shopping district + weekend farmers market',          lat: 47.6446, lng: -122.3955, distance: '0.3 mi', time: '8 min walk' },
-    { id: 13, name: 'Metropolitan Market',        cat: 'shopping', desc: 'Premium neighborhood grocer',                         lat: 47.6388, lng: -122.3905, distance: '0.7 mi', time: '5 min drive' },
-    { id: 14, name: 'Magnolia Bookstore',         cat: 'shopping', desc: 'Independent bookstore, est. 1979',                    lat: 47.6448, lng: -122.3950, distance: '0.3 mi', time: '8 min walk' },
-    { id: 15, name: 'Albertsons',                 cat: 'shopping', desc: 'Full-service grocery',                                lat: 47.6471, lng: -122.3925, distance: '0.5 mi', time: '10 min walk' },
-    { id: 16, name: 'Ballard',                    cat: 'shopping', desc: 'Restaurants, breweries, Sunday market',               lat: 47.6685, lng: -122.3845, distance: '3.0 mi', time: '10 min drive' },
+    { id: 12, name: 'Magnolia Village',           cat: 'shopping', desc: 'Shopping district + weekend farmers market',          lat: 47.6403, lng: -122.3997 },
+    { id: 13, name: 'Metropolitan Market',        cat: 'shopping', desc: 'Premium neighborhood grocer',                         lat: 47.6406, lng: -122.3990 },
+    { id: 14, name: 'Magnolia Bookstore',         cat: 'shopping', desc: 'Independent bookstore, est. 1979',                    lat: 47.6397, lng: -122.3987 },
+    { id: 15, name: 'Albertsons',                 cat: 'shopping', desc: 'Full-service grocery',                                lat: 47.6425, lng: -122.3979 },
+    { id: 16, name: 'Ballard',                    cat: 'shopping', desc: 'Restaurants, breweries, Sunday market',               lat: 47.6685, lng: -122.3845 },
 
     // Transit
-    { id: 17, name: 'Route 24 / 33 Bus',          cat: 'transit',  desc: 'Direct to Downtown Seattle from doorstep',            lat: 47.6437, lng: -122.4000, distance: 'Doorstep', time: '25 min to downtown' },
-    { id: 18, name: 'Magnolia Bridge',            cat: 'transit',  desc: 'Primary route to downtown & Interbay',                lat: 47.6311, lng: -122.3825, distance: '1.2 mi', time: '5 min drive' },
-    { id: 19, name: 'Downtown Seattle',           cat: 'transit',  desc: 'Pike Place, central business district',               lat: 47.6062, lng: -122.3321, distance: '4.0 mi', time: '25 min by bus' },
+    { id: 17, name: 'Route 24 / 33 Bus',          cat: 'transit',  desc: 'Direct to Downtown Seattle from doorstep',            lat: 47.6526, lng: -122.3913 },
+    { id: 18, name: 'Magnolia Bridge',            cat: 'transit',  desc: 'Primary route to downtown & Interbay',                lat: 47.6334, lng: -122.3863 },
+    { id: 19, name: 'Downtown Seattle',           cat: 'transit',  desc: 'Pike Place, central business district',               lat: 47.6062, lng: -122.3321 },
 
     // Schools
-    { id: 20, name: 'Catharine Blaine K-8',       cat: 'schools',  desc: 'Public K-8, walking distance',                        lat: 47.6552, lng: -122.3979, distance: '0.5 mi', time: '10 min walk' },
-    { id: 21, name: 'Magnolia Elementary',        cat: 'schools',  desc: 'Public elementary school',                            lat: 47.6443, lng: -122.3854, distance: '0.6 mi', time: '12 min walk' },
-    { id: 22, name: 'University of Washington',   cat: 'schools',  desc: 'Direct bus route, no transfer',                       lat: 47.6553, lng: -122.3035, distance: '5.8 mi', time: '30 min by bus' }
+    { id: 20, name: 'Catharine Blaine K-8',       cat: 'schools',  desc: 'Public K-8, walking distance',                        lat: 47.6430, lng: -122.3999 },
+    { id: 21, name: 'Magnolia Elementary',        cat: 'schools',  desc: 'Public elementary school',                            lat: 47.6406, lng: -122.3924 },
+    { id: 22, name: 'University of Washington',   cat: 'schools',  desc: 'Direct bus route, no transfer',                       lat: 47.6553, lng: -122.3035 }
   ];
+
+  // Derive distance + travel time from real coordinates so labels stay accurate
+  PLACES.forEach(p => {
+    p.dist = haversineMiles(PROPERTY, p);
+    p.distance = formatDistance(p.dist);
+    p.time = formatTime(p.dist);
+  });
 
   let activeCategory = 'all';
   let activePlaceId = null;
@@ -3717,9 +3745,10 @@
 
   // ----- List rendering (works with or without map) -----
   function getFilteredPlaces() {
-    return activeCategory === 'all'
+    const places = activeCategory === 'all'
       ? PLACES.slice()
       : PLACES.filter(p => p.cat === activeCategory);
+    return places.sort((a, b) => a.dist - b.dist);
   }
 
   function renderList() {
