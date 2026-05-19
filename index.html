@@ -2579,6 +2579,278 @@
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
   }
+
+  /* ---------- Floating contact widget ---------- */
+  .fab-contact {
+    position: fixed;
+    right: clamp(16px, 2.4vw, 28px);
+    bottom: clamp(16px, 2.4vw, 28px);
+    z-index: 70;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px 14px 16px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(24,23,21,0.18), 0 2px 6px rgba(24,23,21,0.12);
+    font-family: var(--sans, inherit);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease, opacity 240ms ease;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+  }
+  .fab-contact.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .fab-contact:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(24,23,21,0.22), 0 3px 8px rgba(24,23,21,0.14);
+  }
+  .fab-contact .fab-ic {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--warm);
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+  @media (max-width: 540px) {
+    .fab-contact { padding: 12px; }
+    .fab-contact .fab-label { display: none; }
+  }
+
+  .cw-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: none;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: clamp(16px, 3vw, 32px);
+  }
+  .cw-overlay.is-open { display: flex; }
+  .cw-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(24,23,21,0.42);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    animation: cwFade 220ms ease;
+  }
+  .cw-panel {
+    position: relative;
+    width: min(460px, 100%);
+    max-height: min(86vh, 760px);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(24,23,21,0.28);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: cwPanelIn 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  @media (max-width: 540px) {
+    .cw-overlay { padding: 0; align-items: stretch; justify-content: stretch; }
+    .cw-panel { width: 100%; max-height: 100vh; border-radius: 0; }
+  }
+  @keyframes cwFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes cwPanelIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .cw-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-2);
+    flex: none;
+  }
+  .cw-head-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .cw-head-eyebrow {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+  }
+  .cw-head-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .cw-head-actions { display: flex; align-items: center; gap: 6px; flex: none; }
+  .cw-icon-btn {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    color: var(--ink-2);
+    transition: background 160ms ease, color 160ms ease;
+    cursor: pointer;
+  }
+  .cw-icon-btn:hover { background: var(--bg-2); color: var(--ink); }
+  .cw-back { display: none; }
+  .cw-panel[data-step="leasing"] .cw-back,
+  .cw-panel[data-step="maintenance"] .cw-back { display: grid; }
+
+  .cw-body {
+    padding: 22px 20px 24px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cw-step { display: none; }
+  .cw-panel[data-step="choose"]      .cw-step[data-step="choose"],
+  .cw-panel[data-step="leasing"]     .cw-step[data-step="leasing"],
+  .cw-panel[data-step="maintenance"] .cw-step[data-step="maintenance"] { display: block; }
+
+  .cw-intro {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    margin: 0 0 18px;
+  }
+  .cw-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .cw-card {
+    text-align: left;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: 18px 18px 18px 16px;
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+    cursor: pointer;
+  }
+  .cw-card:hover {
+    border-color: var(--ink-3);
+    background: var(--paper);
+    transform: translateY(-1px);
+  }
+  .cw-card .cw-card-ic {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--bg-2);
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+  .cw-card.is-maintenance .cw-card-ic { color: var(--accent-2); }
+  .cw-card .cw-card-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .cw-card .cw-card-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+  }
+  .cw-card .cw-card-meta {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--ink-3);
+  }
+  .cw-card .cw-card-arrow {
+    color: var(--ink-3);
+    transition: transform 200ms ease, color 200ms ease;
+  }
+  .cw-card:hover .cw-card-arrow {
+    color: var(--ink);
+    transform: translateX(3px);
+  }
+
+  .cw-form .field { margin-bottom: 14px; }
+  .cw-form .field label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+  .cw-form .field input,
+  .cw-form .field select,
+  .cw-form .field textarea {
+    font: inherit;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 11px 13px;
+    color: var(--ink);
+    transition: border-color 180ms, background 180ms, box-shadow 180ms;
+  }
+  .cw-form .field input:focus,
+  .cw-form .field select:focus,
+  .cw-form .field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(43,70,52,0.12);
+  }
+  .cw-form .field textarea { resize: vertical; min-height: 88px; }
+  .cw-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 480px) { .cw-form .form-row { grid-template-columns: 1fr; } }
+  .cw-form .checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 4px 0 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  .cw-form .checkbox-row input { margin-top: 3px; flex: none; }
+  .cw-form .form-submit {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 13px 22px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+    transition: background 200ms ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 6px;
+    cursor: pointer;
+  }
+  .cw-form .form-submit:hover { background: var(--accent); }
+  .cw-form .form-note {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.5;
+    margin: 12px 0 0;
+  }
+  .cw-form.is-maintenance .form-submit:hover { background: var(--accent-2); }
 </style>
 </head>
 <body>
@@ -3378,6 +3650,203 @@
         <p class="lightbox-desc" id="lightbox-desc"></p>
       </div>
       <span class="lightbox-counter" id="lightbox-counter"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FLOATING CONTACT WIDGET ================= -->
+<button class="fab-contact" id="fab-contact" type="button" aria-haspopup="dialog" aria-controls="contact-widget" aria-expanded="false">
+  <span class="fab-ic" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </span>
+  <span class="fab-label">Contact us</span>
+</button>
+
+<div class="cw-overlay" id="contact-widget" role="dialog" aria-modal="true" aria-labelledby="cw-title" aria-hidden="true">
+  <div class="cw-backdrop" data-cw-close></div>
+  <div class="cw-panel" data-step="choose">
+    <header class="cw-head">
+      <div class="cw-head-text">
+        <span class="cw-head-eyebrow" data-cw-eyebrow>Get in touch</span>
+        <h3 class="cw-head-title" id="cw-title" data-cw-title>How can we help?</h3>
+      </div>
+      <div class="cw-head-actions">
+        <button class="cw-icon-btn cw-back" type="button" aria-label="Back" data-cw-back>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="cw-icon-btn" type="button" aria-label="Close" data-cw-close>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="cw-body">
+      <!-- Step 1: choose -->
+      <div class="cw-step" data-step="choose">
+        <p class="cw-intro">Tell us a little about why you're reaching out and we'll route you to the right team.</p>
+        <div class="cw-grid">
+          <button class="cw-card" type="button" data-cw-go="leasing">
+            <span class="cw-card-ic" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+            </span>
+            <span class="cw-card-text">
+              <span class="cw-card-title">I'm interested in leasing</span>
+              <span class="cw-card-meta">New prospect · tour, pricing, availability</span>
+            </span>
+            <span class="cw-card-arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </button>
+          <button class="cw-card is-maintenance" type="button" data-cw-go="maintenance">
+            <span class="cw-card-ic" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.4-.6-.6-2.4 2.3-2.3z"/></svg>
+            </span>
+            <span class="cw-card-text">
+              <span class="cw-card-title">I'm a current resident</span>
+              <span class="cw-card-meta">Maintenance request or issue in your home</span>
+            </span>
+            <span class="cw-card-arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2a: leasing -->
+      <div class="cw-step" data-step="leasing">
+        <form class="cw-form" data-cw-form="leasing" onsubmit="handleWidgetSubmit(event)">
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-l-fname">First name</label>
+              <input id="cw-l-fname" name="fname" type="text" required />
+            </div>
+            <div class="field">
+              <label for="cw-l-lname">Last name</label>
+              <input id="cw-l-lname" name="lname" type="text" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-l-email">Email</label>
+              <input id="cw-l-email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="cw-l-phone">Phone</label>
+              <input id="cw-l-phone" name="phone" type="tel" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-l-beds">Bedrooms</label>
+              <select id="cw-l-beds" name="beds">
+                <option value="1">1 Bedroom</option>
+                <option value="2">2 Bedroom</option>
+                <option value="either">Either</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cw-l-movein">Target move-in</label>
+              <input id="cw-l-movein" name="movein" type="text" placeholder="e.g., June 1" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="cw-l-time">Preferred tour time</label>
+            <select id="cw-l-time" name="tour-time">
+              <option>No preference</option>
+              <option>Weekday morning</option>
+              <option>Weekday afternoon</option>
+              <option>Weekday evening</option>
+              <option>Saturday</option>
+              <option>Sunday</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cw-l-msg">Anything we should know?</label>
+            <textarea id="cw-l-msg" name="msg" placeholder="Number of occupants, must-haves, questions about the unit, etc."></textarea>
+          </div>
+          <button class="form-submit" type="submit">
+            Send to leasing
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <p class="form-note">By submitting, you agree to be contacted by AGM Real Estate Group regarding this listing.</p>
+        </form>
+      </div>
+
+      <!-- Step 2b: maintenance -->
+      <div class="cw-step" data-step="maintenance">
+        <form class="cw-form is-maintenance" data-cw-form="maintenance" onsubmit="handleWidgetSubmit(event)">
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-m-name">Name</label>
+              <input id="cw-m-name" name="name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="cw-m-unit">Unit #</label>
+              <input id="cw-m-unit" name="unit" type="text" placeholder="e.g., 204" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-m-email">Email</label>
+              <input id="cw-m-email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="cw-m-phone">Phone</label>
+              <input id="cw-m-phone" name="phone" type="tel" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-m-cat">Issue type</label>
+              <select id="cw-m-cat" name="category" required>
+                <option value="">Select…</option>
+                <option>Plumbing / leak</option>
+                <option>Appliance</option>
+                <option>Electrical</option>
+                <option>Heating / cooling</option>
+                <option>Lock / key / door</option>
+                <option>Window / screen</option>
+                <option>Pest control</option>
+                <option>Common area</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cw-m-urgency">Urgency</label>
+              <select id="cw-m-urgency" name="urgency" required>
+                <option value="routine">Routine — within a few days</option>
+                <option value="urgent">Urgent — within 24 hours</option>
+                <option value="emergency">Emergency — call us now</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="cw-m-loc">Where in the unit?</label>
+            <input id="cw-m-loc" name="location" type="text" placeholder="e.g., kitchen sink, primary bathroom" />
+          </div>
+          <div class="field">
+            <label for="cw-m-desc">Describe the issue</label>
+            <textarea id="cw-m-desc" name="description" placeholder="What's happening, when it started, anything you've tried…" required></textarea>
+          </div>
+          <div class="field">
+            <label for="cw-m-best">Best time to access the unit</label>
+            <input id="cw-m-best" name="best-time" type="text" placeholder="e.g., weekdays after 3pm" />
+          </div>
+          <label class="checkbox-row">
+            <input type="checkbox" name="permission" />
+            <span>Permission to enter when I'm not home (a Magnolia Crestview team member will leave a notice).</span>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" name="pets" />
+            <span>Pets in the unit — please be aware on entry.</span>
+          </label>
+          <button class="form-submit" type="submit">
+            Submit maintenance request
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <p class="form-note">For after-hours emergencies (active leak, no heat, lockout), please call <a href="tel:2066941714" style="color:var(--accent);">(206) 694-1714</a>.</p>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -4229,6 +4698,81 @@
     btn.style.background = 'var(--accent)';
     setTimeout(() => {
       e.target.reset();
+      btn.innerHTML = original;
+      btn.style.background = '';
+    }, 2800);
+  }
+
+  // ============== FLOATING CONTACT WIDGET ==============
+  (function () {
+    const fab = document.getElementById('fab-contact');
+    const overlay = document.getElementById('contact-widget');
+    if (!fab || !overlay) return;
+    const panel = overlay.querySelector('.cw-panel');
+    const titleEl = overlay.querySelector('[data-cw-title]');
+    const eyebrowEl = overlay.querySelector('[data-cw-eyebrow]');
+
+    const STEPS = {
+      choose:      { eyebrow: 'Get in touch',      title: 'How can we help?' },
+      leasing:     { eyebrow: 'Leasing inquiry',   title: 'Tell us about you' },
+      maintenance: { eyebrow: 'Maintenance request', title: 'What\'s going on?' }
+    };
+
+    function setStep(step) {
+      if (!STEPS[step]) step = 'choose';
+      panel.dataset.step = step;
+      eyebrowEl.textContent = STEPS[step].eyebrow;
+      titleEl.textContent = STEPS[step].title;
+      const body = overlay.querySelector('.cw-body');
+      if (body) body.scrollTop = 0;
+    }
+
+    function openWidget() {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      fab.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      setStep('choose');
+    }
+
+    function closeWidget() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      fab.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    fab.addEventListener('click', openWidget);
+    overlay.querySelectorAll('[data-cw-close]').forEach(el => el.addEventListener('click', closeWidget));
+    overlay.querySelectorAll('[data-cw-go]').forEach(el => {
+      el.addEventListener('click', () => setStep(el.dataset.cwGo));
+    });
+    overlay.querySelectorAll('[data-cw-back]').forEach(el => {
+      el.addEventListener('click', () => setStep('choose'));
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeWidget();
+    });
+
+    // Reveal FAB after small scroll so it doesn't compete with hero
+    function updateFabVisibility() {
+      if (window.scrollY > 240) fab.classList.add('is-visible');
+      else fab.classList.remove('is-visible');
+    }
+    window.addEventListener('scroll', updateFabVisibility, { passive: true });
+    updateFabVisibility();
+  })();
+
+  function handleWidgetSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
+    const original = btn.innerHTML;
+    const isMaintenance = form.dataset.cwForm === 'maintenance';
+    btn.innerHTML = isMaintenance ? 'Request received — we\'ll be in touch ✓' : 'Thanks — leasing will reach out ✓';
+    btn.style.background = isMaintenance ? 'var(--accent-2)' : 'var(--accent)';
+    setTimeout(() => {
+      form.reset();
       btn.innerHTML = original;
       btn.style.background = '';
     }, 2800);
