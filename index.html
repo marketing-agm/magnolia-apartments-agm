@@ -65,8 +65,8 @@
   button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
   img, svg { display: block; max-width: 100%; }
 
-  .container { max-width: var(--container); margin: 0 auto; padding: 0 28px; }
-  .container-wide { max-width: 1320px; margin: 0 auto; padding: 0 28px; }
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 clamp(16px, 4vw, 28px); }
+  .container-wide { max-width: 1320px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 28px); }
 
   /* ---------- Type ---------- */
   .eyebrow {
@@ -184,9 +184,116 @@
     border: 1px solid var(--ink);
   }
   .nav-cta--secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-1px); }
-  @media (max-width: 720px) {
-    .nav-links a:not(.nav-cta) { display: none; }
+  .brand > span { overflow-wrap: anywhere; }
+
+  /* Hamburger button — hidden on desktop, shown ≤860px */
+  .nav-toggle {
+    display: none;
+    width: 42px; height: 42px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+    transition: background 180ms ease, border-color 180ms ease;
   }
+  .nav-toggle:hover { border-color: var(--ink-3); background: var(--bg-2); }
+  .nav-toggle-bars,
+  .nav-toggle-bars::before,
+  .nav-toggle-bars::after {
+    display: block;
+    width: 18px;
+    height: 1.6px;
+    background: var(--ink);
+    border-radius: 2px;
+    position: relative;
+    transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 160ms ease, top 220ms ease, bottom 220ms ease;
+  }
+  .nav-toggle-bars::before,
+  .nav-toggle-bars::after {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+  .nav-toggle-bars::before { top: -6px; }
+  .nav-toggle-bars::after  { bottom: -6px; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bars { background: transparent; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bars::before { top: 0; transform: rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bars::after  { bottom: 0; transform: rotate(-45deg); }
+
+  /* Mobile slide-down panel */
+  .nav-mobile {
+    display: none;
+    position: absolute;
+    left: 0; right: 0;
+    top: 100%;
+    background: rgba(245, 239, 228, 0.96);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px clamp(16px, 4vw, 28px) 22px;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 12px 28px -16px rgba(24,23,21,0.18);
+  }
+  .nav-mobile.is-open { display: flex; }
+  .nav-mobile a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 4px;
+    font-size: 17px;
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule-2);
+  }
+  .nav-mobile a:last-child { border-bottom: none; }
+  .nav-mobile a::after {
+    content: "→";
+    color: var(--ink-3);
+    font-family: var(--sans);
+    font-size: 16px;
+    transition: transform 180ms ease, color 180ms ease;
+  }
+  .nav-mobile a:hover::after,
+  .nav-mobile a:focus-visible::after { transform: translateX(3px); color: var(--accent); }
+  .nav-mobile-cta {
+    margin-top: 8px;
+    padding: 14px 16px !important;
+    border-radius: 999px !important;
+    background: var(--ink);
+    color: var(--paper) !important;
+    justify-content: center !important;
+    border-bottom: none !important;
+    font-size: 14px !important;
+    font-family: var(--sans) !important;
+    font-weight: 500 !important;
+  }
+  .nav-mobile-cta::after { color: var(--paper) !important; }
+  .nav-mobile-cta.is-secondary {
+    background: transparent;
+    color: var(--ink) !important;
+    border: 1px solid var(--ink) !important;
+    margin-top: 4px;
+  }
+  .nav-mobile-cta.is-secondary::after { color: var(--ink) !important; }
+
+  /* Switch to mobile nav below 860px — covers tablets-in-portrait too */
+  @media (max-width: 860px) {
+    .nav-inner { position: relative; }
+    .nav-links { display: none; }
+    .nav-toggle { display: inline-flex; }
+  }
+  /* Below 480px: hide brand tagline italic so "Magnolia" alone shows */
+  @media (max-width: 380px) {
+    .brand { font-size: 17px; }
+    .brand em { display: none; }
+  }
+  body.nav-open { overflow: hidden; }
 
   /* ---------- Hero ---------- */
   .hero {
@@ -421,7 +528,8 @@
 
   /* ---------- Section base ---------- */
   section { padding: 112px 0; position: relative; }
-  @media (max-width: 720px) { section { padding: 80px 0; } }
+  @media (max-width: 860px) { section { padding: 80px 0; } }
+  @media (max-width: 540px) { section { padding: 56px 0; } }
 
   .section-head {
     display: grid;
@@ -779,7 +887,12 @@
     color: var(--accent);
     flex: none;
   }
-  .contact-method .ml { display: flex; flex-direction: column; }
+  .contact-method .ml {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
   .contact-method .ml small {
     font-family: var(--mono);
     font-size: 10.5px;
@@ -790,11 +903,13 @@
   }
   .contact-method .ml a {
     font-family: var(--serif);
-    font-size: 22px;
+    font-size: clamp(15px, 3.4vw, 22px);
     font-weight: 380;
     letter-spacing: -0.01em;
     color: var(--ink);
     transition: color 180ms ease;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
   .contact-method .ml a:hover { color: var(--accent); }
 
@@ -2514,6 +2629,7 @@
     -webkit-overflow-scrolling: touch;
     padding: 4px 0;
     scrollbar-width: thin;
+    position: relative;
   }
   .nb-filter-pills {
     display: inline-flex;
@@ -2521,7 +2637,12 @@
     flex-wrap: wrap;
   }
   @media (max-width: 720px) {
-    .nb-filter-pills { flex-wrap: nowrap; }
+    .nb-filter-pills { flex-wrap: nowrap; padding-right: 24px; }
+    /* Scroll-edge fade hints there's more to the right */
+    .nb-filters {
+      mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+    }
   }
   .nb-pill {
     display: inline-flex;
@@ -3362,6 +3483,17 @@
       <a href="#neighborhood">Neighborhood</a>
       <a href="#tour" class="nav-cta">Schedule a tour →</a>
       <a href="https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state" class="nav-cta nav-cta--secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-controls="nav-mobile" aria-expanded="false">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+    </button>
+    <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile menu">
+      <a href="#floor-plans">Floor plans</a>
+      <a href="#availability">Availability</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#neighborhood">Neighborhood</a>
+      <a href="#tour" class="nav-mobile-cta">Schedule a tour</a>
+      <a href="https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state" class="nav-mobile-cta is-secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
     </nav>
   </div>
 </header>
@@ -4581,6 +4713,27 @@
   };
   document.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  // Mobile menu toggle
+  (function () {
+    const toggle = document.getElementById('nav-toggle');
+    const panel = document.getElementById('nav-mobile');
+    if (!toggle || !panel) return;
+    const setOpen = (open) => {
+      panel.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.classList.toggle('nav-open', open);
+    };
+    toggle.addEventListener('click', () => setOpen(!panel.classList.contains('is-open')));
+    panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && panel.classList.contains('is-open')) setOpen(false);
+    });
+    // Close if viewport grows past mobile breakpoint
+    const mq = window.matchMedia('(min-width: 861px)');
+    mq.addEventListener('change', (e) => { if (e.matches) setOpen(false); });
+  })();
 
   // Reveal animations
   const io = new IntersectionObserver((entries) => {
