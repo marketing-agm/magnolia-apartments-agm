@@ -855,6 +855,499 @@
   }
   .form-submit:hover { background: var(--accent); }
 
+  /* ---------- Tour Wizard ---------- */
+  .tw {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .tw-head {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--rule-2);
+  }
+  .tw-dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .tw-dot {
+    width: 26px; height: 26px;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 11px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    transition: background 180ms, color 180ms, border-color 180ms, transform 180ms;
+  }
+  .tw-dot:hover:not(:disabled) { border-color: var(--ink-3); }
+  .tw-dot.is-active {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--accent);
+  }
+  .tw-dot.is-done {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--accent);
+  }
+  .tw-dot.is-done .tw-dot-num { display: none; }
+  .tw-dot.is-done .tw-dot-check { display: block; }
+  .tw-dot:not(.is-done) .tw-dot-check { display: none; }
+  .tw-dot:disabled { cursor: not-allowed; opacity: 0.55; }
+  .tw-dot-sep {
+    width: 22px;
+    height: 1px;
+    background: var(--rule);
+    flex: none;
+  }
+  .tw-dot-sep.is-done { background: var(--accent); }
+  .tw-eyebrow {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+  }
+  .tw-title {
+    font-family: var(--serif);
+    font-weight: 380;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+    letter-spacing: -0.015em;
+    font-size: clamp(22px, 2.4vw, 28px);
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0;
+  }
+  .tw-title .italic {
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+    color: var(--accent);
+  }
+
+  .tw-panel { display: none; animation: cardIn 360ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .tw[data-tw-step="1"] .tw-panel[data-tw-step="1"] { display: block; }
+  .tw[data-tw-step="2"] .tw-panel[data-tw-step="2"] { display: block; }
+  .tw[data-tw-step="3"] .tw-panel[data-tw-step="3"] { display: block; }
+  .tw[data-tw-step="done"] .tw-panel[data-tw-step="done"] { display: block; }
+
+  /* Calendar */
+  .tw-cal {
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 14px;
+  }
+  .tw-cal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .tw-cal-month {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .tw-cal-nav {
+    width: 30px; height: 30px;
+    border-radius: 999px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+    display: grid;
+    place-items: center;
+    padding: 0;
+    transition: background 160ms, border-color 160ms, color 160ms;
+  }
+  .tw-cal-nav:hover:not(:disabled) {
+    background: var(--paper);
+    border-color: var(--ink-3);
+    color: var(--ink);
+  }
+  .tw-cal-nav:disabled { opacity: 0.35; cursor: not-allowed; }
+  .tw-cal-dows {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .tw-cal-dow {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 4px 0;
+  }
+  .tw-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .tw-day {
+    aspect-ratio: 1 / 1;
+    background: var(--paper-2);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    padding: 0;
+    cursor: pointer;
+    transition: background 140ms, border-color 140ms, color 140ms;
+  }
+  .tw-day:hover:not(:disabled):not(.is-blank) {
+    background: var(--bg-2);
+    border-color: var(--rule);
+  }
+  .tw-day.is-blank { background: transparent; cursor: default; pointer-events: none; }
+  .tw-day:disabled {
+    color: var(--ink-3);
+    opacity: 0.35;
+    background: transparent;
+    cursor: not-allowed;
+  }
+  .tw-day.is-today {
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .tw-day.is-selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+    font-weight: 500;
+  }
+
+  /* Slots */
+  .tw-slots {
+    margin-top: 16px;
+    display: none;
+  }
+  .tw-slots.is-open { display: block; }
+  .tw-slots-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+  .tw-slots-label strong {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-left: 6px;
+    text-transform: none;
+  }
+  .tw-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 480px) { .tw-slots-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Chips (shared by slots + chipsets) */
+  .tw-chip {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 9px 14px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-2);
+    transition: background 160ms, border-color 160ms, color 160ms, transform 160ms;
+    text-align: center;
+  }
+  .tw-chip:hover:not(:disabled):not(.is-booked) {
+    background: var(--paper);
+    border-color: var(--ink-3);
+    color: var(--ink);
+  }
+  .tw-chip.is-selected {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .tw-chip.is-booked {
+    color: var(--ink-3);
+    opacity: 0.5;
+    text-decoration: line-through;
+    cursor: not-allowed;
+    background: var(--bg-2);
+  }
+  .tw-chip-small {
+    padding: 7px 12px;
+    font-size: 12.5px;
+  }
+
+  /* Nudge */
+  .tw-nudge {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--radius);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-3);
+  }
+  .tw-nudge-dot {
+    width: 7px; height: 7px; border-radius: 999px;
+    background: var(--accent);
+    flex: none;
+    box-shadow: 0 0 0 4px rgba(43,70,52,0.12);
+    animation: twPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes twPulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(43,70,52,0.12); }
+    50%      { box-shadow: 0 0 0 7px rgba(43,70,52,0.04); }
+  }
+  .tw-nudge-item { display: inline-flex; align-items: center; gap: 8px; }
+
+  /* Chipsets (Step 2 + Step 3) */
+  .tw-chipset { margin-bottom: 18px; }
+  .tw-chipset-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+  .tw-chipset-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Rows / buttons */
+  .tw-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 22px;
+  }
+  .tw-back {
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 13px 22px;
+    font-size: 13.5px;
+    color: var(--ink-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 180ms, border-color 180ms, color 180ms;
+  }
+  .tw-back:hover {
+    background: var(--paper);
+    border-color: var(--ink-3);
+    color: var(--ink);
+  }
+  .tw-continue, .tw-submit {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 22px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+    transition: background 200ms ease, opacity 200ms;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .tw-continue:hover:not(:disabled),
+  .tw-submit:hover:not(:disabled) { background: var(--accent); }
+  .tw-continue:disabled, .tw-submit:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Reassure row */
+  .tw-reassure {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--rule-2);
+  }
+  .tw-reassure-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+  .tw-reassure-item svg {
+    color: var(--accent);
+    flex: none;
+  }
+
+  /* Textarea (Step 3) */
+  .tw-textarea {
+    font: inherit;
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    color: var(--ink);
+    min-height: 130px;
+    resize: vertical;
+    transition: border-color 180ms, background 180ms, box-shadow 180ms;
+    margin-top: 4px;
+  }
+  .tw-textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--paper-2);
+    box-shadow: 0 0 0 3px rgba(43,70,52,0.12);
+  }
+
+  /* Fineprint */
+  .tw-fineprint {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.5;
+    margin: 14px 0 0;
+  }
+
+  /* Success */
+  .tw-success {
+    text-align: left;
+    padding: 8px 0 4px;
+  }
+  .tw-success-mark {
+    width: 52px; height: 52px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--paper);
+    display: grid;
+    place-items: center;
+    margin-bottom: 18px;
+  }
+  .tw-success h3 {
+    font-family: var(--serif);
+    font-weight: 380;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+    letter-spacing: -0.02em;
+    font-size: clamp(28px, 3.2vw, 36px);
+    line-height: 1.05;
+    margin: 0 0 6px;
+  }
+  .tw-success h3 .italic {
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+    color: var(--accent);
+  }
+  .tw-success-sub {
+    color: var(--ink-2);
+    font-size: 14.5px;
+    margin: 0 0 22px;
+    line-height: 1.55;
+  }
+  .tw-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule-2);
+    border: 1px solid var(--rule-2);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 480px) { .tw-summary { grid-template-columns: 1fr; } }
+  .tw-summary-cell {
+    background: var(--bg);
+    padding: 12px 14px;
+  }
+  .tw-summary-cell small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+  .tw-summary-cell span {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .tw-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tw-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    color: var(--ink);
+    font-size: 13.5px;
+    transition: background 160ms, border-color 160ms, transform 160ms;
+  }
+  .tw-action:hover {
+    background: var(--bg);
+    border-color: var(--ink-3);
+  }
+  .tw-action-ic {
+    width: 32px; height: 32px;
+    border-radius: 999px;
+    background: var(--bg-2);
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+  .tw-action-arrow { margin-left: auto; color: var(--ink-3); }
+
+  /* Mobile tuning */
+  @media (max-width: 540px) {
+    .tw { padding: 22px 20px 20px; }
+    .tw-day { font-size: 12px; }
+    .tw-cal { padding: 10px; }
+    .tw-row { flex-direction: column-reverse; }
+    .tw-back { width: 100%; justify-content: center; }
+    .tw-continue, .tw-submit { width: 100%; }
+    .tw-dot-sep { width: 14px; }
+  }
+
   /* ---------- Footer ---------- */
   footer {
     background: var(--bg-2);
@@ -3566,53 +4059,238 @@
         </div>
       </div>
 
-      <form class="form reveal" data-delay="1" onsubmit="handleSubmit(event)">
-        <div class="form-row">
-          <div class="field">
-            <label for="fname">First name</label>
-            <input id="fname" name="fname" type="text" required />
+      <div class="tw reveal" data-delay="1" id="tour-wizard" data-tw-step="1">
+        <div class="tw-head">
+          <div class="tw-dots" role="tablist" aria-label="Tour booking steps">
+            <button class="tw-dot is-active" type="button" data-tw-goto="1" aria-label="Step 1: Date and time">
+              <span class="tw-dot-num">1</span>
+              <svg class="tw-dot-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <span class="tw-dot-sep" data-tw-sep="1-2"></span>
+            <button class="tw-dot" type="button" data-tw-goto="2" disabled aria-label="Step 2: About you">
+              <span class="tw-dot-num">2</span>
+              <svg class="tw-dot-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <span class="tw-dot-sep" data-tw-sep="2-3"></span>
+            <button class="tw-dot" type="button" data-tw-goto="3" disabled aria-label="Step 3: Message">
+              <span class="tw-dot-num">3</span>
+              <svg class="tw-dot-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
           </div>
-          <div class="field">
-            <label for="lname">Last name</label>
-            <input id="lname" name="lname" type="text" required />
+          <div class="tw-eyebrow" data-tw-eyebrow>Step 1 of 3</div>
+          <h3 class="tw-title" data-tw-title>Pick a date that <span class="italic">works for you.</span></h3>
+        </div>
+
+        <!-- STEP 1: Calendar + slots -->
+        <div class="tw-panel" data-tw-step="1">
+          <div class="tw-cal">
+            <div class="tw-cal-head">
+              <button class="tw-cal-nav" type="button" data-tw-nav="prev" aria-label="Previous month">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div class="tw-cal-month" data-tw-month>—</div>
+              <button class="tw-cal-nav" type="button" data-tw-nav="next" aria-label="Next month">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+            <div class="tw-cal-dows">
+              <div class="tw-cal-dow">Mon</div>
+              <div class="tw-cal-dow">Tue</div>
+              <div class="tw-cal-dow">Wed</div>
+              <div class="tw-cal-dow">Thu</div>
+              <div class="tw-cal-dow">Fri</div>
+              <div class="tw-cal-dow">Sat</div>
+              <div class="tw-cal-dow">Sun</div>
+            </div>
+            <div class="tw-cal-grid" data-tw-grid></div>
+          </div>
+
+          <div class="tw-slots" data-tw-slots>
+            <div class="tw-slots-label">Available tour times <strong data-tw-slots-date></strong></div>
+            <div class="tw-slots-grid" data-tw-slots-grid></div>
+          </div>
+
+          <div class="tw-nudge">
+            <span class="tw-nudge-item"><span class="tw-nudge-dot"></span><span data-tw-tour-count>12 tours scheduled this week</span></span>
+            <span class="tw-nudge-item">Most tours take 20 minutes</span>
+            <span class="tw-nudge-item">Available through <span data-tw-max-date>—</span></span>
+          </div>
+
+          <div class="tw-row">
+            <button class="tw-continue" type="button" data-tw-next="2" disabled>
+              Continue
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
           </div>
         </div>
-        <div class="form-row">
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required />
+
+        <!-- STEP 2: Qualifying chips + contact -->
+        <div class="tw-panel" data-tw-step="2">
+          <div class="tw-chipset" data-tw-group="stage">
+            <div class="tw-chipset-label">I'm…</div>
+            <div class="tw-chipset-row">
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="exploring">Just exploring</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="touring">Actively touring</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="ready">Ready to apply this month</button>
+            </div>
           </div>
-          <div class="field">
-            <label for="phone">Phone</label>
-            <input id="phone" name="phone" type="tel" />
+          <div class="tw-chipset" data-tw-group="beds">
+            <div class="tw-chipset-label">Looking for</div>
+            <div class="tw-chipset-row">
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="1br">1 BR</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="2br">2 BR / 2 BA</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="either">Either works</button>
+            </div>
+          </div>
+          <div class="tw-chipset" data-tw-group="window">
+            <div class="tw-chipset-label">Move-in window</div>
+            <div class="tw-chipset-row">
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="asap">ASAP</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="30d">Next 30 days</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="60d">1–2 months out</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="flex">Flexible</button>
+            </div>
+          </div>
+          <div class="tw-chipset" data-tw-group="household">
+            <div class="tw-chipset-label">Household</div>
+            <div class="tw-chipset-row">
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="solo">Just me</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="couple">Couple</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="roommates">Roommates</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-chip="family">Family</button>
+            </div>
+          </div>
+
+          <div class="form-row" style="margin-top:8px;">
+            <div class="field">
+              <label for="tw-fname">First name</label>
+              <input id="tw-fname" type="text" data-tw-input="first" required />
+            </div>
+            <div class="field">
+              <label for="tw-lname">Last name</label>
+              <input id="tw-lname" type="text" data-tw-input="last" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="tw-email">Email</label>
+              <input id="tw-email" type="email" data-tw-input="email" required />
+            </div>
+            <div class="field">
+              <label for="tw-phone">Phone <span style="text-transform:none;letter-spacing:0;color:var(--ink-3);">(optional)</span></label>
+              <input id="tw-phone" type="tel" data-tw-input="phone" />
+            </div>
+          </div>
+
+          <div class="tw-row">
+            <button class="tw-back" type="button" data-tw-prev="1">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Back
+            </button>
+            <button class="tw-continue" type="button" data-tw-next="3">
+              Continue
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
           </div>
         </div>
-        <div class="form-row">
-          <div class="field">
-            <label for="movein">Target move-in</label>
-            <input id="movein" name="movein" type="text" placeholder="e.g., June 1" />
+
+        <!-- STEP 3: Message + template chips -->
+        <div class="tw-panel" data-tw-step="3">
+          <div class="tw-chipset" data-tw-group="q">
+            <div class="tw-chipset-label">Questions about</div>
+            <div class="tw-chipset-row">
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="parking">Parking</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="pets">Pets / pet rent</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="storage">Storage</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="laundry">Laundry</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="lease">Lease length</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="utilities">Utilities included</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="application">Application process</button>
+            </div>
           </div>
-          <div class="field">
-            <label for="tour-time">Preferred tour time</label>
-            <select id="tour-time" name="tour-time">
-              <option>Weekday morning</option>
-              <option>Weekday afternoon</option>
-              <option>Weekday evening</option>
-              <option>Saturday</option>
-              <option>Sunday</option>
-            </select>
+          <div class="tw-chipset" data-tw-group="m">
+            <div class="tw-chipset-label">I'd like to mention</div>
+            <div class="tw-chipset-row">
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="pet">I have a pet</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="needparking">Need parking</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="bike">Bringing a bike</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="wfh">Work from home</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="cosigner">Have a co-signer</button>
+              <button class="tw-chip tw-chip-small" type="button" data-tw-msg="oos">Moving from out of state</button>
+            </div>
+          </div>
+
+          <div class="field" style="margin-bottom:0;">
+            <label for="tw-msg">Your message</label>
+            <textarea id="tw-msg" class="tw-textarea" data-tw-textarea placeholder="Tap chips above to add common questions, or write your own."></textarea>
+          </div>
+
+          <div class="tw-reassure">
+            <div class="tw-reassure-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              We reply within one business day
+            </div>
+            <div class="tw-reassure-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Tour confirmations include a Google Maps link
+            </div>
+            <div class="tw-reassure-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Free to reschedule any time
+            </div>
+          </div>
+
+          <div class="tw-row">
+            <button class="tw-back" type="button" data-tw-prev="2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Back
+            </button>
+            <button class="tw-submit" type="button" data-tw-submit>
+              <span data-tw-submit-label>Confirm tour</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
           </div>
         </div>
-        <div class="field">
-          <label for="msg">Anything we should know?</label>
-          <textarea id="msg" name="msg" placeholder="Number of occupants, questions about the unit, etc."></textarea>
+
+        <!-- DONE: Confirmation -->
+        <div class="tw-panel" data-tw-step="done">
+          <div class="tw-success">
+            <div class="tw-success-mark">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>You're <span class="italic">on the books.</span></h3>
+            <p class="tw-success-sub" data-tw-success-sub>We'll be in touch within one business day to confirm.</p>
+
+            <div class="tw-summary" data-tw-summary></div>
+
+            <div class="tw-actions">
+              <a class="tw-action" data-tw-gcal target="_blank" rel="noopener">
+                <span class="tw-action-ic">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </span>
+                Add to Google Calendar
+                <svg class="tw-action-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+              <a class="tw-action" href="https://maps.google.com/maps?t=m&z=14&q=2701+W+Manor+Pl%2C+Seattle%2C+WA+98199" target="_blank" rel="noopener">
+                <span class="tw-action-ic">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7.5-7-12a7 7 0 1 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                </span>
+                Get directions to 2701 W Manor Pl
+                <svg class="tw-action-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+              <a class="tw-action" href="sms:2066941714">
+                <span class="tw-action-ic">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </span>
+                Text the leasing office
+                <svg class="tw-action-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
         </div>
-        <button class="form-submit" type="submit">
-          Request a tour
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
-        <p style="font-size:11.5px;color:var(--ink-3);margin:14px 0 0;line-height:1.5;">By submitting, you agree to be contacted by AGM Real Estate Group regarding this listing.</p>
-      </form>
+
+        <p class="tw-fineprint">By submitting, you agree to be contacted by AGM Real Estate Group regarding this listing.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -4702,6 +5380,432 @@
       btn.style.background = '';
     }, 2800);
   }
+
+  // ============== TOUR WIZARD ==============
+  (function () {
+    const root = document.getElementById('tour-wizard');
+    if (!root) return;
+
+    const TITLES = {
+      1: { eyebrow: 'Step 1 of 3', html: 'Pick a date that <span class="italic">works for you.</span>' },
+      2: { eyebrow: 'Step 2 of 3', html: 'Tell us a bit <span class="italic">about you.</span>' },
+      3: { eyebrow: 'Step 3 of 3', html: 'Anything else we <span class="italic">should know?</span>' },
+      done: { eyebrow: 'Confirmed', html: 'You\'re <span class="italic">on the books.</span>' }
+    };
+
+    const SLOTS = ['10:00 AM', '11:30 AM', '1:00 PM', '2:30 PM', '4:00 PM', '5:30 PM'];
+
+    const MSG_TEMPLATES = {
+      // Questions
+      parking:     'Could you share details on parking?',
+      pets:        'What\'s the pet policy and pet rent?',
+      storage:     'Is there any in-unit or building storage?',
+      laundry:     'How is laundry handled?',
+      lease:       'What lease lengths are available?',
+      utilities:   'Which utilities are included?',
+      application: 'Could you walk me through the application process?',
+      // Mentions
+      pet:         'I have a pet.',
+      needparking: 'I\'ll need a parking spot.',
+      bike:        'I\'ll be bringing a bike.',
+      wfh:         'I work from home, so layout matters.',
+      cosigner:    'I have a co-signer available if needed.',
+      oos:         'I\'m moving from out of state.'
+    };
+
+    const MSG_ORDER = ['parking','pets','storage','laundry','lease','utilities','application','pet','needparking','bike','wfh','cosigner','oos'];
+
+    const today = new Date(); today.setHours(0,0,0,0);
+    const maxDate = new Date(today); maxDate.setDate(maxDate.getDate() + 60);
+
+    const state = {
+      step: 1,
+      viewMonth: new Date(today.getFullYear(), today.getMonth(), 1),
+      date: null,
+      slot: null,
+      stage: null,
+      beds: null,
+      window: null,
+      household: null,
+      first: '', last: '', email: '', phone: '',
+      message: '',
+      chips: new Set(),
+      composedSnapshot: ''
+    };
+
+    // ----- helpers
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function isoDay(d) { return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
+    function sameDay(a, b) { return a && b && isoDay(a) === isoDay(b); }
+    function hash(str) {
+      let h = 2166136261;
+      for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+      return (h >>> 0);
+    }
+    function seededRand(seed, idx) {
+      return ((hash(seed + ':' + idx) % 1000) / 1000);
+    }
+    function fmtMonth(d) {
+      return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+    function fmtDateShort(d) {
+      return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+    function fmtDateLong(d) {
+      return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    }
+    function parseSlotTo24(slot) {
+      const m = slot.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+      let h = parseInt(m[1], 10); const min = parseInt(m[2], 10); const ap = m[3].toUpperCase();
+      if (ap === 'PM' && h !== 12) h += 12;
+      if (ap === 'AM' && h === 12) h = 0;
+      return { h, min };
+    }
+    // Google Calendar accepts floating local time as YYYYMMDDTHHmmss (no Z),
+    // which matches how the slot reads to the visitor ("10:00 AM").
+    function toGCalLocal(d) {
+      return d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + 'T' +
+             pad(d.getHours()) + pad(d.getMinutes()) + '00';
+    }
+
+    // ----- calendar
+    function renderCalendar() {
+      const monthEl = root.querySelector('[data-tw-month]');
+      const grid = root.querySelector('[data-tw-grid]');
+      const prev = root.querySelector('[data-tw-nav="prev"]');
+      const next = root.querySelector('[data-tw-nav="next"]');
+      const vm = state.viewMonth;
+      monthEl.textContent = fmtMonth(vm);
+
+      const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+      const maxMonthStart  = new Date(maxDate.getFullYear(), maxDate.getMonth(), 1);
+      prev.disabled = vm <= thisMonthStart;
+      next.disabled = vm >= maxMonthStart;
+
+      const first = new Date(vm.getFullYear(), vm.getMonth(), 1);
+      // shift so Monday = 0
+      const offset = (first.getDay() + 6) % 7;
+      const daysInMonth = new Date(vm.getFullYear(), vm.getMonth() + 1, 0).getDate();
+
+      let html = '';
+      for (let i = 0; i < offset; i++) {
+        html += '<button class="tw-day is-blank" type="button" tabindex="-1" aria-hidden="true"></button>';
+      }
+      for (let d = 1; d <= daysInMonth; d++) {
+        const date = new Date(vm.getFullYear(), vm.getMonth(), d);
+        const disabled = date < today || date > maxDate;
+        const cls = ['tw-day'];
+        if (sameDay(date, today)) cls.push('is-today');
+        if (sameDay(date, state.date)) cls.push('is-selected');
+        html += '<button class="' + cls.join(' ') + '" type="button" data-tw-day="' + isoDay(date) + '"' +
+                (disabled ? ' disabled aria-disabled="true"' : '') + '>' + d + '</button>';
+      }
+      // trailing blanks to fill the row
+      const total = offset + daysInMonth;
+      const trail = (7 - (total % 7)) % 7;
+      for (let i = 0; i < trail; i++) {
+        html += '<button class="tw-day is-blank" type="button" tabindex="-1" aria-hidden="true"></button>';
+      }
+      grid.innerHTML = html;
+    }
+
+    function renderSlots() {
+      const wrap = root.querySelector('[data-tw-slots]');
+      const grid = root.querySelector('[data-tw-slots-grid]');
+      const label = root.querySelector('[data-tw-slots-date]');
+      if (!state.date) { wrap.classList.remove('is-open'); return; }
+      wrap.classList.add('is-open');
+      label.textContent = '· ' + fmtDateLong(state.date);
+      const seed = isoDay(state.date);
+      // 1–2 booked per day, deterministic
+      const bookedCount = seededRand(seed, 'count') < 0.5 ? 1 : 2;
+      const bookedSet = new Set();
+      let i = 0;
+      while (bookedSet.size < bookedCount && i < 20) {
+        const idx = Math.floor(seededRand(seed, 'p' + i) * SLOTS.length);
+        bookedSet.add(idx); i++;
+      }
+      let html = '';
+      SLOTS.forEach((s, idx) => {
+        const booked = bookedSet.has(idx);
+        const selected = state.slot === s;
+        const cls = ['tw-chip'];
+        if (selected && !booked) cls.push('is-selected');
+        if (booked) cls.push('is-booked');
+        html += '<button class="' + cls.join(' ') + '" type="button" data-tw-slot="' + s + '"' +
+                (booked ? ' disabled aria-disabled="true"' : '') + '>' +
+                (booked ? s + ' · Booked' : s) + '</button>';
+      });
+      grid.innerHTML = html;
+    }
+
+    // ----- step navigation
+    function setStep(n) {
+      state.step = n;
+      root.dataset.twStep = n;
+      const t = TITLES[n] || TITLES[1];
+      root.querySelector('[data-tw-eyebrow]').textContent = t.eyebrow;
+      root.querySelector('[data-tw-title]').innerHTML = t.html;
+      updateDots();
+      updateContinueStates();
+      updateSubmitLabel();
+      const body = root.querySelector('.tw-panel[data-tw-step="' + n + '"]');
+      if (body) {
+        const focusable = body.querySelector('input, textarea, button:not(:disabled)');
+        if (focusable && n !== 1) setTimeout(() => focusable.focus({ preventScroll: true }), 50);
+      }
+    }
+    function updateDots() {
+      const dots = root.querySelectorAll('.tw-dot');
+      dots.forEach(dot => {
+        const n = parseInt(dot.dataset.twGoto, 10);
+        const reached = canReach(n);
+        dot.disabled = !reached && n !== state.step && n > state.step;
+        dot.classList.toggle('is-active', state.step === n);
+        dot.classList.toggle('is-done', state.step !== n && state.step !== 1 && n < numericStep());
+        if (state.step === 'done') dot.classList.add('is-done');
+        if (state.step === n) dot.classList.remove('is-done');
+        dot.setAttribute('aria-current', state.step === n ? 'step' : 'false');
+      });
+      const sep12 = root.querySelector('[data-tw-sep="1-2"]');
+      const sep23 = root.querySelector('[data-tw-sep="2-3"]');
+      if (sep12) sep12.classList.toggle('is-done', numericStep() >= 2);
+      if (sep23) sep23.classList.toggle('is-done', numericStep() >= 3);
+    }
+    function numericStep() {
+      if (state.step === 'done') return 4;
+      return state.step;
+    }
+    function canReach(n) {
+      if (n === 1) return true;
+      if (n === 2) return !!(state.date && state.slot);
+      if (n === 3) return !!(state.date && state.slot) && step2Complete();
+      return false;
+    }
+    function step2Complete() {
+      return state.stage && state.beds && state.window && state.household &&
+             state.first.trim() && state.last.trim() && /\S+@\S+\.\S+/.test(state.email);
+    }
+    function updateContinueStates() {
+      const c1 = root.querySelector('.tw-panel[data-tw-step="1"] .tw-continue');
+      if (c1) c1.disabled = !(state.date && state.slot);
+      const c2 = root.querySelector('.tw-panel[data-tw-step="2"] .tw-continue');
+      if (c2) c2.disabled = !step2Complete();
+    }
+    function updateSubmitLabel() {
+      const lbl = root.querySelector('[data-tw-submit-label]');
+      if (!lbl) return;
+      if (state.date && state.slot) {
+        lbl.textContent = 'Confirm tour for ' + fmtDateShort(state.date) + ' at ' + state.slot;
+      } else {
+        lbl.textContent = 'Confirm tour';
+      }
+    }
+
+    // ----- chips (Step 2 single-select)
+    function bindChips() {
+      root.querySelectorAll('.tw-chipset').forEach(set => {
+        const group = set.dataset.twGroup;
+        if (group === 'q' || group === 'm') return; // handled separately
+        set.querySelectorAll('[data-tw-chip]').forEach(chip => {
+          chip.addEventListener('click', () => {
+            const id = chip.dataset.twChip;
+            state[group] = state[group] === id ? null : id;
+            set.querySelectorAll('[data-tw-chip]').forEach(c => {
+              c.classList.toggle('is-selected', state[group] === c.dataset.twChip);
+              c.setAttribute('aria-pressed', state[group] === c.dataset.twChip ? 'true' : 'false');
+            });
+            updateContinueStates();
+            updateDots();
+          });
+        });
+      });
+    }
+
+    // ----- message chips (Step 3 multi-select w/ template composition)
+    function getComposed() {
+      return MSG_ORDER.filter(id => state.chips.has(id)).map(id => MSG_TEMPLATES[id]).join(' ');
+    }
+    function composeMessage() {
+      const ta = root.querySelector('[data-tw-textarea]');
+      const composed = getComposed();
+      const manual = state.message;
+      const sep = (composed && manual.trim()) ? ' ' : '';
+      ta.value = composed + sep + manual;
+    }
+    function bindMessageChips() {
+      root.querySelectorAll('[data-tw-msg]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const id = chip.dataset.twMsg;
+          if (state.chips.has(id)) state.chips.delete(id);
+          else state.chips.add(id);
+          chip.classList.toggle('is-selected', state.chips.has(id));
+          chip.setAttribute('aria-pressed', state.chips.has(id) ? 'true' : 'false');
+          composeMessage();
+        });
+      });
+      const ta = root.querySelector('[data-tw-textarea]');
+      ta.addEventListener('input', () => {
+        // Composed sentences live at the START of the textarea; user-typed text
+        // follows. Recover the manual residue by stripping the composed prefix.
+        const composed = getComposed();
+        const val = ta.value;
+        if (!composed) {
+          state.message = val;
+          return;
+        }
+        if (val.startsWith(composed)) {
+          state.message = val.slice(composed.length).replace(/^[\s]+/, '');
+        } else {
+          // User edited inside composed region — promote everything to manual
+          // and clear chip selection so we don't double-up on the next compose.
+          state.message = val;
+          if (state.chips.size) {
+            state.chips.clear();
+            root.querySelectorAll('[data-tw-msg]').forEach(c => {
+              c.classList.remove('is-selected');
+              c.setAttribute('aria-pressed', 'false');
+            });
+          }
+        }
+      });
+    }
+
+    // ----- inputs (Step 2)
+    function bindInputs() {
+      root.querySelectorAll('[data-tw-input]').forEach(inp => {
+        inp.addEventListener('input', () => {
+          state[inp.dataset.twInput] = inp.value;
+          updateContinueStates();
+          updateDots();
+        });
+      });
+    }
+
+    // ----- nav buttons
+    function bindNav() {
+      root.querySelectorAll('[data-tw-next]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const n = parseInt(btn.dataset.twNext, 10);
+          if (canReach(n)) setStep(n);
+        });
+      });
+      root.querySelectorAll('[data-tw-prev]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          setStep(parseInt(btn.dataset.twPrev, 10));
+        });
+      });
+      root.querySelectorAll('[data-tw-goto]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const n = parseInt(btn.dataset.twGoto, 10);
+          if (canReach(n)) setStep(n);
+        });
+      });
+      root.querySelector('[data-tw-nav="prev"]').addEventListener('click', () => {
+        const vm = state.viewMonth;
+        state.viewMonth = new Date(vm.getFullYear(), vm.getMonth() - 1, 1);
+        renderCalendar();
+      });
+      root.querySelector('[data-tw-nav="next"]').addEventListener('click', () => {
+        const vm = state.viewMonth;
+        state.viewMonth = new Date(vm.getFullYear(), vm.getMonth() + 1, 1);
+        renderCalendar();
+      });
+      // Calendar day delegation
+      root.querySelector('[data-tw-grid]').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-tw-day]');
+        if (!btn || btn.disabled) return;
+        const [y, m, d] = btn.dataset.twDay.split('-').map(Number);
+        state.date = new Date(y, m - 1, d);
+        state.slot = null;
+        renderCalendar();
+        renderSlots();
+        updateContinueStates();
+        updateDots();
+        updateSubmitLabel();
+      });
+      // Slot delegation
+      root.querySelector('[data-tw-slots-grid]').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-tw-slot]');
+        if (!btn || btn.disabled) return;
+        state.slot = btn.dataset.twSlot;
+        renderSlots();
+        updateContinueStates();
+        updateDots();
+        updateSubmitLabel();
+      });
+      // Submit
+      root.querySelector('[data-tw-submit]').addEventListener('click', submit);
+    }
+
+    function submit() {
+      // Capture final textarea content
+      const ta = root.querySelector('[data-tw-textarea]');
+      const finalMessage = ta.value;
+      showConfirmation(finalMessage);
+      setStep('done');
+    }
+
+    function showConfirmation(message) {
+      const summary = root.querySelector('[data-tw-summary]');
+      const interestLabel = { '1br': '1 BR', '2br': '2 BR / 2 BA', 'either': '1 BR or 2 BR' }[state.beds] || '—';
+      const cells = [
+        { label: 'Date', value: fmtDateShort(state.date) },
+        { label: 'Time', value: state.slot },
+        { label: 'Name', value: (state.first + ' ' + state.last).trim() },
+        { label: 'Interest', value: interestLabel }
+      ];
+      summary.innerHTML = cells.map(c =>
+        '<div class="tw-summary-cell"><small>' + c.label + '</small><span>' + escapeHtml(c.value) + '</span></div>'
+      ).join('');
+
+      // Google Calendar link
+      const [h, min] = [parseSlotTo24(state.slot).h, parseSlotTo24(state.slot).min];
+      const start = new Date(state.date); start.setHours(h, min, 0, 0);
+      const end = new Date(start.getTime() + 30 * 60000);
+      const details = encodeURIComponent(
+        'Apartment tour at Magnolia Crestview.\n\n' +
+        (message ? 'Notes: ' + message + '\n\n' : '') +
+        'Contact: (206) 694-1714'
+      );
+      const gcal =
+        'https://www.google.com/calendar/render?action=TEMPLATE' +
+        '&text=' + encodeURIComponent('Magnolia Crestview · Apartment Tour') +
+        '&dates=' + toGCalLocal(start) + '/' + toGCalLocal(end) +
+        '&ctz=America/Los_Angeles' +
+        '&location=' + encodeURIComponent('2701 W Manor Pl, Seattle, WA 98199') +
+        '&details=' + details;
+      root.querySelector('[data-tw-gcal]').href = gcal;
+
+      const sub = root.querySelector('[data-tw-success-sub]');
+      sub.textContent = 'Hold tight — we\'ll confirm your ' + fmtDateShort(state.date) +
+                        ' at ' + state.slot + ' tour within one business day.';
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
+    }
+
+    // ----- init
+    function init() {
+      // Social proof: 8–15 tours this week (stable per page load)
+      const tc = 8 + Math.floor(Math.random() * 8);
+      root.querySelector('[data-tw-tour-count]').textContent = tc + ' tours scheduled this week';
+      root.querySelector('[data-tw-max-date]').textContent =
+        maxDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      renderCalendar();
+      renderSlots();
+      bindNav();
+      bindChips();
+      bindMessageChips();
+      bindInputs();
+      setStep(1);
+    }
+
+    init();
+  })();
 
   // ============== FLOATING CONTACT WIDGET ==============
   (function () {
