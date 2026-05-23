@@ -1,0 +1,17 @@
+{
+  "name": "Magnolia Crestview",
+  "short_name": "Crestview",
+  "description": "Apartments in Magnolia, Seattle — 1BR & 2BR, steps from Discovery Park.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5efe4",
+  "theme_color": "#2b4634",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
