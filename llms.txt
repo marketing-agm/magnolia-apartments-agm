@@ -1,0 +1,27 @@
+# Magnolia Crestview
+
+> Magnolia Crestview is an apartment community at 2701 W Manor Pl, Seattle, WA 98199, in Seattle's Magnolia neighborhood — a short walk from Discovery Park. It offers one-bedroom and two-bedroom/two-bath apartments for rent, professionally managed by AGM Real Estate Group, LLC.
+
+## Key facts
+- Property name: Magnolia Crestview
+- Address: 2701 W Manor Pl, Seattle, WA 98199
+- Neighborhood: Magnolia, Seattle, Washington
+- Phone: (206) 694-1714
+- Email: pwedeberg@agmrealestategroup.com
+- Managed by: AGM Real Estate Group, LLC
+- Floor plans: 1 bedroom (~600 sq ft) from $1,595/month; 2 bedroom / 2 bath (~1,000 sq ft) up to ~$1,995/month
+- Current special: One month free on a 12-month lease
+- Notable features: private decks, updated kitchens, covered and uncovered on-site parking, pet-friendly
+- Location highlights: steps from Discovery Park (534 acres); near Magnolia Village shops, cafés, and farmers market; ~15 minutes to downtown Seattle
+
+## Pages
+- [Home / availability / floor plans / tour scheduling](https://magnolia-apartments-agm.pages.dev/)
+- [Frequently asked questions](https://magnolia-apartments-agm.pages.dev/#faq)
+
+## Neighborhood guides
+- [Living in Magnolia, Seattle: neighborhood guide](https://magnolia-apartments-agm.pages.dev/guides/living-in-magnolia/)
+- [Discovery Park: trails, beach, and lighthouse guide](https://magnolia-apartments-agm.pages.dev/guides/discovery-park/)
+- [Commuting from Magnolia to downtown, South Lake Union, and beyond](https://magnolia-apartments-agm.pages.dev/guides/magnolia-commute/)
+
+## Contact
+- To schedule a tour or apply, call (206) 694-1714 or use the tour scheduler at https://magnolia-apartments-agm.pages.dev/#tour
