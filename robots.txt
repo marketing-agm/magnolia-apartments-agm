@@ -1,0 +1,6 @@
+# Magnolia Crestview — allow all crawlers
+User-agent: *
+Allow: /
+
+# Update the host below if you move to a custom domain.
+Sitemap: https://magnolia-apartments-agm.pages.dev/sitemap.xml
