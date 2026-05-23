@@ -1,0 +1,151 @@
+[
+  {
+    "id": "103",
+    "beds": 1,
+    "baths": 1,
+    "sqft": 600,
+    "rent": 1595,
+    "floor": "Ground floor",
+    "floorNum": 1,
+    "available": "Now",
+    "availType": "now",
+    "features": [
+      "Private deck",
+      "Walk to Discovery Park"
+    ],
+    "plan": "1br"
+  },
+  {
+    "id": "203",
+    "beds": 1,
+    "baths": 1,
+    "sqft": 600,
+    "rent": 1595,
+    "floor": "Second floor",
+    "floorNum": 2,
+    "available": "Now",
+    "availType": "now",
+    "features": [
+      "Private deck",
+      "Bright interior"
+    ],
+    "plan": "1br"
+  },
+  {
+    "id": "204",
+    "beds": 1,
+    "baths": 1,
+    "sqft": 600,
+    "rent": 1595,
+    "floor": "Second floor",
+    "floorNum": 2,
+    "available": "Now",
+    "availType": "now",
+    "features": [
+      "Private deck",
+      "Walk to Discovery Park"
+    ],
+    "plan": "1br"
+  },
+  {
+    "id": "306",
+    "beds": 1,
+    "baths": 1,
+    "sqft": 600,
+    "rent": 1695,
+    "floor": "Third floor",
+    "floorNum": 3,
+    "available": "Now",
+    "availType": "now",
+    "features": [
+      "Private deck",
+      "Neighborhood views"
+    ],
+    "plan": "1br"
+  },
+  {
+    "id": "403",
+    "beds": 1,
+    "baths": 1,
+    "sqft": 600,
+    "rent": 1695,
+    "floor": "Upper floor",
+    "floorNum": 4,
+    "available": "Now",
+    "availType": "now",
+    "features": [
+      "Private deck",
+      "Skyline views"
+    ],
+    "plan": "1br"
+  },
+  {
+    "id": "301",
+    "beds": 2,
+    "baths": 2,
+    "sqft": 1000,
+    "rent": 1995,
+    "floor": "Third floor",
+    "floorNum": 3,
+    "available": "Now",
+    "availType": "now",
+    "features": [
+      "Private deck",
+      "Updated kitchen",
+      "Neighborhood views"
+    ],
+    "plan": "2br2ba"
+  },
+  {
+    "id": "307",
+    "beds": 2,
+    "baths": 2,
+    "sqft": 1000,
+    "rent": 1995,
+    "floor": "Third floor",
+    "floorNum": 3,
+    "available": "Now",
+    "availType": "now",
+    "features": [
+      "Private deck",
+      "Updated kitchen",
+      "Neighborhood views"
+    ],
+    "plan": "2br2ba"
+  },
+  {
+    "id": "402",
+    "beds": 2,
+    "baths": 2,
+    "sqft": 1000,
+    "rent": null,
+    "floor": "Upper floor",
+    "floorNum": 4,
+    "available": "Now",
+    "availType": "now",
+    "features": [
+      "Private deck",
+      "Updated kitchen",
+      "Skyline views"
+    ],
+    "plan": "2br2ba"
+  },
+  {
+    "id": "407",
+    "beds": 2,
+    "baths": 2,
+    "sqft": 1000,
+    "rent": 1995,
+    "floor": "Upper floor",
+    "floorNum": 4,
+    "available": "Now",
+    "availType": "now",
+    "features": [
+      "Private deck",
+      "Updated kitchen",
+      "Skyline views"
+    ],
+    "plan": "2br2ba",
+    "featured": true
+  }
+]

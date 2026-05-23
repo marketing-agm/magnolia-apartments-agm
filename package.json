@@ -1,0 +1,16 @@
+{
+  "name": "apartment-sites",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "migrate": "node scripts/migrate.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "build:site": "astro build"
+  },
+  "devDependencies": {
+    "astro": "^5.6.1"
+  }
+}

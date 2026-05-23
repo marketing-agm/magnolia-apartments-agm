@@ -1,0 +1,101 @@
+---
+import Analytics from '../components/Analytics.astro';
+import '../styles/global.css';
+
+const { site } = Astro.props as { site: { id: string; config: any; data: any } };
+const c = site.config;
+const url = c.domain.replace(/\/$/, '') + '/';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': c.schema.type,
+  name: c.name,
+  description: c.schema.description,
+  url,
+  telephone: c.contact.phone,
+  priceRange: c.schema.priceRange,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: c.address.streetAddress,
+    addressLocality: c.address.addressLocality,
+    addressRegion: c.address.addressRegion,
+    postalCode: c.address.postalCode,
+    addressCountry: c.address.addressCountry,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: c.geo.latitude, longitude: c.geo.longitude },
+  areaServed: (c.schema.areaServed || []).map((name: string) => ({ '@type': 'Place', name })),
+  containedInPlace: { '@type': 'Place', name: c.schema.containedInPlace },
+  numberOfBedrooms: c.schema.numberOfBedrooms,
+  petsAllowed: c.schema.petsAllowed,
+  amenityFeature: (c.schema.amenityFeature || []).map((name: string) => ({
+    '@type': 'LocationFeatureSpecification',
+    name,
+    value: true,
+  })),
+};
+
+const themeVars = Object.entries(c.theme.colors)
+  .map(([k, v]) => `${k}: ${v};`)
+  .join(' ');
+
+// expose config + data to the legacy app script
+const siteRuntime = {
+  id: site.id,
+  config: { integrations: c.integrations, contact: c.contact, geo: c.geo },
+  data: site.data,
+};
+---
+<!DOCTYPE html>
+<html lang={c.lang}>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{c.seo.title}</title>
+<meta name="description" content={c.seo.description} />
+<meta name="keywords" content={c.seo.keywords} />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="author" content={c.seo.author} />
+
+<link rel="canonical" href={url} />
+
+<meta name="geo.region" content={c.address.geoRegion} />
+<meta name="geo.placename" content={c.address.placename} />
+<meta name="geo.position" content={`${c.geo.latitude};${c.geo.longitude}`} />
+<meta name="ICBM" content={`${c.geo.latitude}, ${c.geo.longitude}`} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={c.name} />
+<meta property="og:title" content={c.seo.title} />
+<meta property="og:description" content={c.seo.description} />
+<meta property="og:url" content={url} />
+<meta property="og:locale" content={c.locale} />
+{c.seo.ogImage && <meta property="og:image" content={c.seo.ogImage} />}
+{c.seo.ogImage && <meta property="og:image:alt" content={`${c.name} apartments`} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={c.seo.title} />
+<meta name="twitter:description" content={c.seo.twitterDescription || c.seo.description} />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content={c.theme.themeColor} />
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,30..100,0..1;1,9..144,300..700,30..100,0..1&family=Geist:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" /></noscript>
+
+<style is:inline set:html={`:root{${themeVars}}`} />
+
+<Analytics site={site} />
+</head>
+<body>
+<slot />
+<script is:inline set:html={`window.__SITE__=${JSON.stringify(siteRuntime)};`} />
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script is:inline src="/app.js"></script>
+</body>
+</html>
