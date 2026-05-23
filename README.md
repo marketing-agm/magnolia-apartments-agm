@@ -63,6 +63,22 @@ All content lives inline in `index.html`:
 
 Replace Unsplash `imgId` values in `PHOTOS` with real property photos when ready — the Picsum `seed` is just a fallback.
 
+## Conversion tools
+
+The Available homes and Pricing sections include prospect-facing helpers, all driven off the same `UNITS` data:
+
+- **Save / shortlist** — heart any home; saved units persist in the browser (`localStorage` key `mc_favs`) and surface in a sticky bar + drawer that hands the selection off to the tour booking flow.
+- **Compare** — pick 2–3 homes (`vs` button) to see them side by side, including price per square foot.
+- **Budget filter** — entering an annual income flags homes within the 30%-of-income guideline.
+- **Move-in cost calculator** (Pricing section) — exact "due at signing" total for a chosen home, adults, and the 1-month-free special.
+- **"Only X left" badges** — appear automatically when 2 or fewer available homes share the lowest price for a plan. They stay dormant while inventory is healthy — this is intentional (honest scarcity, no fabricated counts).
+
+### Commute estimator (optional API key)
+
+The Neighborhood section has a commute estimator. Out of the box it geocodes the typed address via OpenStreetMap **Nominatim** and shows a clearly-labeled straight-line **approximation** for drive/bike/walk times — no key required.
+
+For precise routing, drop a free [OpenRouteService](https://openrouteservice.org/dev/#/signup) key into `const ORS_API_KEY = ''` inside the commute estimator JS. Restrict the key by HTTP referrer in the ORS dashboard (it is visible in client-side code). If a routing call fails or times out, it falls back to the approximation automatically.
+
 ## External dependencies
 
 These load from CDN at runtime (no build needed, but the site requires internet to render fully):
@@ -71,6 +87,8 @@ These load from CDN at runtime (no build needed, but the site requires internet 
 - Leaflet 1.9.4 (`cdnjs.cloudflare.com`)
 - CartoDB Positron map tiles
 - Unsplash + Picsum (sample images, swap with your own)
+- OpenStreetMap Nominatim (commute estimator geocoding)
+- OpenRouteService (commute estimator routing — only if you add an `ORS_API_KEY`)
 
 ## License
 
