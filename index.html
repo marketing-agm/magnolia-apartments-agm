@@ -1734,7 +1734,8 @@
   .unit-card-head {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-start;
+    gap: 10px;
   }
   .unit-card-num {
     font-family: var(--serif);
@@ -3465,6 +3466,381 @@
     margin: 12px 0 0;
   }
   .cw-form.is-maintenance .form-submit:hover { background: var(--accent-2); }
+
+  /* ============== CONVERSION TOOLS ============== */
+
+  /* --- Affordability calculator (in filter bar) --- */
+  .filter-afford { display: flex; flex-direction: column; gap: 10px; }
+  .afford-input-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .afford-input-wrap .afford-prefix {
+    position: absolute;
+    left: 14px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-3);
+    pointer-events: none;
+  }
+  .afford-input-wrap input {
+    appearance: none;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 9px 16px 9px 26px;
+    width: 150px;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+  .afford-input-wrap input::-webkit-outer-spin-button,
+  .afford-input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .afford-input-wrap input { -moz-appearance: textfield; }
+  .afford-input-wrap input:hover { border-color: var(--ink-3); }
+  .afford-input-wrap input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,70,52,0.12); }
+  .afford-result {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: var(--ink-3);
+    min-height: 14px;
+  }
+  .afford-result strong { color: var(--accent); font-weight: 600; }
+  .afford-result.is-none strong { color: var(--accent-2); }
+
+  /* --- Unit card: heart + compare + budget fit + urgency --- */
+  .unit-card-tools {
+    display: flex;
+    gap: 6px;
+    flex: none;
+  }
+  .unit-fav, .unit-cmp {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+  .unit-fav:hover, .unit-cmp:hover { border-color: var(--ink); transform: translateY(-1px); }
+  .unit-fav svg { fill: none; stroke: currentColor; stroke-width: 1.8; transition: fill 160ms ease; }
+  .unit-card.is-faved .unit-fav { color: var(--accent-2); border-color: var(--accent-2); }
+  .unit-card.is-faved .unit-fav svg { fill: var(--accent-2); }
+  .unit-cmp { font-family: var(--mono); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .unit-card.is-compared .unit-cmp { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .unit-card.fits-budget { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(43,70,52,0.18); }
+  .unit-card.below-budget { opacity: 0.55; }
+  .unit-budget-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .unit-budget-tag::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .unit-urgency {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    font-weight: 600;
+    background: rgba(184,94,59,0.08);
+    border: 1px solid rgba(184,94,59,0.25);
+    border-radius: 999px;
+    padding: 3px 9px;
+    align-self: flex-start;
+  }
+  .unit-urgency svg { stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* --- Sticky shortlist bar --- */
+  .shortlist-bar {
+    position: fixed;
+    left: 50%;
+    bottom: clamp(16px, 2.4vw, 28px);
+    transform: translateX(-50%) translateY(16px);
+    z-index: 71;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 12px 10px 18px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(24,23,21,0.26), 0 2px 6px rgba(24,23,21,0.14);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 240ms ease, transform 240ms ease;
+    max-width: calc(100vw - 32px);
+  }
+  .shortlist-bar.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+  .shortlist-bar .sl-summary {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+  }
+  .shortlist-bar .sl-summary span { display: inline-flex; align-items: center; gap: 5px; }
+  .shortlist-bar .sl-summary .sl-count {
+    font-family: var(--mono);
+    background: rgba(255,255,255,0.16);
+    border-radius: 999px;
+    padding: 1px 7px;
+    font-size: 11px;
+  }
+  .shortlist-bar .sl-actions { display: inline-flex; gap: 6px; }
+  .sl-btn {
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: background 160ms ease, color 160ms ease, opacity 160ms ease;
+    cursor: pointer;
+  }
+  .sl-btn-primary { background: var(--warm); color: var(--ink); }
+  .sl-btn-primary:hover { background: #e2c192; }
+  .sl-btn-ghost { background: rgba(255,255,255,0.12); color: var(--paper); }
+  .sl-btn-ghost:hover { background: rgba(255,255,255,0.22); }
+  .sl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  @media (max-width: 600px) {
+    .shortlist-bar { flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 18px; width: calc(100vw - 24px); bottom: calc(clamp(16px, 2.4vw, 28px) + 64px); }
+    .shortlist-bar .sl-actions { width: 100%; }
+    .sl-btn { flex: 1; text-align: center; }
+  }
+
+  /* --- Shortlist drawer + compare overlay (reuse cw patterns) --- */
+  .ct-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 92;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(16px, 3vw, 32px);
+  }
+  .ct-overlay.is-open { display: flex; }
+  .ct-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(24,23,21,0.42);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    animation: cwFade 220ms ease;
+  }
+  .ct-panel {
+    position: relative;
+    width: min(720px, 100%);
+    max-height: min(86vh, 760px);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(24,23,21,0.28);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: cwPanelIn 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .ct-panel.is-narrow { width: min(460px, 100%); }
+  .ct-body { padding: 20px; overflow-y: auto; }
+  @media (max-width: 540px) {
+    .ct-overlay { padding: 0; align-items: stretch; justify-content: stretch; }
+    .ct-panel { width: 100%; max-height: 100vh; border-radius: 0; }
+  }
+
+  /* Shortlist drawer rows */
+  .sl-list { display: flex; flex-direction: column; gap: 10px; }
+  .sl-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+  }
+  .sl-row-info .sl-row-title { font-family: var(--serif); font-size: 19px; font-weight: 380; letter-spacing: -0.01em; }
+  .sl-row-info .sl-row-title .italic { font-style: italic; font-variation-settings: "opsz" 144, "SOFT" 100; }
+  .sl-row-info .sl-row-meta { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-top: 2px; }
+  .sl-row-price { font-family: var(--serif); font-size: 20px; font-weight: 380; }
+  .sl-row-price span { font-family: var(--sans); font-size: 12px; color: var(--ink-3); }
+  .sl-row-remove {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: transparent; color: var(--ink-3);
+    transition: background 160ms ease, color 160ms ease;
+    cursor: pointer; flex: none;
+  }
+  .sl-row-remove:hover { background: var(--bg-2); color: var(--accent-2); }
+  .sl-empty { text-align: center; padding: 40px 20px; color: var(--ink-3); }
+  .sl-drawer-foot { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .sl-drawer-foot .btn { flex: 1; }
+
+  /* Compare table */
+  .compare-scroll { overflow-x: auto; }
+  .compare-table { border-collapse: collapse; width: 100%; min-width: 420px; }
+  .compare-table th, .compare-table td {
+    text-align: left;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule-2);
+    font-size: 14px;
+    vertical-align: top;
+  }
+  .compare-table thead th {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 380;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid var(--rule);
+  }
+  .compare-table thead th .italic { font-style: italic; font-variation-settings: "opsz" 144, "SOFT" 100; }
+  .compare-table tbody th {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .compare-table .ct-best { color: var(--accent); font-weight: 600; }
+  .compare-feats { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .compare-feats li { font-size: 12.5px; color: var(--ink-2); }
+
+  /* --- Move-in calculator (pricing) --- */
+  .movein-calc {
+    margin-top: 24px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 720px) { .movein-calc { grid-template-columns: 1fr; gap: 20px; padding: 20px; } }
+  .movein-calc h3 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+  }
+  .movein-calc .mc-sub { font-size: 13px; color: var(--ink-3); margin: 0 0 18px; }
+  .mc-controls { display: flex; flex-direction: column; gap: 16px; }
+  .mc-field { display: flex; flex-direction: column; gap: 7px; }
+  .mc-field label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+  .mc-field select {
+    appearance: none; -webkit-appearance: none;
+    font: inherit; font-size: 14px; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--rule);
+    border-radius: var(--radius); padding: 10px 14px; cursor: pointer;
+    transition: border-color 160ms ease;
+  }
+  .mc-field select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,70,52,0.12); }
+  .mc-stepper { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--rule); border-radius: var(--radius); width: max-content; background: var(--bg); }
+  .mc-stepper button { width: 38px; height: 40px; display: grid; place-items: center; color: var(--ink-2); font-size: 18px; transition: background 140ms ease; }
+  .mc-stepper button:hover { background: var(--bg-2); color: var(--ink); }
+  .mc-stepper .mc-val { min-width: 44px; text-align: center; font-family: var(--serif); font-size: 18px; }
+  .mc-toggle { display: inline-flex; align-items: center; gap: 9px; font-size: 13.5px; color: var(--ink-2); cursor: pointer; }
+  .mc-toggle input { width: 16px; height: 16px; accent-color: var(--accent); }
+  .mc-summary {
+    background: var(--accent);
+    color: var(--paper);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+  }
+  .mc-summary .mc-sum-head { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.14em; opacity: 0.7; }
+  .mc-line { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.14); font-size: 14px; }
+  .mc-line span { opacity: 0.85; }
+  .mc-line strong { font-weight: 500; font-variant-numeric: tabular-nums; }
+  .mc-line.is-credit strong { color: var(--warm); }
+  .mc-total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 16px; }
+  .mc-total .mc-total-lbl { font-size: 13px; opacity: 0.85; }
+  .mc-total .mc-total-val { font-family: var(--serif); font-size: 30px; font-weight: 400; letter-spacing: -0.01em; }
+  .mc-foot-note { font-size: 11.5px; opacity: 0.7; margin: 14px 0 0; line-height: 1.5; }
+
+  /* --- Commute estimator --- */
+  .commute {
+    margin-top: 20px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+  }
+  .commute-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .commute-head h3 { font-family: var(--serif); font-size: 20px; font-weight: 400; letter-spacing: -0.01em; margin: 0; }
+  .commute-head p { font-size: 12.5px; color: var(--ink-3); margin: 2px 0 0; }
+  .commute-form { display: flex; gap: 10px; flex-wrap: wrap; }
+  .commute-form input {
+    flex: 1; min-width: 220px;
+    font: inherit; font-size: 14px; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--rule);
+    border-radius: var(--radius); padding: 11px 14px;
+    transition: border-color 160ms ease;
+  }
+  .commute-form input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,70,52,0.12); }
+  .commute-form button {
+    background: var(--ink); color: var(--paper);
+    padding: 11px 20px; border-radius: var(--radius);
+    font-size: 13.5px; font-weight: 500;
+    transition: background 180ms ease; cursor: pointer;
+  }
+  .commute-form button:hover { background: var(--accent); }
+  .commute-form button:disabled { opacity: 0.5; cursor: wait; }
+  .commute-result { margin-top: 16px; display: none; }
+  .commute-result.is-active { display: block; }
+  .commute-dest { font-size: 13px; color: var(--ink-2); margin-bottom: 12px; }
+  .commute-dest strong { color: var(--ink); }
+  .commute-modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 540px) { .commute-modes { grid-template-columns: 1fr; } }
+  .commute-mode {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .commute-mode .cm-ic { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); color: var(--accent); flex: none; }
+  .commute-mode .cm-ic svg { stroke: currentColor; fill: none; stroke-width: 1.7; }
+  .commute-mode .cm-time { font-family: var(--serif); font-size: 22px; font-weight: 380; letter-spacing: -0.01em; line-height: 1.1; }
+  .commute-mode .cm-label { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); margin-top: 2px; }
+  .commute-mode .cm-dist { font-size: 11.5px; color: var(--ink-3); }
+  .commute-attrib { font-family: var(--mono); font-size: 10px; color: var(--ink-3); margin-top: 12px; letter-spacing: 0.02em; }
+  .commute-error { color: var(--accent-2); font-size: 13px; margin-top: 12px; }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
 </style>
 </head>
 <body>
@@ -3818,6 +4194,14 @@
           <button class="pill-tab" data-filter="avail" data-value="soon">Coming soon</button>
         </div>
       </div>
+      <div class="filter-group filter-afford">
+        <span class="filter-label">Your budget</span>
+        <div class="afford-input-wrap">
+          <span class="afford-prefix">$</span>
+          <input id="afford-income" type="number" inputmode="numeric" min="0" step="1000" placeholder="Annual income" aria-label="Your annual income" />
+        </div>
+        <span class="afford-result" id="afford-result" aria-live="polite"></span>
+      </div>
       <div class="filter-group filter-sort">
         <span class="filter-label">Sort by</span>
         <div class="select-wrap">
@@ -4007,6 +4391,39 @@
         </div>
       </div>
     </div>
+
+    <!-- Commute estimator -->
+    <div class="commute reveal" data-delay="1">
+      <div class="commute-head">
+        <div>
+          <h3>How far is your <span style="font-style:italic;font-variation-settings:'opsz' 144,'SOFT' 100;">commute?</span></h3>
+          <p>Enter where you work or study — we'll estimate travel time from the front door.</p>
+        </div>
+      </div>
+      <form class="commute-form" id="commute-form">
+        <input id="commute-dest" type="text" placeholder="e.g., Amazon Spheres, Seattle" aria-label="Destination address" autocomplete="off" />
+        <button type="submit" id="commute-submit">Estimate</button>
+      </form>
+      <div class="commute-result" id="commute-result" aria-live="polite">
+        <div class="commute-dest" id="commute-dest-label"></div>
+        <div class="commute-modes">
+          <div class="commute-mode">
+            <span class="cm-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 17h14M6 17l1.5-5.5A2 2 0 0 1 9.4 10h5.2a2 2 0 0 1 1.9 1.5L18 17M7.5 17v2M16.5 17v2M3 13h2M19 13h2"/></svg></span>
+            <div><div class="cm-time" data-mode="driving-car">—</div><div class="cm-label">Drive</div><div class="cm-dist" data-dist="driving-car"></div></div>
+          </div>
+          <div class="commute-mode">
+            <span class="cm-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h4l2 4M10 9h5M14 9l-2 8"/></svg></span>
+            <div><div class="cm-time" data-mode="cycling-regular">—</div><div class="cm-label">Bike</div><div class="cm-dist" data-dist="cycling-regular"></div></div>
+          </div>
+          <div class="commute-mode">
+            <span class="cm-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="4" r="2"/><path d="M12 6v6m0 0l-3 7m3-7l3 7M8 9l4 2 4-2"/></svg></span>
+            <div><div class="cm-time" data-mode="foot-walking">—</div><div class="cm-label">Walk</div><div class="cm-dist" data-dist="foot-walking"></div></div>
+          </div>
+        </div>
+        <p class="commute-attrib" id="commute-attrib"></p>
+      </div>
+      <p class="commute-error" id="commute-error" hidden></p>
+    </div>
   </div>
 </section>
 
@@ -4078,6 +4495,41 @@
           <li><span>Renters insurance</span><strong>Required</strong></li>
         </ul>
       </aside>
+    </div>
+
+    <!-- Move-in cost calculator -->
+    <div class="movein-calc reveal" id="movein-calc">
+      <div class="mc-controls-wrap">
+        <h3>Estimate your <span style="font-style:italic;font-variation-settings:'opsz' 144,'SOFT' 100;">move-in cost.</span></h3>
+        <p class="mc-sub">Pick a home and household size for an exact figure due at signing.</p>
+        <div class="mc-controls">
+          <div class="mc-field">
+            <label for="mc-unit">Choose a home</label>
+            <select id="mc-unit"></select>
+          </div>
+          <div class="mc-field">
+            <label for="mc-adults">Adults on the lease</label>
+            <div class="mc-stepper" data-mc-stepper="adults">
+              <button type="button" data-mc-step="-1" aria-label="Fewer adults">−</button>
+              <span class="mc-val" id="mc-adults" aria-live="polite">1</span>
+              <button type="button" data-mc-step="1" aria-label="More adults">+</button>
+            </div>
+          </div>
+          <label class="mc-toggle">
+            <input type="checkbox" id="mc-special" checked />
+            <span>Apply 1-month-free move-in special (12-mo lease)</span>
+          </label>
+        </div>
+      </div>
+      <div class="mc-summary" aria-live="polite">
+        <div class="mc-sum-head">Due at signing</div>
+        <div id="mc-lines"></div>
+        <div class="mc-total">
+          <span class="mc-total-lbl">Estimated total</span>
+          <span class="mc-total-val" id="mc-total">—</span>
+        </div>
+        <p class="mc-foot-note" id="mc-foot"></p>
+      </div>
     </div>
   </div>
 </section>
@@ -4661,6 +5113,54 @@
   </div>
 </div>
 
+<!-- ================= SHORTLIST BAR + OVERLAYS ================= -->
+<div class="shortlist-bar" id="shortlist-bar" role="region" aria-label="Saved homes">
+  <div class="sl-summary">
+    <span id="sl-fav-summary"><span class="sl-count" id="sl-fav-count">0</span> saved</span>
+    <span id="sl-cmp-summary" hidden><span class="sl-count" id="sl-cmp-count">0</span> to compare</span>
+  </div>
+  <div class="sl-actions">
+    <button class="sl-btn sl-btn-ghost" id="sl-compare-btn" type="button" disabled>Compare</button>
+    <button class="sl-btn sl-btn-primary" id="sl-view-btn" type="button">View shortlist</button>
+  </div>
+</div>
+
+<div class="ct-overlay" id="shortlist-overlay" role="dialog" aria-modal="true" aria-labelledby="sl-drawer-title" aria-hidden="true">
+  <div class="ct-backdrop" data-ct-close></div>
+  <div class="ct-panel is-narrow">
+    <header class="cw-head">
+      <div class="cw-head-text">
+        <span class="cw-head-eyebrow">Your shortlist</span>
+        <h3 class="cw-head-title" id="sl-drawer-title">Saved homes</h3>
+      </div>
+      <div class="cw-head-actions">
+        <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="ct-body" id="sl-drawer-body"></div>
+  </div>
+</div>
+
+<div class="ct-overlay" id="compare-overlay" role="dialog" aria-modal="true" aria-labelledby="cmp-title" aria-hidden="true">
+  <div class="ct-backdrop" data-ct-close></div>
+  <div class="ct-panel">
+    <header class="cw-head">
+      <div class="cw-head-text">
+        <span class="cw-head-eyebrow">Side by side</span>
+        <h3 class="cw-head-title" id="cmp-title">Compare homes</h3>
+      </div>
+      <div class="cw-head-actions">
+        <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="ct-body" id="cmp-body"></div>
+  </div>
+</div>
+
 <!-- ================= FOOTER ================= -->
 <footer>
   <div class="container">
@@ -4823,6 +5323,42 @@
     '2br2ba': '2 BR · 2 BA'
   };
 
+  // ----- Conversion state: favorites (persisted), compare (session), budget
+  const COMPARE_MAX = 3;
+  let favorites = new Set();
+  try { favorites = new Set(JSON.parse(localStorage.getItem('mc_favs') || '[]')); } catch (e) { favorites = new Set(); }
+  const compareSet = new Set();
+  let affordableMax = null; // null = no income entered
+
+  function saveFavs() {
+    try { localStorage.setItem('mc_favs', JSON.stringify([...favorites])); } catch (e) {}
+  }
+  function unitById(id) { return UNITS.find(u => u.id === id); }
+
+  function toggleFav(id) {
+    if (favorites.has(id)) favorites.delete(id);
+    else favorites.add(id);
+    saveFavs();
+    renderUnits();
+  }
+  function toggleCompare(id) {
+    if (compareSet.has(id)) compareSet.delete(id);
+    else if (compareSet.size < COMPARE_MAX) compareSet.add(id);
+    renderUnits();
+  }
+
+  // Honest scarcity: among "available now" units sharing a unit's plan + lowest
+  // priced tier, flag when 2 or fewer remain. Returns a label string or null.
+  function urgencyFor(unit) {
+    if (unit.availType !== 'now' || unit.rent == null) return null;
+    const samePlanNow = UNITS.filter(u => u.plan === unit.plan && u.availType === 'now' && u.rent != null);
+    const minRent = Math.min.apply(null, samePlanNow.map(u => u.rent));
+    if (unit.rent !== minRent) return null;
+    const atMin = samePlanNow.filter(u => u.rent === minRent).length;
+    if (atMin > 2) return null;
+    return atMin === 1 ? 'Last one at this price' : 'Only ' + atMin + ' left at this price';
+  }
+
   function getFilteredSortedUnits() {
     let list = UNITS.slice();
     if (filters.beds !== 'all') list = list.filter(u => u.beds === parseInt(filters.beds, 10));
@@ -4851,8 +5387,22 @@
     const priceHTML = unit.rent == null
       ? `<div class="price price--inquire">Inquire</div>`
       : `<div class="price">$${unit.rent.toLocaleString()}<span>/mo</span></div>`;
+
+    const isFaved = favorites.has(unit.id);
+    const isCmp = compareSet.has(unit.id);
+    let budgetClass = '';
+    if (affordableMax != null && unit.rent != null) {
+      budgetClass = unit.rent <= affordableMax ? ' fits-budget' : ' below-budget';
+    }
+    const budgetTag = (affordableMax != null && unit.rent != null && unit.rent <= affordableMax)
+      ? '<span class="unit-budget-tag">Within budget</span>' : '';
+    const urgency = urgencyFor(unit);
+    const urgencyHTML = urgency
+      ? `<span class="unit-urgency"><svg width="11" height="11" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>${urgency}</span>`
+      : '';
+    const cls = 'unit-card' + (unit.featured ? ' is-featured' : '') + (isFaved ? ' is-faved' : '') + (isCmp ? ' is-compared' : '') + budgetClass;
     return `
-      <article class="unit-card${unit.featured ? ' is-featured' : ''}" style="animation-delay:${idx * 50}ms">
+      <article class="${cls}" style="animation-delay:${idx * 50}ms">
         <div class="unit-card-plan">
           <span class="unit-plan-label">${PLAN_LABELS[unit.plan]}</span>
           ${featured}
@@ -4864,7 +5414,14 @@
               <span class="unit-card-num">Unit <span class="italic">${unit.id}</span></span>
               <span class="unit-card-floor">${unit.floor}</span>
             </div>
+            <div class="unit-card-tools">
+              <button class="unit-fav" type="button" data-fav="${unit.id}" aria-pressed="${isFaved}" aria-label="${isFaved ? 'Remove Unit ' + unit.id + ' from saved homes' : 'Save Unit ' + unit.id}" title="Save home">
+                <svg width="16" height="16" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+              </button>
+              <button class="unit-cmp" type="button" data-cmp="${unit.id}" aria-pressed="${isCmp}" aria-label="${isCmp ? 'Remove Unit ' + unit.id + ' from comparison' : 'Add Unit ' + unit.id + ' to comparison'}" title="Compare">vs</button>
+            </div>
           </div>
+          ${budgetTag}
           <div class="unit-card-specs">
             <div><strong>${bedsDisplay}</strong><span>${unit.beds === 0 ? 'studio' : (unit.beds === 1 ? 'bed' : 'beds')}</span></div>
             <div><strong>${unit.baths}</strong><span>${unit.baths === 1 ? 'bath' : 'baths'}</span></div>
@@ -4874,6 +5431,7 @@
             ${priceHTML}
             <div class="${availClass}"><span class="dot"></span>${unit.available}</div>
           </div>
+          ${urgencyHTML}
           <ul class="unit-card-features">${featureTags}</ul>
           <a href="#tour" class="unit-card-cta">
             Schedule a tour
@@ -4901,6 +5459,20 @@
       empty.hidden = true;
       grid.innerHTML = list.map((u, i) => unitCardHTML(u, i)).join('');
     }
+
+    updateAffordResult();
+    updateShortlistBar();
+  }
+
+  function updateAffordResult() {
+    const out = document.getElementById('afford-result');
+    if (!out) return;
+    if (affordableMax == null) { out.textContent = ''; out.classList.remove('is-none'); return; }
+    const priced = UNITS.filter(u => u.rent != null);
+    const fit = priced.filter(u => u.rent <= affordableMax).length;
+    out.classList.toggle('is-none', fit === 0);
+    out.innerHTML = 'Comfortable up to <strong>$' + affordableMax.toLocaleString() + '/mo</strong> — ' +
+      (fit === 0 ? '<strong>no homes</strong> in range' : '<strong>' + fit + '</strong> home' + (fit === 1 ? '' : 's') + ' fit');
   }
 
   // Wire up filter pills
@@ -4933,6 +5505,181 @@
     });
     renderUnits();
   });
+
+  // Affordability: 30% of monthly income
+  const affordInput = document.getElementById('afford-income');
+  if (affordInput) {
+    affordInput.addEventListener('input', () => {
+      const income = parseFloat(affordInput.value);
+      affordableMax = (!isNaN(income) && income > 0) ? Math.round(income / 12 * 0.30) : null;
+      renderUnits();
+    });
+  }
+
+  // Delegated heart / compare toggles (survives grid re-render)
+  document.getElementById('unit-grid').addEventListener('click', (e) => {
+    const fav = e.target.closest('[data-fav]');
+    if (fav) { toggleFav(fav.dataset.fav); return; }
+    const cmp = e.target.closest('[data-cmp]');
+    if (cmp) {
+      const id = cmp.dataset.cmp;
+      if (!compareSet.has(id) && compareSet.size >= COMPARE_MAX) {
+        flashShortlistMsg('Compare up to ' + COMPARE_MAX + ' homes');
+        return;
+      }
+      toggleCompare(id);
+    }
+  });
+
+  // ----- Shortlist bar + overlays
+  const slBar = document.getElementById('shortlist-bar');
+  const slFavCount = document.getElementById('sl-fav-count');
+  const slCmpCount = document.getElementById('sl-cmp-count');
+  const slCmpSummary = document.getElementById('sl-cmp-summary');
+  const slCompareBtn = document.getElementById('sl-compare-btn');
+
+  function updateShortlistBar() {
+    if (!slBar) return;
+    slFavCount.textContent = favorites.size;
+    slCmpCount.textContent = compareSet.size;
+    slCmpSummary.hidden = compareSet.size === 0;
+    slCompareBtn.disabled = compareSet.size < 2;
+    slCompareBtn.textContent = compareSet.size >= 2 ? 'Compare (' + compareSet.size + ')' : 'Compare';
+    slBar.classList.toggle('is-visible', favorites.size > 0 || compareSet.size > 0);
+  }
+
+  let slMsgTimer = null;
+  function flashShortlistMsg(msg) {
+    if (!slBar) return;
+    const summary = document.getElementById('sl-fav-summary');
+    const prev = summary.innerHTML;
+    summary.textContent = msg;
+    slBar.classList.add('is-visible');
+    clearTimeout(slMsgTimer);
+    slMsgTimer = setTimeout(() => { summary.innerHTML = prev; updateShortlistBar(); }, 1800);
+  }
+
+  // ----- Generic overlay open/close (mirrors contact widget)
+  let lastFocused = null;
+  function openOverlay(el) {
+    lastFocused = document.activeElement;
+    el.classList.add('is-open');
+    el.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    const f = el.querySelector('button, a, input, select, [tabindex]');
+    if (f) setTimeout(() => f.focus({ preventScroll: true }), 50);
+  }
+  function closeOverlay(el) {
+    el.classList.remove('is-open');
+    el.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocused && lastFocused.focus) lastFocused.focus({ preventScroll: true });
+  }
+  document.querySelectorAll('.ct-overlay').forEach(ov => {
+    ov.querySelectorAll('[data-ct-close]').forEach(b => b.addEventListener('click', () => closeOverlay(ov)));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.ct-overlay.is-open').forEach(closeOverlay);
+  });
+
+  // ----- Shortlist drawer
+  const slOverlay = document.getElementById('shortlist-overlay');
+  const slBody = document.getElementById('sl-drawer-body');
+
+  function renderShortlist() {
+    const ids = [...favorites];
+    if (ids.length === 0) {
+      slBody.innerHTML = '<div class="sl-empty"><p>No saved homes yet.</p><p style="font-size:13px;margin-top:6px;">Tap the heart on any home to add it here.</p></div>';
+      return;
+    }
+    const rows = ids.map(id => {
+      const u = unitById(id);
+      if (!u) return '';
+      const price = u.rent == null ? 'Inquire' : '$' + u.rent.toLocaleString() + '<span>/mo</span>';
+      return `<div class="sl-row">
+        <div class="sl-row-info">
+          <div class="sl-row-title">Unit <span class="italic">${u.id}</span></div>
+          <div class="sl-row-meta">${PLAN_LABELS[u.plan]} · ${u.sqft.toLocaleString()} sqft · ${u.floor}</div>
+        </div>
+        <div class="sl-row-price">${price}</div>
+        <button class="sl-row-remove" type="button" data-sl-remove="${u.id}" aria-label="Remove Unit ${u.id}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>`;
+    }).join('');
+    slBody.innerHTML = `<div class="sl-list">${rows}</div>
+      <div class="sl-drawer-foot">
+        <button class="btn btn-primary" type="button" id="sl-send-tour">Schedule a tour for these</button>
+      </div>`;
+  }
+
+  if (slBody) {
+    slBody.addEventListener('click', (e) => {
+      const rm = e.target.closest('[data-sl-remove]');
+      if (rm) { favorites.delete(rm.dataset.slRemove); saveFavs(); renderUnits(); renderShortlist(); return; }
+      if (e.target.closest('#sl-send-tour')) {
+        sendShortlistToTour([...favorites]);
+      }
+    });
+  }
+  document.getElementById('sl-view-btn').addEventListener('click', () => {
+    renderShortlist();
+    openOverlay(slOverlay);
+  });
+
+  // ----- Compare overlay
+  const cmpOverlay = document.getElementById('compare-overlay');
+  const cmpBody = document.getElementById('cmp-body');
+
+  function buildCompareTable(ids) {
+    const units = ids.map(unitById).filter(Boolean);
+    const ppsq = u => (u.rent == null ? null : u.rent / u.sqft);
+    const minRent = Math.min.apply(null, units.filter(u => u.rent != null).map(u => u.rent));
+    const maxSqft = Math.max.apply(null, units.map(u => u.sqft));
+    const minPpsq = Math.min.apply(null, units.filter(u => ppsq(u) != null).map(ppsq));
+    const head = '<tr><th></th>' + units.map(u => `<th>Unit <span class="italic">${u.id}</span></th>`).join('') + '</tr>';
+    function row(label, fn) {
+      return '<tr><th>' + label + '</th>' + units.map(fn).join('') + '</tr>';
+    }
+    const rows = [
+      row('Plan', u => `<td>${PLAN_LABELS[u.plan]}</td>`),
+      row('Beds', u => `<td>${u.beds}</td>`),
+      row('Baths', u => `<td>${u.baths}</td>`),
+      row('Size', u => `<td class="${u.sqft === maxSqft ? 'ct-best' : ''}">${u.sqft.toLocaleString()} sqft</td>`),
+      row('Rent', u => `<td class="${u.rent != null && u.rent === minRent ? 'ct-best' : ''}">${u.rent == null ? 'Inquire' : '$' + u.rent.toLocaleString() + '/mo'}</td>`),
+      row('$ / sqft', u => `<td class="${ppsq(u) != null && ppsq(u) === minPpsq ? 'ct-best' : ''}">${ppsq(u) == null ? '—' : '$' + ppsq(u).toFixed(2)}</td>`),
+      row('Floor', u => `<td>${u.floor}</td>`),
+      row('Availability', u => `<td>${u.available}</td>`),
+      row('Features', u => `<td><ul class="compare-feats">${u.features.map(f => '<li>' + f + '</li>').join('')}</ul></td>`)
+    ].join('');
+    cmpBody.innerHTML = `<div class="compare-scroll"><table class="compare-table"><thead>${head}</thead><tbody>${rows}</tbody></table></div>
+      <div class="sl-drawer-foot"><button class="btn btn-primary" type="button" id="cmp-send-tour">Schedule a tour for these</button></div>`;
+  }
+
+  if (cmpBody) {
+    cmpBody.addEventListener('click', (e) => {
+      if (e.target.closest('#cmp-send-tour')) sendShortlistToTour([...compareSet]);
+    });
+  }
+  slCompareBtn.addEventListener('click', () => {
+    if (compareSet.size < 2) return;
+    buildCompareTable([...compareSet]);
+    openOverlay(cmpOverlay);
+  });
+
+  // ----- Hand off to tour wizard
+  function sendShortlistToTour(ids) {
+    const valid = ids.map(unitById).filter(Boolean);
+    if (valid.length === 0) return;
+    const list = valid.map(u => u.id).join(', ');
+    const plural = valid.length === 1 ? 'unit' : 'units';
+    const msg = "I'm interested in " + plural + ' ' + list + '. Could we tour ' + (valid.length === 1 ? 'it' : 'them') + '?';
+    if (typeof window.tourPrefill === 'function') window.tourPrefill(msg);
+    document.querySelectorAll('.ct-overlay.is-open').forEach(closeOverlay);
+    const tour = document.getElementById('tour');
+    if (tour) tour.scrollIntoView({ behavior: 'smooth' });
+  }
 
   // Initial render
   renderUnits();
@@ -5534,6 +6281,186 @@
     }, 2800);
   }
 
+  // ============== MOVE-IN COST CALCULATOR ==============
+  (function () {
+    const sel = document.getElementById('mc-unit');
+    if (!sel) return;
+    const SCREENING = 50; // per adult
+    const linesEl = document.getElementById('mc-lines');
+    const totalEl = document.getElementById('mc-total');
+    const footEl = document.getElementById('mc-foot');
+    const adultsEl = document.getElementById('mc-adults');
+    const specialEl = document.getElementById('mc-special');
+    let adults = 1;
+
+    // Populate from priced UNITS (skip inquire-only), 1BR then 2BR
+    const priced = UNITS.filter(u => u.rent != null).sort((a, b) => a.beds - b.beds || a.rent - b.rent);
+    sel.innerHTML = priced.map(u =>
+      `<option value="${u.id}">Unit ${u.id} · ${PLAN_LABELS[u.plan]} · $${u.rent.toLocaleString()}/mo</option>`
+    ).join('');
+
+    function money(n) { return '$' + Math.round(n).toLocaleString(); }
+
+    function render() {
+      const u = UNITS.find(x => x.id === sel.value);
+      adultsEl.textContent = adults;
+      if (!u || u.rent == null) {
+        linesEl.innerHTML = '';
+        totalEl.textContent = 'Contact us';
+        footEl.textContent = 'Pricing for this home is available on request — call (206) 694-1714.';
+        return;
+      }
+      const special = specialEl.checked;
+      const screening = SCREENING * adults;
+      const credit = special ? u.rent : 0;
+      const total = u.rent + u.rent + screening - credit;
+      const rows = [
+        { label: 'First month\'s rent', val: u.rent },
+        { label: 'Refundable security deposit', val: u.rent },
+        { label: 'Screening fee · ' + adults + ' adult' + (adults === 1 ? '' : 's'), val: screening }
+      ];
+      let html = rows.map(r => `<div class="mc-line"><span>${r.label}</span><strong>${money(r.val)}</strong></div>`).join('');
+      if (special) html += `<div class="mc-line is-credit"><span>1-month-free special</span><strong>−${money(credit)}</strong></div>`;
+      linesEl.innerHTML = html;
+      totalEl.textContent = money(total);
+      footEl.textContent = 'Estimate only. Water/sewer/garbage ($100/mo, +$50 per extra occupant) and electricity are billed monthly, not at signing. Renters insurance required.';
+    }
+
+    sel.addEventListener('change', render);
+    specialEl.addEventListener('change', render);
+    document.querySelector('[data-mc-stepper="adults"]').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-mc-step]');
+      if (!btn) return;
+      adults = Math.min(6, Math.max(1, adults + parseInt(btn.dataset.mcStep, 10)));
+      render();
+    });
+    render();
+  })();
+
+  // ============== COMMUTE ESTIMATOR ==============
+  (function () {
+    const form = document.getElementById('commute-form');
+    if (!form) return;
+    const input = document.getElementById('commute-dest');
+    const btn = document.getElementById('commute-submit');
+    const result = document.getElementById('commute-result');
+    const destLabel = document.getElementById('commute-dest-label');
+    const attrib = document.getElementById('commute-attrib');
+    const errEl = document.getElementById('commute-error');
+
+    // Drop a valid OpenRouteService key here for precise drive/bike/walk times.
+    // Left blank → the estimator uses a straight-line approximation (clearly labeled).
+    const ORS_API_KEY = '';
+    const PROFILES = ['driving-car', 'cycling-regular', 'foot-walking'];
+    const SPEEDS = { 'driving-car': 35, 'cycling-regular': 15, 'foot-walking': 5 }; // km/h
+    const DETOUR = { 'driving-car': 1.4, 'cycling-regular': 1.35, 'foot-walking': 1.25 };
+
+    function fmtDur(sec) {
+      const m = Math.round(sec / 60);
+      if (m < 60) return m + ' min';
+      return Math.floor(m / 60) + 'h ' + (m % 60) + 'm';
+    }
+    function fmtDist(km) { return km < 1 ? Math.round(km * 1000) + ' m' : km.toFixed(1) + ' km'; }
+    function haversineKm(a, b) {
+      const R = 6371, toRad = d => d * Math.PI / 180;
+      const dLat = toRad(b.lat - a.lat), dLng = toRad(b.lng - a.lng);
+      const s = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s));
+    }
+    function withTimeout(promise, ms) {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), ms);
+      return { signal: ctrl.signal, done: () => clearTimeout(t) };
+    }
+
+    async function geocode(q) {
+      const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q=' + encodeURIComponent(q);
+      const to = withTimeout(null, 5000);
+      try {
+        const res = await fetch(url, { signal: to.signal, headers: { 'Accept': 'application/json' } });
+        const data = await res.json();
+        if (!data.length) return null;
+        return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon), name: data[0].display_name };
+      } finally { to.done(); }
+    }
+
+    async function orsRoute(profile, dest) {
+      const url = 'https://api.openrouteservice.org/v2/directions/' + profile +
+        '?api_key=' + ORS_API_KEY +
+        '&start=' + PROPERTY.lng + ',' + PROPERTY.lat +
+        '&end=' + dest.lng + ',' + dest.lat;
+      const to = withTimeout(null, 6000);
+      try {
+        const res = await fetch(url, { signal: to.signal });
+        if (!res.ok) throw new Error('ors');
+        const data = await res.json();
+        const summ = data.features[0].properties.summary;
+        return { duration: summ.duration, distance: summ.distance / 1000 };
+      } finally { to.done(); }
+    }
+
+    function approxRoute(profile, dest) {
+      const straight = haversineKm(PROPERTY, dest);
+      const dist = straight * DETOUR[profile];
+      const duration = dist / SPEEDS[profile] * 3600;
+      return { duration, distance: dist, approx: true };
+    }
+
+    function paint(routes, approx) {
+      PROFILES.forEach(p => {
+        const r = routes[p];
+        const timeEl = result.querySelector('[data-mode="' + p + '"]');
+        const distEl = result.querySelector('[data-dist="' + p + '"]');
+        timeEl.textContent = r ? fmtDur(r.duration) : '—';
+        distEl.textContent = r ? fmtDist(r.distance) : '';
+      });
+      attrib.textContent = approx
+        ? 'Approximate · straight-line estimate · Geocoding © OpenStreetMap contributors'
+        : 'Routing by OpenRouteService · © OpenStreetMap contributors';
+      result.classList.add('is-active');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const q = input.value.trim();
+      if (!q) return;
+      errEl.hidden = true;
+      btn.disabled = true;
+      btn.textContent = 'Estimating…';
+      try {
+        const dest = await geocode(q);
+        if (!dest) {
+          errEl.textContent = "We couldn't find that place — try a more specific address.";
+          errEl.hidden = false;
+          result.classList.remove('is-active');
+          return;
+        }
+        destLabel.innerHTML = 'From <strong>2701 W Manor Pl</strong> to <strong>' + dest.name.split(',').slice(0, 2).join(',') + '</strong>';
+        let routes = {}, approx = false;
+        if (ORS_API_KEY) {
+          try {
+            const got = await Promise.all(PROFILES.map(p => orsRoute(p, dest).catch(() => null)));
+            PROFILES.forEach((p, i) => { routes[p] = got[i] || approxRoute(p, dest); });
+            approx = got.some(r => !r);
+          } catch (err) {
+            PROFILES.forEach(p => { routes[p] = approxRoute(p, dest); });
+            approx = true;
+          }
+        } else {
+          PROFILES.forEach(p => { routes[p] = approxRoute(p, dest); });
+          approx = true;
+        }
+        paint(routes, approx);
+      } catch (err) {
+        errEl.textContent = 'Something went wrong fetching travel times. Please try again.';
+        errEl.hidden = false;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Estimate';
+      }
+    });
+  })();
+
   // ============== TOUR WIZARD ==============
   (function () {
     const root = document.getElementById('tour-wizard');
@@ -5956,6 +6883,19 @@
       bindInputs();
       setStep(1);
     }
+
+    // Allow other features (e.g. the saved shortlist) to seed the message and
+    // bring the visitor into the booking flow at step 1 (date first).
+    window.tourPrefill = function (msg) {
+      state.message = msg || '';
+      state.chips.clear();
+      root.querySelectorAll('[data-tw-msg]').forEach(c => {
+        c.classList.remove('is-selected');
+        c.setAttribute('aria-pressed', 'false');
+      });
+      const ta = root.querySelector('[data-tw-textarea]');
+      if (ta) ta.value = state.message;
+    };
 
     init();
   })();
