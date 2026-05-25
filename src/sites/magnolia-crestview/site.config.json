@@ -72,6 +72,11 @@
     "description": "Apartments in Magnolia, Seattle — 1BR & 2BR, steps from Discovery Park."
   },
 
+  "floorPlans": {
+    "1br": { "image": "", "tourUrl": "" },
+    "2br": { "image": "", "tourUrl": "" }
+  },
+
   "integrations": {
     "orsApiKey": ""
   },

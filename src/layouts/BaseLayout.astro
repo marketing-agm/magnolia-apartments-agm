@@ -41,7 +41,12 @@ const themeVars = Object.entries(c.theme.colors)
 // expose config + data to the legacy app script
 const siteRuntime = {
   id: site.id,
-  config: { integrations: c.integrations, contact: c.contact, geo: c.geo },
+  config: {
+    integrations: c.integrations,
+    contact: c.contact,
+    geo: c.geo,
+    floorPlans: c.floorPlans || {},
+  },
   data: site.data,
 };
 ---

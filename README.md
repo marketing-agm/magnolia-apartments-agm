@@ -91,6 +91,56 @@ automatically off existing interactions: `tour_requested`, `unit_favorited`,
 `floor_plan_viewed`, `commute_estimated`, `gallery_opened`, `tour_3d_opened`,
 `phone_click`, `email_click`, `maintenance_request`.
 
+## Admin portal (visual editor for non-technical editors)
+
+A git-based CMS ([Sveltia](https://github.com/sveltia/sveltia-cms)) lives at
+**`/admin`**. Editors log in with GitHub and get forms — no code. Saving writes
+back to the same JSON files in this repo as a commit, so edits flow through the
+normal build/deploy. Git stays the single source of truth; you and the CMS edit
+the same files.
+
+What editors can change today (Magnolia): property settings (name, contact,
+address, SEO, theme colors), **units & availability**, the **photo gallery
+(with image upload)**, **floor-plan images + 3D-tour links** per plan, and
+**neighborhood places**. Uploaded photos render in the gallery/lightbox; floor
+plan images and Matterport tour URLs feed the floor-plans section.
+
+### One-time setup
+
+The CMS commits via the GitHub API, which needs an OAuth relay:
+
+1. **GitHub OAuth app** — github.com → Settings → Developer settings → OAuth Apps
+   → New. Set the callback URL to your auth worker's `/callback` (next step).
+   Note the Client ID + Secret.
+2. **Auth worker** — deploy the small
+   [`sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth) Cloudflare
+   Worker; set `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` as its secrets.
+3. **Point the CMS at it** — set `base_url` in `public/admin/config.yml` to your
+   worker URL.
+4. Visit `https://<your-site>/admin` and log in. (One admin instance is enough —
+   it edits the repo, not a specific deployed site.)
+
+### Media storage
+
+Uploads currently commit to `public/uploads` (`media_folder` in `config.yml`).
+That's fine to start, but at 45-site scale switch to external storage
+(Cloudflare R2 / Cloudinary) so the repo stays lean — only the image *URL* is
+then stored in the JSON.
+
+### Approval gate (optional)
+
+Editors publish straight to `main` by default. To require review, uncomment
+`publish_mode: editorial_workflow` in `config.yml` — edits then become pull
+requests instead of going live immediately.
+
+### Scaling the CMS to every property
+
+`config.yml` currently registers Magnolia's files. For each new site, add a file
+entry under each collection pointing at `src/sites/<id>/…`. Because the structure
+is identical per site, this is easily generated — a small script can rebuild
+`config.yml` from the list of `src/sites/*` folders so all properties appear in
+the editor automatically.
+
 ## Regenerating the shared parts
 
 `scripts/migrate.mjs` slices the root `index.html` into `generated/body.html`,

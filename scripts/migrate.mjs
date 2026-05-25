@@ -82,9 +82,10 @@ app = app.replace(
 console.log(orsBefore === app ? 'WARNING: ORS_API_KEY not rewritten' : 'rewired ORS_API_KEY');
 
 const site = join(root, 'src/sites/magnolia-crestview');
-writeFileSync(join(site, 'units.json'), JSON.stringify(data.units, null, 2));
-writeFileSync(join(site, 'places.json'), JSON.stringify(data.places, null, 2));
-writeFileSync(join(site, 'photos.json'), JSON.stringify(data.photos, null, 2));
+// Arrays are wrapped in a top-level key so the git CMS can edit them as lists.
+writeFileSync(join(site, 'units.json'), JSON.stringify({ units: data.units }, null, 2));
+writeFileSync(join(site, 'places.json'), JSON.stringify({ places: data.places }, null, 2));
+writeFileSync(join(site, 'photos.json'), JSON.stringify({ photos: data.photos }, null, 2));
 writeFileSync(join(site, 'bus-stops.json'), JSON.stringify(data.busStops, null, 2));
 writeFileSync(join(root, 'src/styles/global.css'), css);
 writeFileSync(join(root, 'src/generated/body.html'), body);

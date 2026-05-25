@@ -466,8 +466,48 @@
     });
   });
 
+  // Floor-plan images + 3D tour URLs come from site config (CMS-editable).
+  (function applyFloorPlanConfig() {
+    const fp = (window.__SITE__ && window.__SITE__.config.floorPlans) || {};
+    // 3D tours: feed the existing data-tour-* attributes the tour logic reads.
+    if (planTourEl) {
+      if (fp['1br'] && fp['1br'].tourUrl) planTourEl.dataset.tour1br = fp['1br'].tourUrl;
+      if (fp['2br'] && fp['2br'].tourUrl) planTourEl.dataset.tour2br = fp['2br'].tourUrl;
+    }
+    // 2D floor plan image: swap the placeholder for an uploaded drawing.
+    const view2d = document.querySelector('.plan-view-2d');
+    function applyPlanImage() {
+      if (!view2d) return;
+      const cfg = fp[activePlan];
+      const placeholder = view2d.querySelector('.plan-placeholder');
+      let img = view2d.querySelector('.plan-image');
+      if (cfg && cfg.image) {
+        if (!img) {
+          img = document.createElement('img');
+          img.className = 'plan-image';
+          img.loading = 'lazy';
+          view2d.appendChild(img);
+        }
+        img.src = cfg.image;
+        img.alt = activePlan.toUpperCase() + ' floor plan';
+        img.style.display = '';
+        if (placeholder) placeholder.style.display = 'none';
+      } else {
+        if (img) img.style.display = 'none';
+        if (placeholder) placeholder.style.display = '';
+      }
+    }
+    document.querySelectorAll('.plan-tab').forEach((tab) =>
+      tab.addEventListener('click', applyPlanImage)
+    );
+    applyPlanImage();
+    if (typeof applyTourSrc === 'function') applyTourSrc();
+  })();
+
   // ============== INTERACTIVE NEIGHBORHOOD MAP ==============
-  const PROPERTY = { lat: 47.6528, lng: -122.3915 };
+  const PROPERTY = (window.__SITE__ && window.__SITE__.config.geo)
+    ? { lat: window.__SITE__.config.geo.latitude, lng: window.__SITE__.config.geo.longitude }
+    : { lat: 47.6528, lng: -122.3915 };
 
   // Straight-line (great-circle) distance from the property, in miles
   function haversineMiles(a, b) {
@@ -796,13 +836,16 @@
     const photos = getGalleryPhotos();
     strip.innerHTML = photos.map((p, i) => {
       const delay = Math.min(i, 12) * 35;
+      const media = p.src
+        ? `<img class="gallery-item-photo" src="${p.src}" alt="${p.title}" loading="lazy" />`
+        : `<div class="gallery-item-placeholder">
+              <span class="ph-eyebrow">Photography</span>
+              <span class="ph-title">Coming <em>soon.</em></span>
+            </div>`;
       return `
         <button class="gallery-item" type="button" data-photo-id="${p.id}" style="animation-delay:${delay}ms" aria-label="View ${p.title}">
           <div class="gallery-item-img">
-            <div class="gallery-item-placeholder">
-              <span class="ph-eyebrow">Photography</span>
-              <span class="ph-title">Coming <em>soon.</em></span>
-            </div>
+            ${media}
           </div>
           <div class="gallery-item-info">
             <span class="gallery-item-cat">${GALLERY_CATS[p.cat]}</span>
@@ -886,6 +929,10 @@
     lbTitle.textContent = p.title;
     lbDesc.textContent = p.desc;
     lbCounter.textContent = `${lightboxIdx + 1} / ${lightboxList.length}`;
+    if (lbImg) {
+      if (p.src) { lbImg.src = p.src; lbImg.alt = p.title; lbImg.hidden = false; }
+      else { lbImg.removeAttribute('src'); lbImg.hidden = true; }
+    }
     // Reset animation
     lbImg.style.animation = 'none';
     void lbImg.offsetHeight;

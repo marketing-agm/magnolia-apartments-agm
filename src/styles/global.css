@@ -3829,3 +3829,11 @@
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
   }
+  /* CMS-uploaded media (photos + floor plans) */
+  .gallery-item-photo {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .plan-image {
+    width: 100%; height: 100%; max-height: 520px; object-fit: contain;
+    display: block; border-radius: var(--radius);
+  }

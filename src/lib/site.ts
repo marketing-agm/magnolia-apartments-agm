@@ -19,9 +19,9 @@ export type SiteConfig = ReturnType<typeof getSite>['config'];
 export function getSite() {
   const config = pick(configs, 'site.config.json');
   const data = {
-    units: pick(units, 'units.json'),
-    places: pick(places, 'places.json'),
-    photos: pick(photos, 'photos.json'),
+    units: pick(units, 'units.json').units,
+    places: pick(places, 'places.json').places,
+    photos: pick(photos, 'photos.json').photos,
     busStops: pick(busStops, 'bus-stops.json'),
   };
   return { id: SITE_ID, config, data };
