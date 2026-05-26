@@ -48,6 +48,7 @@
   "description": "1BR and 2BR/2BA apartments for rent in Magnolia, Seattle. Updated kitchens, private decks, and views — steps from Discovery Park.",
   "url": "https://magnolia-apartments-agm.pages.dev/",
   "telephone": "+1-206-694-1714",
+  "email": "pwedeberg@agmrealestategroup.com",
   "priceRange": "$1,395–$1,995/mo",
   "address": {
     "@type": "PostalAddress",
@@ -3933,6 +3934,7 @@
       <a href="#availability">Availability</a>
       <a href="#gallery">Gallery</a>
       <a href="#neighborhood">Neighborhood</a>
+      <a href="#faq">FAQ</a>
       <a href="#tour" class="nav-cta">Schedule a tour →</a>
       <a href="https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state" class="nav-cta nav-cta--secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
     </nav>
@@ -3944,6 +3946,7 @@
       <a href="#availability">Availability</a>
       <a href="#gallery">Gallery</a>
       <a href="#neighborhood">Neighborhood</a>
+      <a href="#faq">FAQ</a>
       <a href="#tour" class="nav-mobile-cta">Schedule a tour</a>
       <a href="https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state" class="nav-mobile-cta is-secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
     </nav>
@@ -5237,6 +5240,90 @@
   </div>
 </div>
 
+<!-- ================= FAQ ================= -->
+<style>
+  .faq { padding: clamp(56px, 8vw, 104px) 0; border-top: 1px solid var(--rule); }
+  .faq-head { max-width: 60ch; margin-bottom: clamp(28px, 4vw, 44px); }
+  .faq-list { display: grid; gap: 0; border-top: 1px solid var(--rule-2); max-width: 860px; }
+  .faq-item { border-bottom: 1px solid var(--rule-2); }
+  .faq-item summary {
+    list-style: none; cursor: pointer; padding: 22px 44px 22px 0; position: relative;
+    font-family: var(--serif); font-weight: 420; font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.3; color: var(--ink); letter-spacing: -0.01em;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: ""; position: absolute; right: 6px; top: 50%; width: 13px; height: 13px;
+    margin-top: -7px; background-size: contain; background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232b4634' stroke-width='2' stroke-linecap='round'><line x1='12' y1='5' x2='12' y2='19'/><line x1='5' y1='12' x2='19' y2='12'/></svg>");
+    transition: transform 220ms ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  .faq-answer { padding: 0 44px 24px 0; color: var(--ink-2); max-width: 68ch; }
+  .faq-answer p { margin: 0 0 10px; }
+  .faq-answer a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+</style>
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="faq-head reveal">
+      <span class="eyebrow">Questions, answered</span>
+      <h2 class="display" id="faq-title">Frequently <span class="italic">asked</span></h2>
+      <p class="lede">Renting in Magnolia, in plain terms. Still curious? <a href="tel:2066941714" style="color:var(--accent);text-decoration:underline;">Call (206)&nbsp;694-1714</a> or <a href="#tour" style="color:var(--accent);text-decoration:underline;">schedule a tour</a>.</p>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq-item" name="faq">
+        <summary>Where is Magnolia Crestview located?</summary>
+        <div class="faq-answer"><p>Magnolia Crestview is at <a href="https://maps.google.com/maps?t=m&amp;z=14&amp;q=2701+W+Manor+Pl%2C+Seattle%2C+WA+98199" target="_blank" rel="noopener">2701 W Manor Pl, Seattle, WA 98199</a> — in the heart of Seattle's Magnolia neighborhood, a short walk from Discovery Park and Magnolia Village.</p></div>
+      </details>
+      <details class="faq-item" name="faq">
+        <summary>How much is rent, and what floor plans are available?</summary>
+        <div class="faq-answer"><p>We offer one-bedroom homes (about 600 sq ft) starting at $1,595/month and two-bedroom, two-bath homes (about 1,000 sq ft) up to $1,995/month. See current <a href="#availability">availability</a> and <a href="#floor-plans">floor plans</a> for live pricing.</p></div>
+      </details>
+      <details class="faq-item" name="faq">
+        <summary>Is there a move-in special right now?</summary>
+        <div class="faq-answer"><p>Yes — one month free on a 12-month lease for current move-ins. Specials can change, so confirm the latest offer when you <a href="#tour">schedule a tour</a>.</p></div>
+      </details>
+      <details class="faq-item" name="faq">
+        <summary>Is parking available?</summary>
+        <div class="faq-answer"><p>Yes. The building has both covered and uncovered parking options on-site.</p></div>
+      </details>
+      <details class="faq-item" name="faq">
+        <summary>Is Magnolia Crestview pet-friendly?</summary>
+        <div class="faq-answer"><p>Yes, the community is pet-friendly. Contact the leasing office at (206) 694-1714 for the current pet policy, deposits, and any breed or weight guidelines.</p></div>
+      </details>
+      <details class="faq-item" name="faq">
+        <summary>What are the rental application and screening requirements?</summary>
+        <div class="faq-answer"><p>Applicants are screened for a credit score of 650 or higher with minimal negative reporting, 1–2 years of positive rental history, and a combined household income of about 3× the monthly rent. Seattle applications are processed in accordance with the First-in-Time Ordinance (SMC 14.08).</p></div>
+      </details>
+      <details class="faq-item" name="faq">
+        <summary>How close is Discovery Park, and what else is nearby?</summary>
+        <div class="faq-answer"><p>Discovery Park — 534 acres of trails, beaches, and a historic lighthouse — is just minutes away. You're also near Magnolia Village's shops, cafés, and weekend farmers market, with downtown Seattle a short drive away. Explore the <a href="#neighborhood">neighborhood map</a> for distances and travel times.</p></div>
+      </details>
+      <details class="faq-item" name="faq">
+        <summary>How do I schedule a tour or apply?</summary>
+        <div class="faq-answer"><p>Use the <a href="#tour">tour scheduler</a> on this page to pick a time, or call (206) 694-1714. Our leasing team will walk you through the application from there.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Where is Magnolia Crestview located?", "acceptedAnswer": { "@type": "Answer", "text": "Magnolia Crestview is at 2701 W Manor Pl, Seattle, WA 98199 — in the heart of Seattle's Magnolia neighborhood, a short walk from Discovery Park and Magnolia Village." } },
+    { "@type": "Question", "name": "How much is rent, and what floor plans are available?", "acceptedAnswer": { "@type": "Answer", "text": "We offer one-bedroom homes (about 600 sq ft) starting at $1,595/month and two-bedroom, two-bath homes (about 1,000 sq ft) up to $1,995/month." } },
+    { "@type": "Question", "name": "Is there a move-in special right now?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — one month free on a 12-month lease for current move-ins. Specials can change, so confirm the latest offer when you schedule a tour." } },
+    { "@type": "Question", "name": "Is parking available?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The building has both covered and uncovered parking options on-site." } },
+    { "@type": "Question", "name": "Is Magnolia Crestview pet-friendly?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, the community is pet-friendly. Contact the leasing office at (206) 694-1714 for the current pet policy, deposits, and any breed or weight guidelines." } },
+    { "@type": "Question", "name": "What are the rental application and screening requirements?", "acceptedAnswer": { "@type": "Answer", "text": "Applicants are screened for a credit score of 650 or higher with minimal negative reporting, 1-2 years of positive rental history, and a combined household income of about 3x the monthly rent. Seattle applications are processed in accordance with the First-in-Time Ordinance (SMC 14.08)." } },
+    { "@type": "Question", "name": "How close is Discovery Park, and what else is nearby?", "acceptedAnswer": { "@type": "Answer", "text": "Discovery Park — 534 acres of trails, beaches, and a historic lighthouse — is just minutes away. You're also near Magnolia Village's shops, cafes, and weekend farmers market, with downtown Seattle a short drive away." } },
+    { "@type": "Question", "name": "How do I schedule a tour or apply?", "acceptedAnswer": { "@type": "Answer", "text": "Use the tour scheduler on the website to pick a time, or call (206) 694-1714. The leasing team will walk you through the application from there." } }
+  ]
+}
+</script>
+
 <!-- ================= FOOTER ================= -->
 <footer>
   <div class="container">
@@ -5260,6 +5347,13 @@
         <p><a href="tel:2066941714">(206) 694-1714</a></p>
         <p><a href="mailto:pwedeberg@agmrealestategroup.com">pwedeberg@agmrealestategroup.com</a></p>
         <p>2701 W Manor Pl<br/>Seattle, WA 98199</p>
+      </div>
+      <div class="col">
+        <h6>Magnolia guides</h6>
+        <p><a href="/guides/living-in-magnolia/">Living in Magnolia</a></p>
+        <p><a href="/guides/discovery-park/">Discovery Park guide</a></p>
+        <p><a href="/guides/magnolia-commute/">Commuting from Magnolia</a></p>
+        <p><a href="#faq">FAQ</a></p>
       </div>
     </div>
 
@@ -7050,6 +7144,177 @@
       btn.style.background = '';
     }, 2800);
   }
+</script>
+
+<!-- ================= EXIT / SCROLL-INTENT LEAD CAPTURE ================= -->
+<style>
+  .lead-pop { position: fixed; inset: 0; z-index: 300; display: none; }
+  .lead-pop.is-open { display: grid; place-items: center; padding: 20px; }
+  .lead-pop-backdrop { position: absolute; inset: 0; background: rgba(24,23,21,0.5); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: lp-fade 240ms ease; }
+  .lead-pop-card {
+    position: relative; width: 100%; max-width: 440px; background: var(--paper);
+    border: 1px solid var(--rule); border-radius: var(--radius-lg);
+    box-shadow: 0 24px 64px -24px rgba(24,23,21,0.45); padding: clamp(26px, 5vw, 38px);
+    animation: lp-rise 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes lp-fade { from { opacity: 0; } }
+  @keyframes lp-rise { from { opacity: 0; transform: translateY(14px); } }
+  .lead-pop-close {
+    position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 50%;
+    display: grid; place-items: center; color: var(--ink-3); transition: background 160ms ease, color 160ms ease;
+  }
+  .lead-pop-close:hover { background: var(--bg-2); color: var(--ink); }
+  .lead-pop .eyebrow { margin-bottom: 14px; }
+  .lead-pop h3 { font-family: var(--serif); font-weight: 380; font-size: clamp(26px, 4vw, 34px); line-height: 1.04; letter-spacing: -0.02em; margin: 0 0 10px; color: var(--ink); }
+  .lead-pop h3 .italic { font-style: italic; color: var(--accent); font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1; }
+  .lead-pop p.sub { color: var(--ink-2); font-size: 15px; margin: 0 0 20px; }
+  .lead-pop form { display: flex; flex-direction: column; gap: 10px; }
+  .lead-pop input[type="email"] {
+    width: 100%; padding: 13px 14px; font: inherit; font-size: 15px; color: var(--ink);
+    background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius);
+  }
+  .lead-pop input[type="email"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+  .lead-pop .lp-submit {
+    width: 100%; padding: 13px 16px; background: var(--accent); color: var(--paper);
+    border-radius: var(--radius); font-weight: 600; font-size: 15px; letter-spacing: -0.01em;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: background 160ms ease;
+  }
+  .lead-pop .lp-submit:hover { background: #22382a; }
+  .lead-pop .lp-or { text-align: center; font-size: 12px; color: var(--ink-3); margin: 4px 0; text-transform: uppercase; letter-spacing: 0.12em; }
+  .lead-pop .lp-tour { width: 100%; padding: 12px 16px; text-align: center; border: 1px solid var(--rule); border-radius: var(--radius); font-weight: 500; font-size: 14.5px; color: var(--ink); transition: border-color 160ms ease, background 160ms ease; }
+  .lead-pop .lp-tour:hover { border-color: var(--accent); background: var(--bg-2); }
+  .lead-pop .lp-fine { font-size: 11.5px; color: var(--ink-3); text-align: center; margin: 14px 0 0; }
+  .lead-pop .lp-success { text-align: center; padding: 8px 0; }
+  .lead-pop .lp-success .ic { width: 46px; height: 46px; margin: 0 auto 14px; border-radius: 50%; background: var(--accent); color: var(--paper); display: grid; place-items: center; }
+  @media (prefers-reduced-motion: reduce) { .lead-pop-backdrop, .lead-pop-card { animation: none; } }
+</style>
+<div class="lead-pop" id="lead-pop" role="dialog" aria-modal="true" aria-labelledby="lp-title" aria-describedby="lp-sub" hidden>
+  <div class="lead-pop-backdrop" data-lp-dismiss></div>
+  <div class="lead-pop-card">
+    <button class="lead-pop-close" type="button" aria-label="Close" data-lp-dismiss>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="lp-content">
+      <span class="eyebrow">Before you go</span>
+      <h3 id="lp-title">Your first month is <span class="italic">on us.</span></h3>
+      <p class="sub" id="lp-sub">Sign a 12-month lease and the first month is free. Want first dibs on new Magnolia openings? Get availability alerts — or book a tour now.</p>
+      <form id="lp-form" novalidate>
+        <input type="email" name="email" id="lp-email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address" />
+        <button class="lp-submit" type="submit">
+          Send me availability alerts
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <div class="lp-or">or</div>
+        <a href="#tour" class="lp-tour" data-lp-tour>Book a tour →</a>
+      </form>
+      <p class="lp-fine">Real availability only. No spam, unsubscribe anytime.</p>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    // To deliver leads, paste a form endpoint (e.g. Formspree/Web3Forms URL). Empty = demo mode (shows confirmation, stores nothing).
+    const LEAD_ENDPOINT = '';
+    const SEEN_KEY = 'mc_leadpop_seen';
+    const DONE_KEY = 'mc_leadpop_done';
+    const COOLDOWN_DAYS = 14;
+
+    const pop = document.getElementById('lead-pop');
+    if (!pop) return;
+    const card = pop.querySelector('.lead-pop-card');
+    const form = document.getElementById('lp-form');
+    const emailEl = document.getElementById('lp-email');
+    const content = document.getElementById('lp-content');
+
+    let armed = false, shown = false, lastReturnFocus = null;
+
+    function recently(key, days) {
+      const t = parseInt(localStorage.getItem(key) || '0', 10);
+      return t && (Date.now() - t) < days * 86400000;
+    }
+    function suppressed() {
+      return localStorage.getItem(DONE_KEY) === '1' || recently(SEEN_KEY, COOLDOWN_DAYS);
+    }
+
+    function open() {
+      if (shown || suppressed()) return;
+      // Don't interrupt someone already in the conversion flow.
+      if (document.body.classList.contains('nav-open')) return;
+      const tour = document.getElementById('tour');
+      if (tour) { const r = tour.getBoundingClientRect(); if (r.top < window.innerHeight && r.bottom > 0) return; }
+      shown = true;
+      lastReturnFocus = document.activeElement;
+      pop.hidden = false;
+      requestAnimationFrame(() => pop.classList.add('is-open'));
+      localStorage.setItem(SEEN_KEY, String(Date.now()));
+      (card.querySelector('.lead-pop-close') || card).focus();
+    }
+    function close() {
+      pop.classList.remove('is-open');
+      setTimeout(() => { pop.hidden = true; }, 220);
+      if (lastReturnFocus && lastReturnFocus.focus) lastReturnFocus.focus();
+    }
+
+    // Dismiss handlers
+    pop.querySelectorAll('[data-lp-dismiss]').forEach(el => el.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && pop.classList.contains('is-open')) close(); });
+    // Minimal focus containment
+    pop.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab' || pop.hidden) return;
+      const f = pop.querySelectorAll('button, a[href], input');
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    pop.querySelector('[data-lp-tour]').addEventListener('click', close);
+
+    // Submit
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!emailEl.value || !emailEl.checkValidity()) { emailEl.focus(); return; }
+      const btn = form.querySelector('.lp-submit');
+      btn.disabled = true; btn.textContent = 'Adding you…';
+      try {
+        if (LEAD_ENDPOINT) {
+          await fetch(LEAD_ENDPOINT, {
+            method: 'POST', headers: { 'Accept': 'application/json' },
+            body: new FormData(form)
+          });
+        } else {
+          console.info('[lead-pop] demo mode — set LEAD_ENDPOINT to actually capture:', emailEl.value);
+        }
+      } catch (_) { /* show success regardless; offer still stands via phone/tour */ }
+      localStorage.setItem(DONE_KEY, '1');
+      content.innerHTML =
+        '<div class="lp-success"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>' +
+        '<h3 id="lp-title">You\'re on the <span class="italic">list.</span></h3>' +
+        '<p class="sub" style="margin-bottom:18px;">We\'ll send new Magnolia openings as they go live. Want to move faster? <a href="tel:2066941714" style="color:var(--accent);text-decoration:underline;">Call (206)&nbsp;694-1714</a>.</p>' +
+        '<a href="#tour" class="lp-tour" data-lp-tour>Book a tour →</a></div>';
+      content.querySelector('[data-lp-tour]').addEventListener('click', close);
+      setTimeout(close, 4200);
+    });
+
+    // Arm triggers only after the visitor has engaged (never on entry).
+    setTimeout(() => {
+      if (suppressed()) return;
+      armed = true;
+      // Desktop: exit intent toward the top of the viewport.
+      document.addEventListener('mouseout', (e) => {
+        if (!armed) return;
+        if (e.clientY <= 0 && !e.relatedTarget) open();
+      });
+      // Touch: deep scroll, then an upward "back-intent" swipe.
+      let maxY = 0, lastY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        const docH = document.documentElement.scrollHeight - window.innerHeight;
+        maxY = Math.max(maxY, y);
+        if (armed && docH > 0 && (maxY / docH) > 0.5 && (lastY - y) > 70) open();
+        lastY = y;
+      }, { passive: true });
+    }, 6000);
+  })();
 </script>
 </body>
 </html>
