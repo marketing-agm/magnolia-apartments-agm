@@ -1,0 +1,180 @@
+{
+  "places": [
+    {
+      "id": 1,
+      "name": "Kiwanis Memorial Preserve",
+      "cat": "parks",
+      "desc": "Wooded trail loop, quiet refuge",
+      "lat": 47.6602,
+      "lng": -122.4031
+    },
+    {
+      "id": 2,
+      "name": "Discovery Park",
+      "cat": "parks",
+      "desc": "534-acre park, beach trails, lighthouse",
+      "lat": 47.6618,
+      "lng": -122.4219
+    },
+    {
+      "id": 3,
+      "name": "Magnolia Park",
+      "cat": "parks",
+      "desc": "Waterfront park overlooking Puget Sound",
+      "lat": 47.6338,
+      "lng": -122.3984
+    },
+    {
+      "id": 4,
+      "name": "Ella Bailey Park",
+      "cat": "parks",
+      "desc": "Open lawn with city skyline views",
+      "lat": 47.6407,
+      "lng": -122.3911
+    },
+    {
+      "id": 5,
+      "name": "Lawton Park",
+      "cat": "parks",
+      "desc": "Tennis courts, playground, open lawn",
+      "lat": 47.6553,
+      "lng": -122.3911
+    },
+    {
+      "id": 6,
+      "name": "Magnolia Smokery",
+      "cat": "food",
+      "desc": "BBQ takeout, locally beloved",
+      "lat": 47.6402,
+      "lng": -122.3983
+    },
+    {
+      "id": 7,
+      "name": "Mason's Lobster Rolls",
+      "cat": "food",
+      "desc": "East Coast seafood in Magnolia Village",
+      "lat": 47.6401,
+      "lng": -122.399
+    },
+    {
+      "id": 8,
+      "name": "Serendipity Café",
+      "cat": "food",
+      "desc": "Coffee, breakfast, neighborhood gathering",
+      "lat": 47.64,
+      "lng": -122.3996
+    },
+    {
+      "id": 9,
+      "name": "Szmania's Restaurant",
+      "cat": "food",
+      "desc": "Continental fine dining, a Magnolia institution",
+      "lat": 47.6402,
+      "lng": -122.3998
+    },
+    {
+      "id": 10,
+      "name": "Niko's Gyros",
+      "cat": "food",
+      "desc": "Casual Greek favorites",
+      "lat": 47.6399,
+      "lng": -122.4001
+    },
+    {
+      "id": 11,
+      "name": "Magnolia Bistro",
+      "cat": "food",
+      "desc": "Italian dining in the village",
+      "lat": 47.6401,
+      "lng": -122.3986
+    },
+    {
+      "id": 12,
+      "name": "Magnolia Village",
+      "cat": "shopping",
+      "desc": "Shopping district + weekend farmers market",
+      "lat": 47.6403,
+      "lng": -122.3997
+    },
+    {
+      "id": 13,
+      "name": "Metropolitan Market",
+      "cat": "shopping",
+      "desc": "Premium neighborhood grocer",
+      "lat": 47.6406,
+      "lng": -122.399
+    },
+    {
+      "id": 14,
+      "name": "Magnolia Bookstore",
+      "cat": "shopping",
+      "desc": "Independent bookstore, est. 1979",
+      "lat": 47.6397,
+      "lng": -122.3987
+    },
+    {
+      "id": 15,
+      "name": "Albertsons",
+      "cat": "shopping",
+      "desc": "Full-service grocery",
+      "lat": 47.6425,
+      "lng": -122.3979
+    },
+    {
+      "id": 16,
+      "name": "Ballard",
+      "cat": "shopping",
+      "desc": "Restaurants, breweries, Sunday market",
+      "lat": 47.6685,
+      "lng": -122.3845
+    },
+    {
+      "id": 17,
+      "name": "Route 24 / 33 Bus",
+      "cat": "transit",
+      "desc": "Direct to Downtown Seattle from doorstep",
+      "lat": 47.6526,
+      "lng": -122.3913
+    },
+    {
+      "id": 18,
+      "name": "Magnolia Bridge",
+      "cat": "transit",
+      "desc": "Primary route to downtown & Interbay",
+      "lat": 47.6334,
+      "lng": -122.3863
+    },
+    {
+      "id": 19,
+      "name": "Downtown Seattle",
+      "cat": "transit",
+      "desc": "Pike Place, central business district",
+      "lat": 47.6062,
+      "lng": -122.3321
+    },
+    {
+      "id": 20,
+      "name": "Catharine Blaine K-8",
+      "cat": "schools",
+      "desc": "Public K-8, walking distance",
+      "lat": 47.643,
+      "lng": -122.3999
+    },
+    {
+      "id": 21,
+      "name": "Magnolia Elementary",
+      "cat": "schools",
+      "desc": "Public elementary school",
+      "lat": 47.6406,
+      "lng": -122.3924
+    },
+    {
+      "id": 22,
+      "name": "University of Washington",
+      "cat": "schools",
+      "desc": "Direct bus route, no transfer",
+      "lat": 47.6553,
+      "lng": -122.3035
+    }
+  ]
+}

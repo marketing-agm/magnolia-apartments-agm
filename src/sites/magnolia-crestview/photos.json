@@ -1,0 +1,220 @@
+{
+  "photos": [
+    {
+      "id": 1,
+      "cat": "interior",
+      "size": "hero",
+      "title": "Updated kitchen",
+      "desc": "Modern appliances, pass-through to the living area",
+      "imgId": "1556909114-f6e7ad7d3136",
+      "seed": "mc-int-1"
+    },
+    {
+      "id": 2,
+      "cat": "interior",
+      "size": "wide",
+      "title": "Living area",
+      "desc": "Generous proportions, natural light through the day",
+      "imgId": "1493809842364-78817add7ffb",
+      "seed": "mc-int-2"
+    },
+    {
+      "id": 3,
+      "cat": "interior",
+      "size": "tall",
+      "title": "Primary bedroom",
+      "desc": "A real bedroom — generous size, abundant closet",
+      "imgId": "1505693416388-ac5ce068fe85",
+      "seed": "mc-int-3"
+    },
+    {
+      "id": 4,
+      "cat": "interior",
+      "size": "square",
+      "title": "Bathroom",
+      "desc": "Updated fixtures, full tub-and-shower combo",
+      "imgId": "1552321554-5fefe8c9ef14",
+      "seed": "mc-int-4"
+    },
+    {
+      "id": 5,
+      "cat": "interior",
+      "size": "square",
+      "title": "Dining",
+      "desc": "Open to the kitchen and living area",
+      "imgId": "1567016526105-22da7c13161a",
+      "seed": "mc-int-5"
+    },
+    {
+      "id": 6,
+      "cat": "interior",
+      "size": "square",
+      "title": "Second bedroom",
+      "desc": "Roommate-friendly — equal in size with its own closet",
+      "imgId": "1540518614846-7eded433c457",
+      "seed": "mc-int-6"
+    },
+    {
+      "id": 7,
+      "cat": "exterior",
+      "size": "hero",
+      "title": "Building facade",
+      "desc": "A quiet residential street in the heart of Magnolia",
+      "imgId": "1545324418-cc1a3fa10c00",
+      "seed": "mc-ext-1"
+    },
+    {
+      "id": 8,
+      "cat": "exterior",
+      "size": "wide",
+      "title": "The approach",
+      "desc": "Mature trees and tree-lined sidewalks",
+      "imgId": "1486325212027-8081e485255e",
+      "seed": "mc-ext-2"
+    },
+    {
+      "id": 9,
+      "cat": "exterior",
+      "size": "tall",
+      "title": "Original architecture",
+      "desc": "Mid-century forms, carefully maintained",
+      "imgId": "1502005229762-cf1b2da7c5d6",
+      "seed": "mc-ext-3"
+    },
+    {
+      "id": 10,
+      "cat": "exterior",
+      "size": "square",
+      "title": "Private deck",
+      "desc": "Built-in storage, skyline views from upper floors",
+      "imgId": "1560448204-e02f11c3d0e2",
+      "seed": "mc-ext-4"
+    },
+    {
+      "id": 11,
+      "cat": "exterior",
+      "size": "square",
+      "title": "Garden side",
+      "desc": "Quiet shared outdoor space",
+      "imgId": "1542621334-a254cf47733d",
+      "seed": "mc-ext-5"
+    },
+    {
+      "id": 12,
+      "cat": "exterior",
+      "size": "square",
+      "title": "Covered parking",
+      "desc": "Covered + uncovered options on-site",
+      "imgId": "1573411797927-1b54cba39cfb",
+      "seed": "mc-ext-6"
+    },
+    {
+      "id": 13,
+      "cat": "units",
+      "size": "hero",
+      "title": "Unit 407",
+      "desc": "2 BR · 2 BA · 1,000 sqft · Top floor · $1,995/mo",
+      "imgId": "1522708323590-d24dbb6b0267",
+      "seed": "mc-unt-1"
+    },
+    {
+      "id": 14,
+      "cat": "units",
+      "size": "wide",
+      "title": "Unit 306",
+      "desc": "1 BR · 600 sqft · Private deck · $1,695/mo",
+      "imgId": "1556228720-195a672e8a03",
+      "seed": "mc-unt-2"
+    },
+    {
+      "id": 15,
+      "cat": "units",
+      "size": "tall",
+      "title": "Unit 103",
+      "desc": "1 BR · 600 sqft · Ground floor · $1,595/mo",
+      "imgId": "1631679706909-1844bbd07221",
+      "seed": "mc-unt-3"
+    },
+    {
+      "id": 16,
+      "cat": "units",
+      "size": "square",
+      "title": "Built-in storage",
+      "desc": "Closets and shelving throughout",
+      "imgId": "1558211583-d26f610c1eb1",
+      "seed": "mc-unt-4"
+    },
+    {
+      "id": 17,
+      "cat": "units",
+      "size": "square",
+      "title": "Unit 402",
+      "desc": "2 BR · 2 BA · 1,000 sqft · Upper floor · Skyline views",
+      "imgId": "1600585154340-be6161a56a0c",
+      "seed": "mc-unt-5"
+    },
+    {
+      "id": 18,
+      "cat": "units",
+      "size": "square",
+      "title": "Unit 203",
+      "desc": "1 BR · 600 sqft · Second floor · $1,595/mo",
+      "imgId": "1502672023488-70e25813eb80",
+      "seed": "mc-unt-6"
+    },
+    {
+      "id": 19,
+      "cat": "neighborhood",
+      "size": "hero",
+      "title": "Discovery Park",
+      "desc": "534 acres of trails, beach, and old-growth forest",
+      "imgId": "1502175353174-a7a525c47ddf",
+      "seed": "mc-nbh-1"
+    },
+    {
+      "id": 20,
+      "cat": "neighborhood",
+      "size": "wide",
+      "title": "Magnolia Village",
+      "desc": "Shops, cafés, weekend farmers market",
+      "imgId": "1518077863312-f49e9e1fc2cd",
+      "seed": "mc-nbh-2"
+    },
+    {
+      "id": 21,
+      "cat": "neighborhood",
+      "size": "tall",
+      "title": "Seattle skyline",
+      "desc": "Visible from upper-floor decks",
+      "imgId": "1542223189-67a03fa0f0bd",
+      "seed": "mc-nbh-3"
+    },
+    {
+      "id": 22,
+      "cat": "neighborhood",
+      "size": "square",
+      "title": "Puget Sound",
+      "desc": "Waterfront walks and beach access",
+      "imgId": "1601000938259-9e92002320b2",
+      "seed": "mc-nbh-4"
+    },
+    {
+      "id": 23,
+      "cat": "neighborhood",
+      "size": "square",
+      "title": "Local café",
+      "desc": "One of many independents in Magnolia Village",
+      "imgId": "1554118811-1e0d58224f24",
+      "seed": "mc-nbh-5"
+    },
+    {
+      "id": 24,
+      "cat": "neighborhood",
+      "size": "square",
+      "title": "Ballard",
+      "desc": "10 min away — restaurants, breweries, Sunday market",
+      "imgId": "1564540583246-934409427776",
+      "seed": "mc-nbh-6"
+    }
+  ]
+}

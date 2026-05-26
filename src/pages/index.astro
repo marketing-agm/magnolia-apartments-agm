@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSite } from '../lib/site';
+import bodyHtml from '../generated/body.html?raw';
+
+const site = getSite();
+---
+<BaseLayout site={site}>
+  <Fragment set:html={bodyHtml} />
+</BaseLayout>

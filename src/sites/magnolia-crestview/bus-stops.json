@@ -1,0 +1,402 @@
+[
+  {
+    "lat": 47.65417,
+    "lng": -122.41175,
+    "name": "West Emerson Street & Magnolia Boulevard West"
+  },
+  {
+    "lat": 47.61511,
+    "lng": -122.34527,
+    "name": "3rd Avenue & Bell Street"
+  },
+  {
+    "lat": 47.61687,
+    "lng": -122.34828,
+    "name": "3rd Avenue & Vine Street"
+  },
+  {
+    "lat": 47.60264,
+    "lng": -122.33118,
+    "name": "3rd Avenue & James Street"
+  },
+  {
+    "lat": 47.6128,
+    "lng": -122.34138,
+    "name": "3rd Avenue & Virginia Street"
+  },
+  {
+    "lat": 47.61107,
+    "lng": -122.33888,
+    "name": "3rd Avenue & Pine Street"
+  },
+  {
+    "lat": 47.60551,
+    "lng": -122.33371,
+    "name": "3rd Avenue & Madison Street"
+  },
+  {
+    "lat": 47.59966,
+    "lng": -122.32907,
+    "name": "4th Avenue South & South Jackson Street"
+  },
+  {
+    "lat": 47.60853,
+    "lng": -122.33656,
+    "name": "3rd Avenue & Union Street"
+  },
+  {
+    "lat": 47.61868,
+    "lng": -122.35662,
+    "name": "Denny Way & Queen Anne Avenue North"
+  },
+  {
+    "lat": 47.62148,
+    "lng": -122.36168,
+    "name": "Elliott Avenue West & 4th Avenue West"
+  },
+  {
+    "lat": 47.64879,
+    "lng": -122.39283,
+    "name": "28th Avenue West & West Dravus Street"
+  },
+  {
+    "lat": 47.62899,
+    "lng": -122.37131,
+    "name": "Elliott Avenue West & West Prospect Street"
+  },
+  {
+    "lat": 47.66456,
+    "lng": -122.41098,
+    "name": "Discovery Park Road & Texas Way"
+  },
+  {
+    "lat": 47.64298,
+    "lng": -122.40108,
+    "name": "34th Avenue West & West Raye Street"
+  },
+  {
+    "lat": 47.62013,
+    "lng": -122.35976,
+    "name": "Western Avenue West & Elliott Avenue West"
+  },
+  {
+    "lat": 47.63992,
+    "lng": -122.40115,
+    "name": "34th Avenue West & West McGraw Street"
+  },
+  {
+    "lat": 47.59333,
+    "lng": -122.32888,
+    "name": "4th Avenue South & South Royal Brougham Way"
+  },
+  {
+    "lat": 47.64345,
+    "lng": -122.40958,
+    "name": "West Viewmont Way West & West Raye Street"
+  },
+  {
+    "lat": 47.65227,
+    "lng": -122.41061,
+    "name": "West Viewmont Way West & West Ruffner Street"
+  },
+  {
+    "lat": 47.64485,
+    "lng": -122.40953,
+    "name": "West Viewmont Way West & West Armour Street"
+  },
+  {
+    "lat": 47.63798,
+    "lng": -122.40365,
+    "name": "Viewmont Way West & Edgemont Place West"
+  },
+  {
+    "lat": 47.63733,
+    "lng": -122.40593,
+    "name": "West Viewmont Way West & Constance Drive West"
+  },
+  {
+    "lat": 47.64883,
+    "lng": -122.40949,
+    "name": "West Viewmont Way West & West Dravus Street"
+  },
+  {
+    "lat": 47.63872,
+    "lng": -122.40726,
+    "name": "West Viewmont Way West & Montavista Place West"
+  },
+  {
+    "lat": 47.64708,
+    "lng": -122.40947,
+    "name": "West Viewmont Way West & West Barrett Lane"
+  },
+  {
+    "lat": 47.65064,
+    "lng": -122.40948,
+    "name": "West Viewmont Way West & West Bertona Street"
+  },
+  {
+    "lat": 47.64018,
+    "lng": -122.40928,
+    "name": "West Viewmont Way West & West Parkmont Place"
+  },
+  {
+    "lat": 47.64236,
+    "lng": -122.40958,
+    "name": "West Viewmont Way West & Westmont Way West"
+  },
+  {
+    "lat": 47.63492,
+    "lng": -122.39299,
+    "name": "28th Avenue West & West Blaine Street"
+  },
+  {
+    "lat": 47.65206,
+    "lng": -122.38463,
+    "name": "22nd Avenue West & West Ruffner Street"
+  },
+  {
+    "lat": 47.6534,
+    "lng": -122.3846,
+    "name": "22nd Avenue West & Gilman Avenue West"
+  },
+  {
+    "lat": 47.64873,
+    "lng": -122.38461,
+    "name": "22nd Avenue West & West Dravus Street"
+  },
+  {
+    "lat": 47.65055,
+    "lng": -122.38462,
+    "name": "22nd Avenue West & West Bertona Street"
+  },
+  {
+    "lat": 47.64503,
+    "lng": -122.3846,
+    "name": "22nd Avenue West & West Armour Street"
+  },
+  {
+    "lat": 47.64686,
+    "lng": -122.3846,
+    "name": "22nd Avenue West & West Barrett Street"
+  },
+  {
+    "lat": 47.64083,
+    "lng": -122.38607,
+    "name": "Thorndyke Avenue West & 23rd Avenue West"
+  },
+  {
+    "lat": 47.64357,
+    "lng": -122.38458,
+    "name": "22nd Avenue West & Thorndyke Avenue West"
+  },
+  {
+    "lat": 47.63829,
+    "lng": -122.38788,
+    "name": "Thorndyke Avenue West & West Boston Street"
+  },
+  {
+    "lat": 47.63938,
+    "lng": -122.38708,
+    "name": "Thorndyke Avenue West & West Lynn Street"
+  },
+  {
+    "lat": 47.63531,
+    "lng": -122.39024,
+    "name": "Thorndyke Avenue West & West Blaine Street"
+  },
+  {
+    "lat": 47.63717,
+    "lng": -122.3887,
+    "name": "Thorndyke Avenue West & West Newton Street"
+  },
+  {
+    "lat": 47.6623,
+    "lng": -122.40563,
+    "name": "Texas Way & West Government Way"
+  },
+  {
+    "lat": 47.65846,
+    "lng": -122.40338,
+    "name": "W Government Way & 36th Avenue West"
+  },
+  {
+    "lat": 47.66111,
+    "lng": -122.39817,
+    "name": "W Government Way & 31st Avenue West"
+  },
+  {
+    "lat": 47.66232,
+    "lng": -122.4055,
+    "name": "Texas Way & West Government Way"
+  },
+  {
+    "lat": 47.65978,
+    "lng": -122.39129,
+    "name": "Gilman Avenue West & 27th Avenue West"
+  },
+  {
+    "lat": 47.66086,
+    "lng": -122.39309,
+    "name": "Gilman Avenue West & 28th Place West"
+  },
+  {
+    "lat": 47.65957,
+    "lng": -122.40046,
+    "name": "West Government Way & 34th Avenue West"
+  },
+  {
+    "lat": 47.6448,
+    "lng": -122.40106,
+    "name": "34th Avenue West & West Armour Street"
+  },
+  {
+    "lat": 47.65023,
+    "lng": -122.40103,
+    "name": "34th Avenue West & West Bertona Street"
+  },
+  {
+    "lat": 47.65751,
+    "lng": -122.40101,
+    "name": "34th Avenue West & West Elmore Street"
+  },
+  {
+    "lat": 47.65564,
+    "lng": -122.40101,
+    "name": "34th Avenue West & West Thurman Street"
+  },
+  {
+    "lat": 47.66002,
+    "lng": -122.39972,
+    "name": "West Government Way & 33rd Avenue West"
+  },
+  {
+    "lat": 47.64842,
+    "lng": -122.40103,
+    "name": "34th Avenue West & West Dravus Street"
+  },
+  {
+    "lat": 47.64661,
+    "lng": -122.40105,
+    "name": "34th Avenue West & West Barrett Street"
+  },
+  {
+    "lat": 47.65377,
+    "lng": -122.40101,
+    "name": "34th Avenue West & West Emerson Street"
+  },
+  {
+    "lat": 47.65625,
+    "lng": -122.39557,
+    "name": "30th Avenue West & West Thurman Street"
+  },
+  {
+    "lat": 47.65216,
+    "lng": -122.3928,
+    "name": "28th Avenue West & West Ruffner Street"
+  },
+  {
+    "lat": 47.65323,
+    "lng": -122.39457,
+    "name": "West Tilden Street & 29th Avenue West"
+  },
+  {
+    "lat": 47.65878,
+    "lng": -122.40099,
+    "name": "34th Avenue West & West Government Way"
+  },
+  {
+    "lat": 47.6587,
+    "lng": -122.39677,
+    "name": "31st Avenue West & West Mansell Street"
+  },
+  {
+    "lat": 47.65992,
+    "lng": -122.39746,
+    "name": "31st Avenue West & West Jameson Street"
+  },
+  {
+    "lat": 47.65427,
+    "lng": -122.39558,
+    "name": "30th Avenue West & West Emerson Street"
+  },
+  {
+    "lat": 47.64369,
+    "lng": -122.39288,
+    "name": "28th Avenue West & West Raye Street"
+  },
+  {
+    "lat": 47.63791,
+    "lng": -122.39296,
+    "name": "28th Avenue West & West Crockett Street"
+  },
+  {
+    "lat": 47.65059,
+    "lng": -122.39283,
+    "name": "28th Avenue West & West Bertona Street"
+  },
+  {
+    "lat": 47.64568,
+    "lng": -122.39285,
+    "name": "28th Avenue West & West Fulton Street"
+  },
+  {
+    "lat": 47.64708,
+    "lng": -122.39282,
+    "name": "28th Avenue West & West Barrett Street"
+  },
+  {
+    "lat": 47.64223,
+    "lng": -122.39288,
+    "name": "28th Avenue West & West Halladay Street"
+  },
+  {
+    "lat": 47.63905,
+    "lng": -122.40207,
+    "name": "Viewmont Way West & 35th Avenue West"
+  },
+  {
+    "lat": 47.62641,
+    "lng": -122.36784,
+    "name": "Elliott Avenue West & West Mercer Place"
+  },
+  {
+    "lat": 47.63407,
+    "lng": -122.39176,
+    "name": "Thorndyke Avenue West & West Hayes Street"
+  },
+  {
+    "lat": 47.62553,
+    "lng": -122.36665,
+    "name": "Elliott Avenue West & West Mercer Street"
+  },
+  {
+    "lat": 47.6235,
+    "lng": -122.36411,
+    "name": "Elliott Avenue West & 6th Avenue West"
+  },
+  {
+    "lat": 47.63934,
+    "lng": -122.39292,
+    "name": "28th Avenue West & West Lynn Street"
+  },
+  {
+    "lat": 47.65804,
+    "lng": -122.38909,
+    "name": "Gilman Avenue West & West Elmore Street"
+  },
+  {
+    "lat": 47.6557,
+    "lng": -122.38614,
+    "name": "Gilman Avenue West & West Emerson Place"
+  },
+  {
+    "lat": 47.65205,
+    "lng": -122.40102,
+    "name": "34th Avenue West & West Ruffner Street"
+  },
+  {
+    "lat": 47.61866,
+    "lng": -122.35262,
+    "name": "Denny Way & 2nd Avenue North"
+  }
+]

@@ -1,95 +1,155 @@
-# Magnolia Crestview
+# Apartment marketing sites — shared template
 
-Single-page property marketing website for Magnolia Crestview apartments in Seattle, WA. One self-contained HTML file — no build step.
+One Astro template that renders many property marketing sites. Each property is a
+folder of content/config; the template (markup, styles, app logic) is shared, so
+a change to the template propagates to every site, while a change to one
+property's folder affects only that site.
 
-## Deploy to Cloudflare Pages
+Magnolia Crestview is the first site (`src/sites/magnolia-crestview`).
 
-### Option A — GitHub + auto-deploy (recommended)
+## How it's organized
 
-Every `git push` redeploys the site automatically.
-
-1. Create a new GitHub repo (public or private — both work):
-   ```bash
-   cd magnolia-crestview-site
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/<you>/magnolia-crestview.git
-   git push -u origin main
-   ```
-2. Go to **Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git**
-3. Authorize GitHub, select the repo, and configure:
-   - **Framework preset:** `None`
-   - **Build command:** *(leave empty)*
-   - **Build output directory:** `/`
-4. Click **Save and Deploy**. ~30 seconds later you have a `<project>.pages.dev` URL.
-
-### Option B — Direct upload (fastest, no Git)
-
-1. Cloudflare dashboard → **Workers & Pages → Create → Pages → Upload assets**
-2. Drag the entire `magnolia-crestview-site` folder onto the upload area
-3. Click **Deploy site**
-
-### Option C — Wrangler CLI
-
-```bash
-npx wrangler pages deploy . --project-name=magnolia-crestview
+```
+src/
+  sites/<id>/            ← one folder per property (the per-site surface)
+    site.config.json     ← identity, address, geo, theme colors, SEO, analytics IDs
+    units.json           ← availability / pricing / floor plans
+    places.json          ← neighborhood places
+    photos.json          ← gallery
+    bus-stops.json       ← transit points for the map
+  layouts/BaseLayout.astro   ← <head>: SEO, Open Graph, JSON-LD, theme — all from config
+  components/Analytics.astro  ← PostHog + Clarity + conversion-event taxonomy
+  styles/global.css      ← shared styles (theme colors overridden per site)
+  generated/body.html    ← shared page markup (produced by scripts/migrate.mjs)
+  pages/                 ← index + dynamic robots.txt / sitemap.xml / site.webmanifest
+public/app.js            ← shared client logic (reads its data from window.__SITE__)
 ```
 
-## Custom domain
+The original single-file `index.html` is kept at the repo root as the source the
+migration script slices from. It is **not** what gets deployed once you cut over.
 
-In the Pages project: **Custom domains → Set up a custom domain**. If your domain's DNS is already on Cloudflare, it's one click. Otherwise add the CNAME they provide at your DNS host.
-
-## Local preview
+## Run locally
 
 ```bash
-open index.html
-# or any: python3 -m http.server 8000
+npm install
+npm run dev          # http://localhost:4321  (defaults to magnolia-crestview)
+npm run build        # outputs static site to dist/
+npm run preview      # serve the built dist/
 ```
 
-## Editing
+Pick which site to build/serve with the `SITE` env var (the folder name):
 
-All content lives inline in `index.html`:
+```bash
+SITE=magnolia-crestview npm run build
+```
 
-| What | Where to find it |
-| --- | --- |
-| Photos | `const PHOTOS = [...]` near the bottom JS block |
-| Available units | `const UNITS = [...]` |
-| Neighborhood places | `const PLACES = [...]` |
-| Floor plan SVGs | Inside `<div class="plan-svg-wrap">` |
-| Copy & headlines | Inline in each `<section>` markup |
-| Colors & fonts | `:root { ... }` at the top of the `<style>` block |
+## Add a new property (the path to 45 sites)
 
-Replace Unsplash `imgId` values in `PHOTOS` with real property photos when ready — the Picsum `seed` is just a fallback.
+1. `cp -r src/sites/magnolia-crestview src/sites/<new-id>`
+2. Edit `<new-id>/site.config.json` — name, domain, address, geo, theme colors,
+   SEO copy, and analytics IDs.
+3. Replace `units.json` / `places.json` / `photos.json` / `bus-stops.json` with
+   that property's data. Heavy assets (photos, 3D tours) should point at object
+   storage (e.g. Cloudflare R2/Images), not be committed here.
+4. `SITE=<new-id> npm run build` and deploy (below).
 
-## Conversion tools
+Template-wide changes (anything in `layouts/`, `components/`, `styles/`,
+`generated/`, `public/app.js`) automatically apply to every site on its next build.
 
-The Available homes and Pricing sections include prospect-facing helpers, all driven off the same `UNITS` data:
+## Deploy to Cloudflare Pages — one project per property
 
-- **Save / shortlist** — heart any home; saved units persist in the browser (`localStorage` key `mc_favs`) and surface in a sticky bar + drawer that hands the selection off to the tour booking flow.
-- **Compare** — pick 2–3 homes (`vs` button) to see them side by side, including price per square foot.
-- **Budget filter** — entering an annual income flags homes within the 30%-of-income guideline.
-- **Move-in cost calculator** (Pricing section) — exact "due at signing" total for a chosen home, adults, and the 1-month-free special.
-- **"Only X left" badges** — appear automatically when 2 or fewer available homes share the lowest price for a plan. They stay dormant while inventory is healthy — this is intentional (honest scarcity, no fabricated counts).
+Create a Pages project per site, all pointing at this repo:
 
-### Commute estimator (optional API key)
+- **Build command:** `npm run build`
+- **Build output directory:** `dist`
+- **Environment variable:** `SITE=<folder-name>`
+- **Custom domain:** that property's domain
 
-The Neighborhood section has a commute estimator. Out of the box it geocodes the typed address via OpenStreetMap **Nominatim** and shows a clearly-labeled straight-line **approximation** for drive/bike/walk times — no key required.
+A push that touches the template rebuilds all sites; a push that touches one
+site's folder rebuilds only that project (set each project's build-watch paths to
+`src/sites/<id>` + the shared template folders).
 
-For precise routing, drop a free [OpenRouteService](https://openrouteservice.org/dev/#/signup) key into `const ORS_API_KEY = ''` inside the commute estimator JS. Restrict the key by HTTP referrer in the ORS dashboard (it is visible in client-side code). If a routing call fails or times out, it falls back to the approximation automatically.
+### Cutover note (Magnolia)
 
-## External dependencies
+Production currently serves the root `index.html` with **no build step**. Merging
+this branch does **not** change the live site by itself — it keeps serving the old
+file until you switch the Pages build command to `npm run build` and output dir to
+`dist`. So the migration is safe to merge first, cut over second.
 
-These load from CDN at runtime (no build needed, but the site requires internet to render fully):
+## Analytics
 
-- Google Fonts (Fraunces, Geist, JetBrains Mono)
-- Leaflet 1.9.4 (`cdnjs.cloudflare.com`)
-- CartoDB Positron map tiles
-- Unsplash + Picsum (sample images, swap with your own)
-- OpenStreetMap Nominatim (commute estimator geocoding)
-- OpenRouteService (commute estimator routing — only if you add an `ORS_API_KEY`)
+Wired once in `components/Analytics.astro`, inherited by every site. Drop per-site
+keys into `site.config.json → analytics`:
 
-## License
+- **PostHog** (`analytics.posthog.key` / `host`) — autocapture, funnels, session
+  replay, per-site + portfolio dashboards. Every event is tagged with `site_id`
+  so you get both a single-property view and a portfolio rollup.
+- **Microsoft Clarity** (`analytics.clarity.id`) — free heatmaps + session replay.
 
-Code: do whatever. Photos shown are placeholder stock — replace before going live.
+With no keys set, nothing loads (safe no-op). Named conversion events fire
+automatically off existing interactions: `tour_requested`, `unit_favorited`,
+`floor_plan_viewed`, `commute_estimated`, `gallery_opened`, `tour_3d_opened`,
+`phone_click`, `email_click`, `maintenance_request`.
+
+## Admin portal (visual editor for non-technical editors)
+
+A git-based CMS ([Sveltia](https://github.com/sveltia/sveltia-cms)) lives at
+**`/admin`**. Editors log in with GitHub and get forms — no code. Saving writes
+back to the same JSON files in this repo as a commit, so edits flow through the
+normal build/deploy. Git stays the single source of truth; you and the CMS edit
+the same files.
+
+What editors can change today (Magnolia): property settings (name, contact,
+address, SEO, theme colors), **units & availability**, the **photo gallery
+(with image upload)**, **floor-plan images + 3D-tour links** per plan, and
+**neighborhood places**. Uploaded photos render in the gallery/lightbox; floor
+plan images and Matterport tour URLs feed the floor-plans section.
+
+### One-time setup
+
+The CMS commits via the GitHub API, which needs an OAuth relay:
+
+1. **GitHub OAuth app** — github.com → Settings → Developer settings → OAuth Apps
+   → New. Set the callback URL to your auth worker's `/callback` (next step).
+   Note the Client ID + Secret.
+2. **Auth worker** — deploy the small
+   [`sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth) Cloudflare
+   Worker; set `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` as its secrets.
+3. **Point the CMS at it** — set `base_url` in `public/admin/config.yml` to your
+   worker URL.
+4. Visit `https://<your-site>/admin` and log in. (One admin instance is enough —
+   it edits the repo, not a specific deployed site.)
+
+### Media storage
+
+Uploads currently commit to `public/uploads` (`media_folder` in `config.yml`).
+That's fine to start, but at 45-site scale switch to external storage
+(Cloudflare R2 / Cloudinary) so the repo stays lean — only the image *URL* is
+then stored in the JSON.
+
+### Approval gate (optional)
+
+Editors publish straight to `main` by default. To require review, uncomment
+`publish_mode: editorial_workflow` in `config.yml` — edits then become pull
+requests instead of going live immediately.
+
+### Scaling the CMS to every property
+
+`config.yml` currently registers Magnolia's files. For each new site, add a file
+entry under each collection pointing at `src/sites/<id>/…`. Because the structure
+is identical per site, this is easily generated — a small script can rebuild
+`config.yml` from the list of `src/sites/*` folders so all properties appear in
+the editor automatically.
+
+## Regenerating the shared parts
+
+`scripts/migrate.mjs` slices the root `index.html` into `generated/body.html`,
+`styles/global.css`, `public/app.js`, and the data JSON. It was a one-time
+migration; you normally edit the generated/template files directly now. Re-run
+with `npm run migrate` only if you intentionally rebuild from a new `index.html`.
+
+## External dependencies (load from CDN at runtime)
+
+Google Fonts, Leaflet 1.9.4, CartoDB map tiles, Unsplash/Picsum sample images,
+OpenStreetMap Nominatim (commute geocoding), OpenRouteService (optional routing,
+via `site.config.json → integrations.orsApiKey`).

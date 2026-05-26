@@ -1,0 +1,88 @@
+{
+  "id": "magnolia-crestview",
+  "name": "Magnolia Crestview",
+  "shortName": "Crestview",
+  "domain": "https://magnolia-apartments-agm.pages.dev",
+  "locale": "en_US",
+  "lang": "en",
+
+  "contact": {
+    "phone": "+1-206-694-1714",
+    "phoneHref": "tel:2066941714",
+    "email": "pwedeberg@agmrealestategroup.com"
+  },
+
+  "address": {
+    "streetAddress": "2701 W Manor Pl",
+    "addressLocality": "Seattle",
+    "addressRegion": "WA",
+    "postalCode": "98199",
+    "addressCountry": "US",
+    "placename": "Magnolia, Seattle, Washington",
+    "geoRegion": "US-WA"
+  },
+
+  "geo": { "latitude": 47.6528, "longitude": -122.3915 },
+
+  "seo": {
+    "title": "Magnolia Crestview · Apartments in Magnolia, Seattle",
+    "description": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Updated kitchens, private decks, views. Steps from Discovery Park. From $1,595/mo.",
+    "keywords": "apartments in Magnolia, Magnolia Seattle apartments, Magnolia Crestview, apartments near Discovery Park, 2701 W Manor Pl, 1 bedroom apartment Seattle 98199, 2 bedroom apartment Magnolia, apartments for rent Magnolia Seattle",
+    "author": "Magnolia Crestview",
+    "ogImage": "",
+    "twitterDescription": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Steps from Discovery Park. From $1,595/mo."
+  },
+
+  "schema": {
+    "type": ["ApartmentComplex", "LocalBusiness"],
+    "description": "1BR and 2BR/2BA apartments for rent in Magnolia, Seattle. Updated kitchens, private decks, and views — steps from Discovery Park.",
+    "priceRange": "$1,395–$1,995/mo",
+    "numberOfBedrooms": "1-2",
+    "petsAllowed": true,
+    "areaServed": ["Magnolia, Seattle", "Seattle, WA"],
+    "containedInPlace": "Magnolia, Seattle, WA",
+    "amenityFeature": [
+      "Private deck",
+      "Updated kitchen",
+      "Covered parking",
+      "Walk to Discovery Park"
+    ]
+  },
+
+  "theme": {
+    "colors": {
+      "--bg": "#f5efe4",
+      "--bg-2": "#efe7d8",
+      "--paper": "#fbf7ee",
+      "--paper-2": "#ffffff",
+      "--ink": "#181715",
+      "--ink-2": "#3a3733",
+      "--ink-3": "#6e6a63",
+      "--rule": "#d9d0bd",
+      "--rule-2": "#eae1cc",
+      "--accent": "#2b4634",
+      "--accent-2": "#b85e3b",
+      "--warm": "#d4ad7a"
+    },
+    "themeColor": "#2b4634",
+    "backgroundColor": "#f5efe4"
+  },
+
+  "manifest": {
+    "description": "Apartments in Magnolia, Seattle — 1BR & 2BR, steps from Discovery Park."
+  },
+
+  "floorPlans": {
+    "1br": { "image": "", "tourUrl": "" },
+    "2br": { "image": "", "tourUrl": "" }
+  },
+
+  "integrations": {
+    "orsApiKey": ""
+  },
+
+  "analytics": {
+    "posthog": { "key": "", "host": "https://us.i.posthog.com" },
+    "clarity": { "id": "" }
+  }
+}
