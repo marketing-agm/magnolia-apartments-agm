@@ -1532,15 +1532,64 @@
       root.querySelector('[data-tw-submit]').addEventListener('click', submit);
     }
 
-    function submit() {
+    async function submit() {
       // Capture final textarea content
       const ta = root.querySelector('[data-tw-textarea]');
       const finalMessage = ta.value;
+
+      const cfg = (window.__SITE__ && window.__SITE__.config) || {};
+      const ej = cfg.integrations && cfg.integrations.emailjs;
+      const submitBtn = root.querySelector('[data-tw-submit]');
+      const lbl = root.querySelector('[data-tw-submit-label]');
+      const originalLabel = lbl ? lbl.textContent : '';
+
+      if (ej && ej.publicKey && ej.serviceId && ej.templateId) {
+        const bedsLabel = { '1br': '1 BR', '2br': '2 BR / 2 BA', 'either': '1 BR or 2 BR' }[state.beds] || state.beds || '—';
+        const windowLabel = { 'asap': 'ASAP', '30d': 'Next 30 days', '60d': '1–2 months out', 'flex': 'Flexible' }[state.window] || state.window || '—';
+        const payload = {
+          to_email: ej.toEmail || '',
+          property_name: cfg.name || '',
+          property_site_id: (window.__SITE__ && window.__SITE__.id) || '',
+          lead_first_name: state.first,
+          lead_last_name: state.last,
+          lead_email: state.email,
+          lead_phone: state.phone || '—',
+          beds_interest: bedsLabel,
+          move_in_date: windowLabel,
+          tour_date: fmtDateShort(state.date),
+          tour_time: state.slot,
+          unit_interest: '—',
+          source: 'tour wizard',
+          message: finalMessage || '',
+          page_url: location.href,
+        };
+        if (submitBtn) submitBtn.disabled = true;
+        if (lbl) lbl.textContent = 'Sending…';
+        try {
+          await sendViaEmailJS(payload);
+        } catch (err) {
+          console.error('[emailjs] tour wizard send failed', err);
+          if (lbl) lbl.textContent = "Couldn't send — try again";
+          if (submitBtn) submitBtn.disabled = false;
+          return;
+        }
+        if (submitBtn) submitBtn.disabled = false;
+        if (lbl) lbl.textContent = originalLabel;
+      }
+
       showConfirmation(finalMessage);
       setStep('done');
     }
 
     function showConfirmation(message) {
+      const cfg = (window.__SITE__ && window.__SITE__.config) || {};
+      const propertyName = cfg.name || 'the property';
+      const phone = (cfg.contact && cfg.contact.phone) || '';
+      const addr = cfg.address || {};
+      const fullAddress = addr.streetAddress
+        ? `${addr.streetAddress}, ${addr.addressLocality}, ${addr.addressRegion} ${addr.postalCode}`
+        : '';
+
       const summary = root.querySelector('[data-tw-summary]');
       const interestLabel = { '1br': '1 BR', '2br': '2 BR / 2 BA', 'either': '1 BR or 2 BR' }[state.beds] || '—';
       const cells = [
@@ -1558,16 +1607,16 @@
       const start = new Date(state.date); start.setHours(h, min, 0, 0);
       const end = new Date(start.getTime() + 30 * 60000);
       const details = encodeURIComponent(
-        'Apartment tour at Magnolia Crestview.\n\n' +
+        'Apartment tour at ' + propertyName + '.\n\n' +
         (message ? 'Notes: ' + message + '\n\n' : '') +
-        'Contact: (206) 694-1714'
+        (phone ? 'Contact: ' + phone : '')
       );
       const gcal =
         'https://www.google.com/calendar/render?action=TEMPLATE' +
-        '&text=' + encodeURIComponent('Magnolia Crestview · Apartment Tour') +
+        '&text=' + encodeURIComponent(propertyName + ' · Apartment Tour') +
         '&dates=' + toGCalLocal(start) + '/' + toGCalLocal(end) +
         '&ctz=America/Los_Angeles' +
-        '&location=' + encodeURIComponent('2701 W Manor Pl, Seattle, WA 98199') +
+        '&location=' + encodeURIComponent(fullAddress) +
         '&details=' + details;
       root.querySelector('[data-tw-gcal]').href = gcal;
 
@@ -1674,12 +1723,61 @@
     updateFabVisibility();
   })();
 
-  function handleWidgetSubmit(e) {
+  // Per-site EmailJS hook. No-op if the site config doesn't have publicKey/serviceId/templateId.
+  async function sendViaEmailJS(payload) {
+    const ej = window.__SITE__ && window.__SITE__.config && window.__SITE__.config.integrations && window.__SITE__.config.integrations.emailjs;
+    if (!ej || !ej.publicKey || !ej.serviceId || !ej.templateId) return false;
+    if (!window.emailjs) throw new Error('EmailJS SDK not loaded');
+    await window.emailjs.send(ej.serviceId, ej.templateId, payload, { publicKey: ej.publicKey });
+    return true;
+  }
+
+  async function handleWidgetSubmit(e) {
     e.preventDefault();
     const form = e.target;
     const btn = form.querySelector('.form-submit');
     const original = btn.innerHTML;
     const isMaintenance = form.dataset.cwForm === 'maintenance';
+
+    // Tour/leasing path → EmailJS (when configured). Maintenance stays a stub for now.
+    if (!isMaintenance) {
+      const cfg = (window.__SITE__ && window.__SITE__.config) || {};
+      const ej = cfg.integrations && cfg.integrations.emailjs;
+      if (ej && ej.publicKey && ej.serviceId && ej.templateId) {
+        const fd = new FormData(form);
+        const payload = {
+          to_email: ej.toEmail || '',
+          property_name: cfg.name || '',
+          property_site_id: (window.__SITE__ && window.__SITE__.id) || '',
+          lead_first_name: fd.get('fname') || '',
+          lead_last_name: fd.get('lname') || '',
+          lead_email: fd.get('email') || '',
+          lead_phone: fd.get('phone') || '—',
+          beds_interest: fd.get('beds') || '—',
+          move_in_date: fd.get('movein') || '—',
+          tour_date: '(no specific date)',
+          tour_time: fd.get('tour-time') || '(no preference)',
+          unit_interest: '—',
+          source: 'floating widget',
+          message: fd.get('msg') || '',
+          page_url: location.href,
+        };
+        btn.disabled = true;
+        btn.innerHTML = 'Sending…';
+        try {
+          await sendViaEmailJS(payload);
+        } catch (err) {
+          console.error('[emailjs] leasing form send failed', err);
+          btn.disabled = false;
+          btn.innerHTML = "Couldn't send — try again";
+          setTimeout(() => { btn.innerHTML = original; }, 3000);
+          return;
+        }
+        btn.disabled = false;
+      }
+    }
+
+    // Success animation (also the stub when EmailJS isn't configured).
     btn.innerHTML = isMaintenance ? 'Request received — we\'ll be in touch ✓' : 'Thanks — leasing will reach out ✓';
     btn.style.background = isMaintenance ? 'var(--accent-2)' : 'var(--accent)';
     setTimeout(() => {
