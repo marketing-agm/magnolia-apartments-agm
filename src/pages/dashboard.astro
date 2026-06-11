@@ -1,0 +1,163 @@
+---
+// Owner / management dashboard.
+//
+// Protection lives in functions/_middleware.js (Cloudflare Access checks the
+// user is signed in; the middleware also tags requests as "management" vs
+// "owner"). This page renders the shell; folder contents are fetched
+// client-side from /api/documents/*.
+
+const FOLDERS = [
+  { id: 'reports', label: 'Reports' },
+  { id: 'marketing-and-leasing', label: 'Marketing and Leasing' },
+  { id: 'marketing-comparatives', label: 'Marketing Comparatives' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dashboard — Magnolia Crestview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="/styles/dashboard.css" />
+  </head>
+  <body class="dash">
+    <header class="dash-head">
+      <a class="dash-brand" href="/">← Magnolia Crestview</a>
+      <div class="dash-user">
+        <span class="dash-user-email" data-user-email>—</span>
+        <span class="dash-user-role" data-user-role></span>
+        <a class="dash-logout" href="/cdn-cgi/access/logout">Log out</a>
+      </div>
+    </header>
+
+    <main class="dash-main">
+      <aside class="dash-nav">
+        <h2 class="dash-nav-title">Documents</h2>
+        <nav>
+          {FOLDERS.map((f, i) => (
+            <button
+              class="dash-nav-item"
+              data-folder={f.id}
+              data-active={i === 0 ? 'true' : 'false'}
+              type="button"
+            >{f.label}</button>
+          ))}
+        </nav>
+      </aside>
+
+      <section class="dash-content">
+        <div class="dash-content-head">
+          <h1 class="dash-folder-label" data-folder-label>Reports</h1>
+          <form class="dash-upload" data-upload hidden>
+            <label class="dash-upload-input">
+              <input type="file" name="file" required />
+              <span data-file-name>Choose a file…</span>
+            </label>
+            <button type="submit" class="dash-upload-btn">Upload</button>
+          </form>
+        </div>
+        <ul class="dash-files" data-files>
+          <li class="dash-files-empty">Loading…</li>
+        </ul>
+      </section>
+    </main>
+
+    <script is:inline>
+      const LABELS = {
+        'reports': 'Reports',
+        'marketing-and-leasing': 'Marketing and Leasing',
+        'marketing-comparatives': 'Marketing Comparatives',
+      };
+      let current = 'reports';
+      let isManagement = false;
+
+      function esc(s) {
+        return String(s).replace(/[&<>"']/g, (c) =>
+          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+        );
+      }
+      function formatSize(b) {
+        if (b < 1024) return b + ' B';
+        if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
+        return (b / 1024 / 1024).toFixed(1) + ' MB';
+      }
+
+      async function loadUser() {
+        const r = await fetch('/api/documents/whoami');
+        if (!r.ok) { window.location.href = '/'; return; }
+        const { email, isManagement: mgmt } = await r.json();
+        isManagement = !!mgmt;
+        document.querySelector('[data-user-email]').textContent = email;
+        document.querySelector('[data-user-role]').textContent = mgmt ? 'Management' : 'Owner';
+        if (mgmt) document.querySelector('[data-upload]').hidden = false;
+      }
+
+      async function loadFiles(folder) {
+        current = folder;
+        document.querySelectorAll('.dash-nav-item').forEach((b) => {
+          b.dataset.active = b.dataset.folder === folder ? 'true' : 'false';
+        });
+        document.querySelector('[data-folder-label]').textContent = LABELS[folder];
+        const list = document.querySelector('[data-files]');
+        list.innerHTML = '<li class="dash-files-empty">Loading…</li>';
+        const r = await fetch('/api/documents/list?folder=' + encodeURIComponent(folder));
+        if (!r.ok) { list.innerHTML = '<li class="dash-files-empty">Couldn’t load documents.</li>'; return; }
+        const { files } = await r.json();
+        if (!files.length) {
+          list.innerHTML = '<li class="dash-files-empty">No documents in this folder yet.</li>';
+          return;
+        }
+        list.innerHTML = files.map((f) => `
+          <li class="dash-file">
+            <a class="dash-file-name" href="/api/documents/file/${esc(f.key)}" target="_blank" rel="noopener">${esc(f.name)}</a>
+            <span class="dash-file-meta">${formatSize(f.size)} · ${new Date(f.uploaded).toLocaleDateString()}${f.uploadedBy ? ' · ' + esc(f.uploadedBy) : ''}</span>
+            ${isManagement ? `<button class="dash-file-delete" data-key="${esc(f.key)}" type="button">Delete</button>` : ''}
+          </li>
+        `).join('');
+      }
+
+      document.querySelectorAll('.dash-nav-item').forEach((b) => {
+        b.addEventListener('click', () => loadFiles(b.dataset.folder));
+      });
+
+      const uploadForm = document.querySelector('[data-upload]');
+      uploadForm?.querySelector('input[type=file]').addEventListener('change', (e) => {
+        const name = e.target.files?.[0]?.name || 'Choose a file…';
+        document.querySelector('[data-file-name]').textContent = name;
+      });
+      uploadForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const fd = new FormData(form);
+        fd.append('folder', current);
+        const btn = form.querySelector('.dash-upload-btn');
+        btn.disabled = true; btn.textContent = 'Uploading…';
+        const r = await fetch('/api/documents/upload', { method: 'POST', body: fd });
+        btn.disabled = false; btn.textContent = 'Upload';
+        if (r.ok) {
+          form.reset();
+          document.querySelector('[data-file-name]').textContent = 'Choose a file…';
+          loadFiles(current);
+        } else {
+          alert('Upload failed: ' + (await r.text()));
+        }
+      });
+
+      document.querySelector('[data-files]').addEventListener('click', async (e) => {
+        const btn = e.target.closest('.dash-file-delete');
+        if (!btn) return;
+        if (!confirm('Delete this document?')) return;
+        const r = await fetch('/api/documents/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: btn.dataset.key }),
+        });
+        if (r.ok) loadFiles(current);
+        else alert('Delete failed: ' + (await r.text()));
+      });
+
+      loadUser().then(() => loadFiles('reports'));
+    </script>
+  </body>
+</html>

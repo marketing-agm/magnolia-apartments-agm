@@ -1,0 +1,18 @@
+name = "magnolia-apartments-agm"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "."
+
+# R2 bucket holding owner documents. Create the bucket in the Cloudflare
+# dashboard (Workers & Pages → R2 → Create bucket), then bind it here.
+# The binding name DOCUMENTS is what the Functions read via env.DOCUMENTS.
+[[r2_buckets]]
+binding = "DOCUMENTS"
+bucket_name = "agm-property-documents"
+preview_bucket_name = "agm-property-documents-preview"
+
+# Per-property identifier. Each property's Cloudflare Pages project sets
+# SITE_SLUG to its own value so document keys are scoped to that property
+# in the shared R2 bucket (e.g. magnolia-crestview/reports/2026-q1.pdf).
+[vars]
+SITE_SLUG = "magnolia-crestview"
+MANAGEMENT_EMAIL_DOMAIN = "agmrealestategroup.com"

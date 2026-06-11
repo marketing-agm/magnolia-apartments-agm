@@ -1,0 +1,86 @@
+/* Owner / management document dashboard. Mirrors the brand palette but
+   strips back to a workmanlike admin look — sober, fast to scan. */
+
+:root {
+  --paper: #f4f1ec;
+  --paper-2: #ffffff;
+  --ink: #0a0a0a;
+  --ink-2: #3a3733;
+  --ink-3: #6e6a63;
+  --rule: #d9d0bd;
+  --accent: #129AE5;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+body.dash { min-height: 100vh; display: flex; flex-direction: column; }
+
+.dash-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 24px; border-bottom: 1px solid var(--rule); background: var(--paper-2);
+}
+.dash-brand { color: var(--ink); text-decoration: none; font-weight: 600; font-size: 14px; }
+.dash-user { display: flex; align-items: center; gap: 16px; font-size: 13px; color: var(--ink-3); }
+.dash-user-email { color: var(--ink-2); font-family: var(--mono); }
+.dash-user-role {
+  font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 3px 8px; border-radius: 999px; background: rgba(18,154,229,0.12); color: var(--accent);
+}
+.dash-user-role:empty { display: none; }
+.dash-logout { color: var(--ink-3); text-decoration: none; }
+.dash-logout:hover { color: var(--accent); }
+
+.dash-main {
+  display: grid; grid-template-columns: 260px 1fr; gap: 32px; flex: 1;
+  padding: 32px 24px; max-width: 1200px; margin: 0 auto; width: 100%;
+}
+@media (max-width: 760px) { .dash-main { grid-template-columns: 1fr; padding: 20px 16px; } }
+
+.dash-nav-title {
+  font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--ink-3); margin: 0 0 12px;
+}
+.dash-nav nav { display: flex; flex-direction: column; gap: 4px; }
+.dash-nav-item {
+  text-align: left; padding: 10px 14px; border-radius: 6px; border: 1px solid transparent;
+  background: transparent; color: var(--ink-2); font-size: 14px; cursor: pointer; font-family: inherit;
+}
+.dash-nav-item:hover { background: rgba(10,10,10,0.04); }
+.dash-nav-item[data-active="true"] { background: var(--paper-2); border-color: var(--rule); color: var(--ink); font-weight: 600; }
+
+.dash-content { min-width: 0; }
+.dash-content-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  margin-bottom: 20px; flex-wrap: wrap;
+}
+.dash-folder-label { margin: 0; font-size: 24px; font-weight: 600; }
+
+.dash-upload { display: flex; gap: 8px; align-items: center; }
+.dash-upload-input {
+  position: relative; display: inline-flex; align-items: center; padding: 8px 12px;
+  border: 1px dashed var(--rule); border-radius: 6px; font-size: 13px; color: var(--ink-3); cursor: pointer; background: var(--paper-2);
+}
+.dash-upload-input input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.dash-upload-btn {
+  padding: 9px 16px; border: none; border-radius: 6px; background: var(--accent); color: var(--paper-2);
+  font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.dash-upload-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.dash-files { list-style: none; margin: 0; padding: 0; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper-2); overflow: hidden; }
+.dash-file {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 16px; align-items: center;
+  padding: 14px 18px; border-bottom: 1px solid var(--rule); font-size: 14px;
+}
+.dash-file:last-child { border-bottom: none; }
+.dash-file-name { color: var(--ink); text-decoration: none; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dash-file-name:hover { color: var(--accent); text-decoration: underline; }
+.dash-file-meta { color: var(--ink-3); font-size: 12px; font-family: var(--mono); }
+.dash-file-delete {
+  background: transparent; border: 1px solid var(--rule); color: var(--ink-3); border-radius: 5px;
+  padding: 4px 10px; font-size: 12px; cursor: pointer; font-family: inherit;
+}
+.dash-file-delete:hover { color: var(--accent); border-color: var(--accent); }
+.dash-files-empty { padding: 32px 18px; text-align: center; color: var(--ink-3); font-size: 13px; }
