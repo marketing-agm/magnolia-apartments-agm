@@ -532,7 +532,7 @@
 
   const CATEGORIES = {
     parks:    { label: 'Parks & Outdoors', color: '#129AE5' },
-    food:     { label: 'Food & Drink',     color: '#b85e3b' },
+    food:     { label: 'Food & Drink',     color: '#129AE5' },
     shopping: { label: 'Shopping & Grocery', color: '#8b6f47' },
     transit:  { label: 'Transit',          color: '#3d5a6c' },
     schools:  { label: 'Schools',          color: '#6b4a7a' }
@@ -716,7 +716,7 @@
 
       // Bus routes — drawn once, beneath the markers, always visible
       BUS_ROUTES.forEach(r => {
-        L.polyline(r.segments, { color: '#fbf7ee', weight: 7, opacity: 0.7 }).addTo(map);
+        L.polyline(r.segments, { color: '#f4f1ec', weight: 7, opacity: 0.7 }).addTo(map);
         L.polyline(r.segments, {
           color: '#3d5a6c', weight: 3.5, opacity: 0.85,
           dashArray: r.dash, lineJoin: 'round', lineCap: 'round'
@@ -730,7 +730,7 @@
           radius: 3.5,
           fillColor: '#3d5a6c',
           fillOpacity: 1,
-          color: '#fbf7ee',
+          color: '#f4f1ec',
           weight: 1.5
         }).addTo(map)
           .bindPopup(`<div class="map-popup"><span class="cat"><span class="dot" style="background:#3d5a6c"></span>Bus stop</span><h4>${s.name}</h4></div>`);
@@ -1021,7 +1021,7 @@
       if (!u || u.rent == null) {
         linesEl.innerHTML = '';
         totalEl.textContent = 'Contact us';
-        footEl.textContent = 'Pricing for this home is available on request — call (206) 694-1714.';
+        footEl.textContent = 'Pricing for this home is available on request — call (206) 694-1713.';
         return;
       }
       const special = specialEl.checked;

@@ -6,8 +6,8 @@
 - Property name: Magnolia Crestview
 - Address: 2701 W Manor Pl, Seattle, WA 98199
 - Neighborhood: Magnolia, Seattle, Washington
-- Phone: (206) 694-1714
-- Email: pwedeberg@agmrealestategroup.com
+- Phone: (206) 694-1713
+- Email: leasing@agmrealestategroup.com
 - Managed by: AGM Real Estate Group, LLC
 - Floor plans: 1 bedroom (~600 sq ft) from $1,595/month; 2 bedroom / 2 bath (~1,000 sq ft) up to ~$1,995/month
 - Current special: One month free on a 12-month lease
@@ -24,4 +24,4 @@
 - [Commuting from Magnolia to downtown, South Lake Union, and beyond](https://magnolia-apartments-agm.pages.dev/guides/magnolia-commute/)
 
 ## Contact
-- To schedule a tour or apply, call (206) 694-1714 or use the tour scheduler at https://magnolia-apartments-agm.pages.dev/#tour
+- To schedule a tour or apply, call (206) 694-1713 or use the tour scheduler at https://magnolia-apartments-agm.pages.dev/#tour
