@@ -63,11 +63,11 @@
       "--ink-3": "#6e6a63",
       "--rule": "#d9d0bd",
       "--rule-2": "#eae1cc",
-      "--accent": "#2b4634",
+      "--accent": "#129AE5",
       "--accent-2": "#b85e3b",
       "--warm": "#d4ad7a"
     },
-    "themeColor": "#2b4634",
+    "themeColor": "#129AE5",
     "backgroundColor": "#f5efe4"
   },
   "manifest": {
