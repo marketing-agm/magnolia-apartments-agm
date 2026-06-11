@@ -1,9 +1,9 @@
 /* Shared styles for Magnolia Crestview content guides (buildless, no framework). */
 :root {
-  --bg: #f5efe4; --paper: #fbf7ee; --paper-2: #ffffff;
-  --ink: #181715; --ink-2: #3a3733; --ink-3: #6e6a63;
+  --bg: #f5efe4; --paper: #f4f1ec; --paper-2: #ffffff;
+  --ink: #0a0a0a; --ink-2: #3a3733; --ink-3: #6e6a63;
   --rule: #d9d0bd; --rule-2: #eae1cc;
-  --accent: #129AE5; --accent-2: #b85e3b; --warm: #d4ad7a;
+  --accent: #129AE5; --accent-2: #129AE5; --warm: #d4ad7a;
   --radius: 4px; --radius-lg: 8px; --container: 760px;
   --serif: "Fraunces", "Source Serif 4", Georgia, serif;
   --sans: "Geist", -apple-system, "Helvetica Neue", Arial, sans-serif;

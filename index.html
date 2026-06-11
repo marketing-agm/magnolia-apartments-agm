@@ -47,8 +47,8 @@
   "name": "Magnolia Crestview",
   "description": "1BR and 2BR/2BA apartments for rent in Magnolia, Seattle. Updated kitchens, private decks, and views — steps from Discovery Park.",
   "url": "https://magnolia-apartments-agm.pages.dev/",
-  "telephone": "+1-206-694-1714",
-  "email": "pwedeberg@agmrealestategroup.com",
+  "telephone": "+1-206-694-1713",
+  "email": "leasing@agmrealestategroup.com",
   "priceRange": "$1,395–$1,995/mo",
   "address": {
     "@type": "PostalAddress",
@@ -90,18 +90,18 @@
   :root {
     --bg: #f5efe4;
     --bg-2: #efe7d8;
-    --paper: #fbf7ee;
+    --paper: #f4f1ec;
     --paper-2: #ffffff;
-    --ink: #181715;
+    --ink: #0a0a0a;
     --ink-2: #3a3733;
     --ink-3: #6e6a63;
     --rule: #d9d0bd;
     --rule-2: #eae1cc;
     --accent: #129AE5;   /* AGM light blue */
-    --accent-2: #b85e3b; /* terracotta */
+    --accent-2: #129AE5; /* terracotta */
     --warm: #d4ad7a;
-    --shadow: 0 1px 0 rgba(24,23,21,0.04), 0 12px 32px -16px rgba(24,23,21,0.18);
-    --shadow-sm: 0 1px 2px rgba(24,23,21,0.06);
+    --shadow: 0 1px 0 rgba(10,10,10,0.04), 0 12px 32px -16px rgba(10,10,10,0.18);
+    --shadow-sm: 0 1px 2px rgba(10,10,10,0.06);
     --radius: 4px;
     --radius-lg: 8px;
     --container: 1180px;
@@ -313,7 +313,7 @@
     padding: 12px clamp(16px, 4vw, 28px) 22px;
     flex-direction: column;
     gap: 4px;
-    box-shadow: 0 12px 28px -16px rgba(24,23,21,0.18);
+    box-shadow: 0 12px 28px -16px rgba(10,10,10,0.18);
   }
   .nav-mobile.is-open { display: flex; }
   .nav-mobile a {
@@ -550,7 +550,7 @@
   .visual-tag {
     position: absolute;
     left: 18px; bottom: 18px;
-    background: rgba(24,23,21,0.78);
+    background: rgba(10,10,10,0.78);
     backdrop-filter: blur(10px);
     color: var(--paper);
     padding: 10px 14px;
@@ -928,7 +928,7 @@
   .contact {
     background:
       radial-gradient(ellipse at 20% 0%, rgba(18,154,229,0.08), transparent 60%),
-      radial-gradient(ellipse at 90% 100%, rgba(184,94,59,0.08), transparent 50%),
+      radial-gradient(ellipse at 90% 100%, rgba(18,154,229,0.08), transparent 50%),
       var(--bg);
   }
   .contact-grid {
@@ -1542,11 +1542,11 @@
 
   /* ---------- Footer ---------- */
   footer {
-    background: var(--bg-2);
-    border-top: 1px solid var(--rule);
+    background: var(--ink);
+    border-top: 1px solid rgba(244,241,236,0.08);
     padding: 64px 0 32px;
     font-size: 13px;
-    color: var(--ink-3);
+    color: rgba(244,241,236,0.62);
     line-height: 1.7;
   }
   footer .top {
@@ -1555,7 +1555,7 @@
     gap: 40px;
     margin-bottom: 48px;
     padding-bottom: 36px;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid rgba(244,241,236,0.08);
   }
   @media (max-width: 760px) {
     footer .top { grid-template-columns: 1fr; gap: 28px; }
@@ -1565,15 +1565,16 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--ink-2);
+    color: rgba(244,241,236,0.9);
     margin: 0 0 12px;
   }
   footer .col p { margin: 0 0 6px; }
+  footer .col a { color: rgba(244,241,236,0.72); text-decoration: none; }
   footer .col a:hover { color: var(--accent); }
   footer .disclaimer {
     font-size: 11.5px;
     line-height: 1.7;
-    color: var(--ink-3);
+    color: rgba(244,241,236,0.5);
     max-width: 90ch;
   }
   footer .bottom {
@@ -1583,14 +1584,15 @@
     gap: 16px;
     margin-top: 32px;
     padding-top: 24px;
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid rgba(244,241,236,0.08);
     font-family: var(--mono);
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--ink-3);
+    color: rgba(244,241,236,0.5);
     flex-wrap: wrap;
   }
+  footer .eho-mark { border-color: rgba(244,241,236,0.5); }
   .eho {
     display: inline-flex;
     align-items: center;
@@ -2337,7 +2339,7 @@
   }
   .gallery-item:hover {
     border-color: var(--ink);
-    box-shadow: 0 12px 28px -12px rgba(24,23,21,0.22);
+    box-shadow: 0 12px 28px -12px rgba(10,10,10,0.22);
     transform: translateY(-2px);
   }
   .gallery-item:focus-visible {
@@ -2751,7 +2753,7 @@
     box-shadow: 0 0 0 2px rgba(255,255,255,0.7) inset;
   }
   .nb-pill-dot--all {
-    background: conic-gradient(from 45deg, #129AE5, #b85e3b, #8b6f47, #3d5a6c, #6b4a7a, #129AE5);
+    background: conic-gradient(from 45deg, #129AE5, #129AE5, #8b6f47, #3d5a6c, #6b4a7a, #129AE5);
   }
   .nb-pill-count {
     font-family: var(--mono);
@@ -3285,7 +3287,7 @@
     background: var(--ink);
     color: var(--paper);
     border-radius: 999px;
-    box-shadow: 0 8px 24px rgba(24,23,21,0.18), 0 2px 6px rgba(24,23,21,0.12);
+    box-shadow: 0 8px 24px rgba(10,10,10,0.18), 0 2px 6px rgba(10,10,10,0.12);
     font-family: var(--sans, inherit);
     font-size: 14px;
     font-weight: 500;
@@ -3304,7 +3306,7 @@
   .fab-contact:hover {
     background: var(--accent);
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(24,23,21,0.22), 0 3px 8px rgba(24,23,21,0.14);
+    box-shadow: 0 12px 28px rgba(10,10,10,0.22), 0 3px 8px rgba(10,10,10,0.14);
   }
   .fab-contact .fab-ic {
     width: 28px; height: 28px;
@@ -3333,7 +3335,7 @@
   .cw-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(24,23,21,0.42);
+    background: rgba(10,10,10,0.42);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     animation: cwFade 220ms ease;
@@ -3345,7 +3347,7 @@
     background: var(--paper);
     border: 1px solid var(--rule);
     border-radius: 18px;
-    box-shadow: 0 24px 60px rgba(24,23,21,0.28);
+    box-shadow: 0 24px 60px rgba(10,10,10,0.28);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -3637,8 +3639,8 @@
     text-transform: uppercase;
     color: var(--accent-2);
     font-weight: 600;
-    background: rgba(184,94,59,0.08);
-    border: 1px solid rgba(184,94,59,0.25);
+    background: rgba(18,154,229,0.08);
+    border: 1px solid rgba(18,154,229,0.25);
     border-radius: 999px;
     padding: 3px 9px;
     align-self: flex-start;
@@ -3659,7 +3661,7 @@
     background: var(--ink);
     color: var(--paper);
     border-radius: 999px;
-    box-shadow: 0 10px 30px rgba(24,23,21,0.26), 0 2px 6px rgba(24,23,21,0.14);
+    box-shadow: 0 10px 30px rgba(10,10,10,0.26), 0 2px 6px rgba(10,10,10,0.14);
     opacity: 0;
     pointer-events: none;
     transition: opacity 240ms ease, transform 240ms ease;
@@ -3718,7 +3720,7 @@
   .ct-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(24,23,21,0.42);
+    background: rgba(10,10,10,0.42);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     animation: cwFade 220ms ease;
@@ -3730,7 +3732,7 @@
     background: var(--paper);
     border: 1px solid var(--rule);
     border-radius: 18px;
-    box-shadow: 0 24px 60px rgba(24,23,21,0.28);
+    box-shadow: 0 24px 60px rgba(10,10,10,0.28);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -3986,9 +3988,9 @@
             Schedule a tour
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
-          <a href="tel:2066941714" class="btn btn-ghost">
+          <a href="tel:2066941713" class="btn btn-ghost">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.91.32 1.8.57 2.66a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.42-1.13a2 2 0 0 1 2.11-.45c.86.25 1.75.44 2.66.57a2 2 0 0 1 1.72 2z"/></svg>
-            (206) 694-1714
+            (206) 694-1713
           </a>
         </div>
       </div>
@@ -4305,7 +4307,7 @@
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       </div>
       <h4>No homes match those filters</h4>
-      <p>Try adjusting your selection — or call <a href="tel:2066941714">(206) 694-1714</a> to be notified when something opens up.</p>
+      <p>Try adjusting your selection — or call <a href="tel:2066941713">(206) 694-1713</a> to be notified when something opens up.</p>
       <button class="btn btn-ghost" id="reset-filters">Reset filters</button>
     </div>
   </div>
@@ -4424,7 +4426,7 @@
           Parks & outdoors <span class="nb-pill-count" data-count="parks">—</span>
         </button>
         <button class="nb-pill" data-cat="food">
-          <span class="nb-pill-dot" style="background:#b85e3b"></span>
+          <span class="nb-pill-dot" style="background:#129AE5"></span>
           Food & drink <span class="nb-pill-count" data-count="food">—</span>
         </button>
         <button class="nb-pill" data-cat="shopping">
@@ -4695,7 +4697,7 @@
           </div>
           <div class="ml">
             <small>Call us</small>
-            <a href="tel:2066941714">(206) 694-1714</a>
+            <a href="tel:2066941713">(206) 694-1713</a>
           </div>
         </div>
         <div class="contact-method">
@@ -4704,7 +4706,7 @@
           </div>
           <div class="ml">
             <small>Email us</small>
-            <a href="mailto:pwedeberg@agmrealestategroup.com">pwedeberg@agmrealestategroup.com</a>
+            <a href="mailto:leasing@agmrealestategroup.com">leasing@agmrealestategroup.com</a>
           </div>
         </div>
         <div class="contact-method">
@@ -4941,7 +4943,7 @@
                 Get directions to 2701 W Manor Pl
                 <svg class="tw-action-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
               </a>
-              <a class="tw-action" href="sms:2066941714">
+              <a class="tw-action" href="sms:2066941713">
                 <span class="tw-action-ic">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 </span>
@@ -5185,7 +5187,7 @@
             Submit maintenance request
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <p class="form-note">For after-hours emergencies (active leak, no heat, lockout), please call <a href="tel:2066941714" style="color:var(--accent);">(206) 694-1714</a>.</p>
+          <p class="form-note">For after-hours emergencies (active leak, no heat, lockout), please call <a href="tel:2066941713" style="color:var(--accent);">(206) 694-1713</a>.</p>
         </form>
       </div>
     </div>
@@ -5269,7 +5271,7 @@
     <div class="faq-head reveal">
       <span class="eyebrow">Questions, answered</span>
       <h2 class="display" id="faq-title">Frequently <span class="italic">asked</span></h2>
-      <p class="lede">Renting in Magnolia, in plain terms. Still curious? <a href="tel:2066941714" style="color:var(--accent);text-decoration:underline;">Call (206)&nbsp;694-1714</a> or <a href="#tour" style="color:var(--accent);text-decoration:underline;">schedule a tour</a>.</p>
+      <p class="lede">Renting in Magnolia, in plain terms. Still curious? <a href="tel:2066941713" style="color:var(--accent);text-decoration:underline;">Call (206)&nbsp;694-1713</a> or <a href="#tour" style="color:var(--accent);text-decoration:underline;">schedule a tour</a>.</p>
     </div>
     <div class="faq-list reveal">
       <details class="faq-item" name="faq">
@@ -5290,7 +5292,7 @@
       </details>
       <details class="faq-item" name="faq">
         <summary>Is Magnolia Crestview pet-friendly?</summary>
-        <div class="faq-answer"><p>Yes, the community is pet-friendly. Contact the leasing office at (206) 694-1714 for the current pet policy, deposits, and any breed or weight guidelines.</p></div>
+        <div class="faq-answer"><p>Yes, the community is pet-friendly. Contact the leasing office at (206) 694-1713 for the current pet policy, deposits, and any breed or weight guidelines.</p></div>
       </details>
       <details class="faq-item" name="faq">
         <summary>What are the rental application and screening requirements?</summary>
@@ -5302,7 +5304,7 @@
       </details>
       <details class="faq-item" name="faq">
         <summary>How do I schedule a tour or apply?</summary>
-        <div class="faq-answer"><p>Use the <a href="#tour">tour scheduler</a> on this page to pick a time, or call (206) 694-1714. Our leasing team will walk you through the application from there.</p></div>
+        <div class="faq-answer"><p>Use the <a href="#tour">tour scheduler</a> on this page to pick a time, or call (206) 694-1713. Our leasing team will walk you through the application from there.</p></div>
       </details>
     </div>
   </div>
@@ -5316,10 +5318,10 @@
     { "@type": "Question", "name": "How much is rent, and what floor plans are available?", "acceptedAnswer": { "@type": "Answer", "text": "We offer one-bedroom homes (about 600 sq ft) starting at $1,595/month and two-bedroom, two-bath homes (about 1,000 sq ft) up to $1,995/month." } },
     { "@type": "Question", "name": "Is there a move-in special right now?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — one month free on a 12-month lease for current move-ins. Specials can change, so confirm the latest offer when you schedule a tour." } },
     { "@type": "Question", "name": "Is parking available?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The building has both covered and uncovered parking options on-site." } },
-    { "@type": "Question", "name": "Is Magnolia Crestview pet-friendly?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, the community is pet-friendly. Contact the leasing office at (206) 694-1714 for the current pet policy, deposits, and any breed or weight guidelines." } },
+    { "@type": "Question", "name": "Is Magnolia Crestview pet-friendly?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, the community is pet-friendly. Contact the leasing office at (206) 694-1713 for the current pet policy, deposits, and any breed or weight guidelines." } },
     { "@type": "Question", "name": "What are the rental application and screening requirements?", "acceptedAnswer": { "@type": "Answer", "text": "Applicants are screened for a credit score of 650 or higher with minimal negative reporting, 1-2 years of positive rental history, and a combined household income of about 3x the monthly rent. Seattle applications are processed in accordance with the First-in-Time Ordinance (SMC 14.08)." } },
     { "@type": "Question", "name": "How close is Discovery Park, and what else is nearby?", "acceptedAnswer": { "@type": "Answer", "text": "Discovery Park — 534 acres of trails, beaches, and a historic lighthouse — is just minutes away. You're also near Magnolia Village's shops, cafes, and weekend farmers market, with downtown Seattle a short drive away." } },
-    { "@type": "Question", "name": "How do I schedule a tour or apply?", "acceptedAnswer": { "@type": "Answer", "text": "Use the tour scheduler on the website to pick a time, or call (206) 694-1714. The leasing team will walk you through the application from there." } }
+    { "@type": "Question", "name": "How do I schedule a tour or apply?", "acceptedAnswer": { "@type": "Answer", "text": "Use the tour scheduler on the website to pick a time, or call (206) 694-1713. The leasing team will walk you through the application from there." } }
   ]
 }
 </script>
@@ -5344,8 +5346,8 @@
       </div>
       <div class="col">
         <h6>Contact</h6>
-        <p><a href="tel:2066941714">(206) 694-1714</a></p>
-        <p><a href="mailto:pwedeberg@agmrealestategroup.com">pwedeberg@agmrealestategroup.com</a></p>
+        <p><a href="tel:2066941713">(206) 694-1713</a></p>
+        <p><a href="mailto:leasing@agmrealestategroup.com">leasing@agmrealestategroup.com</a></p>
         <p>2701 W Manor Pl<br/>Seattle, WA 98199</p>
       </div>
       <div class="col">
@@ -5896,7 +5898,7 @@
 
   const CATEGORIES = {
     parks:    { label: 'Parks & Outdoors', color: '#129AE5' },
-    food:     { label: 'Food & Drink',     color: '#b85e3b' },
+    food:     { label: 'Food & Drink',     color: '#129AE5' },
     shopping: { label: 'Shopping & Grocery', color: '#8b6f47' },
     transit:  { label: 'Transit',          color: '#3d5a6c' },
     schools:  { label: 'Schools',          color: '#6b4a7a' }
@@ -6112,7 +6114,7 @@
 
       // Bus routes — drawn once, beneath the markers, always visible
       BUS_ROUTES.forEach(r => {
-        L.polyline(r.segments, { color: '#fbf7ee', weight: 7, opacity: 0.7 }).addTo(map);
+        L.polyline(r.segments, { color: '#f4f1ec', weight: 7, opacity: 0.7 }).addTo(map);
         L.polyline(r.segments, {
           color: '#3d5a6c', weight: 3.5, opacity: 0.85,
           dashArray: r.dash, lineJoin: 'round', lineCap: 'round'
@@ -6126,7 +6128,7 @@
           radius: 3.5,
           fillColor: '#3d5a6c',
           fillOpacity: 1,
-          color: '#fbf7ee',
+          color: '#f4f1ec',
           weight: 1.5
         }).addTo(map)
           .bindPopup(`<div class="map-popup"><span class="cat"><span class="dot" style="background:#3d5a6c"></span>Bus stop</span><h4>${s.name}</h4></div>`);
@@ -6442,7 +6444,7 @@
       if (!u || u.rent == null) {
         linesEl.innerHTML = '';
         totalEl.textContent = 'Contact us';
-        footEl.textContent = 'Pricing for this home is available on request — call (206) 694-1714.';
+        footEl.textContent = 'Pricing for this home is available on request — call (206) 694-1713.';
         return;
       }
       const special = specialEl.checked;
@@ -6981,7 +6983,7 @@
       const details = encodeURIComponent(
         'Apartment tour at Magnolia Crestview.\n\n' +
         (message ? 'Notes: ' + message + '\n\n' : '') +
-        'Contact: (206) 694-1714'
+        'Contact: (206) 694-1713'
       );
       const gcal =
         'https://www.google.com/calendar/render?action=TEMPLATE' +
@@ -7115,11 +7117,11 @@
 <style>
   .lead-pop { position: fixed; inset: 0; z-index: 300; display: none; }
   .lead-pop.is-open { display: grid; place-items: center; padding: 20px; }
-  .lead-pop-backdrop { position: absolute; inset: 0; background: rgba(24,23,21,0.5); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: lp-fade 240ms ease; }
+  .lead-pop-backdrop { position: absolute; inset: 0; background: rgba(10,10,10,0.5); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: lp-fade 240ms ease; }
   .lead-pop-card {
     position: relative; width: 100%; max-width: 440px; background: var(--paper);
     border: 1px solid var(--rule); border-radius: var(--radius-lg);
-    box-shadow: 0 24px 64px -24px rgba(24,23,21,0.45); padding: clamp(26px, 5vw, 38px);
+    box-shadow: 0 24px 64px -24px rgba(10,10,10,0.45); padding: clamp(26px, 5vw, 38px);
     animation: lp-rise 320ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   @keyframes lp-fade { from { opacity: 0; } }
@@ -7254,7 +7256,7 @@
       content.innerHTML =
         '<div class="lp-success"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>' +
         '<h3 id="lp-title">You\'re on the <span class="italic">list.</span></h3>' +
-        '<p class="sub" style="margin-bottom:18px;">We\'ll send new Magnolia openings as they go live. Want to move faster? <a href="tel:2066941714" style="color:var(--accent);text-decoration:underline;">Call (206)&nbsp;694-1714</a>.</p>' +
+        '<p class="sub" style="margin-bottom:18px;">We\'ll send new Magnolia openings as they go live. Want to move faster? <a href="tel:2066941713" style="color:var(--accent);text-decoration:underline;">Call (206)&nbsp;694-1713</a>.</p>' +
         '<a href="#tour" class="lp-tour" data-lp-tour>Book a tour →</a></div>';
       content.querySelector('[data-lp-tour]').addEventListener('click', close);
       setTimeout(close, 4200);

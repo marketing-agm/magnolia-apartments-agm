@@ -6,9 +6,9 @@
   "locale": "en_US",
   "lang": "en",
   "contact": {
-    "phone": "+1-206-694-1714",
-    "phoneHref": "tel:2066941714",
-    "email": "pwedeberg@agmrealestategroup.com"
+    "phone": "+1-206-694-1713",
+    "phoneHref": "tel:2066941713",
+    "email": "leasing@agmrealestategroup.com"
   },
   "address": {
     "streetAddress": "2701 W Manor Pl",
@@ -56,15 +56,15 @@
     "colors": {
       "--bg": "#f5efe4",
       "--bg-2": "#efe7d8",
-      "--paper": "#fbf7ee",
+      "--paper": "#f4f1ec",
       "--paper-2": "#ffffff",
-      "--ink": "#181715",
+      "--ink": "#0a0a0a",
       "--ink-2": "#3a3733",
       "--ink-3": "#6e6a63",
       "--rule": "#d9d0bd",
       "--rule-2": "#eae1cc",
       "--accent": "#129AE5",
-      "--accent-2": "#b85e3b",
+      "--accent-2": "#129AE5",
       "--warm": "#d4ad7a"
     },
     "themeColor": "#129AE5",
