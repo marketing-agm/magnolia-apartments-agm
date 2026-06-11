@@ -531,7 +531,7 @@
   }
 
   const CATEGORIES = {
-    parks:    { label: 'Parks & Outdoors', color: '#2b4634' },
+    parks:    { label: 'Parks & Outdoors', color: '#129AE5' },
     food:     { label: 'Food & Drink',     color: '#b85e3b' },
     shopping: { label: 'Shopping & Grocery', color: '#8b6f47' },
     transit:  { label: 'Transit',          color: '#3d5a6c' },
