@@ -45,20 +45,35 @@ SITE=magnolia-crestview npm run build
 
 ## Add a new property (the path to 45 sites)
 
-1. `cp -r src/sites/magnolia-crestview src/sites/<new-id>`
-2. Edit `<new-id>/site.config.json` — name, domain, address, geo, theme colors,
-   SEO copy, and analytics IDs.
-3. Replace `units.json` / `places.json` / `photos.json` / `bus-stops.json` with
-   that property's data. Heavy assets (photos, 3D tours) should point at object
-   storage (e.g. Cloudflare R2/Images), not be committed here.
-4. `SITE=<new-id> npm run build` and deploy (below).
+```bash
+npm run new-site <new-id> --name "Property Name"   # scaffolds src/sites/<new-id>
+```
+
+1. `npm run new-site <new-id> --name "Property Name"` copies the Magnolia folder
+   to `src/sites/<new-id>`, resets identity fields (id, name, brand, domain), and
+   blanks the data files. Add `--keep-data` to keep Magnolia's data as a starting
+   template instead.
+2. Edit `<new-id>/site.config.json` — brand, contact, address, geo, theme colors,
+   SEO, analytics IDs, and the **`copy`** block (all marketing text lives here).
+3. Fill in `units.json` / `places.json` / `photos.json` / `bus-stops.json` (edit
+   the JSON or use `/admin`). Heavy assets (photos, 3D tours) should point at
+   object storage (e.g. Cloudflare R2/Images), not be committed here.
+4. `npm run gen-cms` registers the new site in the `/admin` editor.
+5. `SITE=<new-id> npm run build` and deploy (see **`DEPLOY.md`**).
+
+Nothing property-specific is hardcoded in the shared markup: `generated/body.html`
+carries `{{config.path}}` tokens (e.g. `{{name}}`, `{{contact.phoneDisplay}}`,
+`{{copy.heroHeadline}}`) that `pages/index.astro` resolves from that site's
+`site.config.json` at build time, and `public/app.js` reads its values from
+`window.__SITE__`. So a new site is pure config — no HTML/JS edits.
 
 Template-wide changes (anything in `layouts/`, `components/`, `styles/`,
 `generated/`, `public/app.js`) automatically apply to every site on its next build.
 
 ## Deploy to Cloudflare Pages — one project per property
 
-Create a Pages project per site, all pointing at this repo:
+See **`DEPLOY.md`** for the full step-by-step runbook. In short, create a Pages
+project per site, all pointing at this repo:
 
 - **Build command:** `npm run build`
 - **Build output directory:** `dist`

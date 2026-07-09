@@ -41,6 +41,7 @@ const themeVars = Object.entries(c.theme.colors)
 // expose config + data to the legacy app script
 const siteRuntime = {
   id: site.id,
+  favsKey: `${site.id}_favs`,
   config: {
     name: c.name,
     address: c.address,
@@ -48,6 +49,7 @@ const siteRuntime = {
     contact: c.contact,
     geo: c.geo,
     floorPlans: c.floorPlans || {},
+    copy: c.copy || {},
   },
   data: site.data,
 };

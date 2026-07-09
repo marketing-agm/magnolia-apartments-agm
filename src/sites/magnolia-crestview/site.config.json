@@ -2,13 +2,20 @@
   "id": "magnolia-crestview",
   "name": "Magnolia Crestview",
   "shortName": "Crestview",
+  "brand": { "pre": "Magnolia", "em": "Crestview" },
   "domain": "https://magnolia-apartments-agm.pages.dev",
   "locale": "en_US",
   "lang": "en",
   "contact": {
-    "phone": "+1-206-694-1713",
-    "phoneHref": "tel:2066941713",
+    "phone": "+1-206-694-1718",
+    "phoneHref": "tel:2066941718",
+    "smsHref": "sms:2066941718",
+    "phoneDisplay": "(206) 694-1718",
     "email": "leasing@agmrealestategroup.com"
+  },
+  "company": {
+    "name": "AGM Real Estate Group",
+    "legalName": "AGM Real Estate Group, LLC"
   },
   "address": {
     "streetAddress": "2701 W Manor Pl",
@@ -73,6 +80,35 @@
   "manifest": {
     "description": "Apartments in Magnolia, Seattle — 1BR & 2BR, steps from Discovery Park."
   },
+  "copy": {
+    "heroPillAvail": "9 homes available",
+    "heroPillPromo": "1 Month Free · 12-Month Lease",
+    "heroHeadline": "<span class=\"line\">A small Magnolia</span>\n          <span class=\"line\">building, <span class=\"italic\">big on</span></span>\n          <span class=\"line\">living.</span>",
+    "homeCount": "9",
+    "floorPlanCount": "2",
+    "startingPrice": "$1,595",
+    "aboutLede": "Cavernous by Seattle standards — a two-bedroom, two-bath layout that gives every roommate, partner, or family member their own space, without compromise.",
+    "aboutQuote": "“Upper-floor homes capture breathtaking views of the Magnolia neighborhood and the Seattle skyline beyond.”",
+    "aboutMetaLine": "Nine homes · 1 BR – 2 BR · Magnolia, Seattle",
+    "aboutBody": "<p>Magnolia Crestview is a small, well-kept building with a handful of homes — bright one-bedrooms and generously sized two-bedrooms. The two-bedroom plans are spacious by Seattle standards: full updated kitchens, two bathrooms, abundant closet space, and private decks with built-in storage.</p>\n        <p>Every layout was drawn to maximize daily livability. Real bedrooms with real closets. Pass-through kitchens, not galleys. Outdoor space that's actually yours. It's a building that works whether you're solo, partnered, or sharing the rent.</p>\n        <p>Homes don't come available often, and when they do, they go fast. Nine are open now.</p>",
+    "plan1brMeta": "600 sqft · from $1,595",
+    "plan2brMeta": "1,000 sqft · from $1,995",
+    "plan1brDesc": "An open kitchen and living area connect to a separate bedroom with closet and a full bath. Every one-bedroom in the building includes a private deck and a quick walk to Discovery Park.",
+    "plan1brPrice": "$1,595 / mo",
+    "plan2brHeading": "Spacious 2BR/2BA, <span class=\"italic\">by Seattle standards.</span>",
+    "plan2brDesc": "Two true bedrooms, two full bathrooms, an updated kitchen, and a private deck with built-in storage. The layout gives every roommate, partner, or family member their own space — steps from Discovery Park.",
+    "plan2brPrice": "$1,995 / mo",
+    "featureSkylineDesc": "Select upper-floor units look out over Magnolia and the downtown Seattle skyline. Cascade views available.",
+    "neighborhoodHeading": "Magnolia, <span class=\"italic\">at the edge</span> of everything.",
+    "neighborhoodLede": "A peninsula neighborhood with trail access to Discovery Park, the weekend energy of Magnolia Village, and direct bus routes to downtown. Filter by category — or just explore the map.",
+    "commutePlaceholder": "e.g., Amazon Spheres, Seattle",
+    "rentRange": "$1,395 – $2,095",
+    "utilityProvider": "Tenant sets up Seattle City Light",
+    "moveInRange": "$2,840 – $4,240",
+    "policiesLede": "We process applications transparently and in compliance with all applicable Seattle and Washington state regulations.",
+    "processJurisdiction": "SMC 14.08 First-in-Time (Seattle)",
+    "footerBlurb": "One and two-bedroom apartments in one of Seattle's most livable neighborhoods, professionally managed by AGM Real Estate Group, LLC."
+  },
   "floorPlans": {
     "1br": {
       "image": "",
@@ -85,6 +121,9 @@
   },
   "integrations": {
     "orsApiKey": "",
+    "appfolioUrl": "https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state",
+    "mapsUrl": "https://maps.google.com/maps?t=m&z=14&q=2701+W+Manor+Pl%2C+Seattle%2C+WA+98199",
+    "timezone": "America/Los_Angeles",
     "emailjs": {
       "publicKey": "",
       "serviceId": "",

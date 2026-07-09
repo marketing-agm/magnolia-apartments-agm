@@ -57,12 +57,13 @@
   // ----- Conversion state: favorites (persisted), compare (session), budget
   const COMPARE_MAX = 3;
   let favorites = new Set();
-  try { favorites = new Set(JSON.parse(localStorage.getItem('mc_favs') || '[]')); } catch (e) { favorites = new Set(); }
+  const FAVS_KEY = (window.__SITE__ && window.__SITE__.favsKey) || 'mc_favs';
+  try { favorites = new Set(JSON.parse(localStorage.getItem(FAVS_KEY) || '[]')); } catch (e) { favorites = new Set(); }
   const compareSet = new Set();
   let affordableMax = null; // null = no income entered
 
   function saveFavs() {
-    try { localStorage.setItem('mc_favs', JSON.stringify([...favorites])); } catch (e) {}
+    try { localStorage.setItem(FAVS_KEY, JSON.stringify([...favorites])); } catch (e) {}
   }
   function unitById(id) { return UNITS.find(u => u.id === id); }
 
@@ -710,9 +711,12 @@
         iconSize: [32, 32],
         iconAnchor: [16, 16]
       });
+      const popupCfg = (window.__SITE__ && window.__SITE__.config) || {};
+      const popupAddr = popupCfg.address || {};
+      const popupCopy = popupCfg.copy || {};
       L.marker([PROPERTY.lat, PROPERTY.lng], { icon: homeIcon, zIndexOffset: 1000 })
         .addTo(map)
-        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>Magnolia Crestview</h4><p>2701 W Manor Pl<br>Seattle, WA 98199</p><div class="foot"><span>9 homes</span><span>From $1,595</span></div></div>`);
+        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>${popupCfg.name || ''}</h4><p>${popupAddr.streetAddress || ''}<br>${popupAddr.addressLocality || ''}, ${popupAddr.addressRegion || ''} ${popupAddr.postalCode || ''}</p><div class="foot"><span>${popupCopy.homeCount || ''} homes</span><span>From ${popupCopy.startingPrice || ''}</span></div></div>`);
 
       // Bus routes — drawn once, beneath the markers, always visible
       BUS_ROUTES.forEach(r => {
@@ -794,7 +798,7 @@
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7.5-7-12a7 7 0 1 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
           <h4>Interactive map unavailable</h4>
           <p>The map couldn't load in this preview. Browse the full list of nearby places, or open the location in Google Maps.</p>
-          <a href="https://maps.google.com/maps?t=m&z=14&q=2701+W+Manor+Pl%2C+Seattle%2C+WA+98199" target="_blank" rel="noopener" class="btn btn-primary">Open in Google Maps →</a>
+          <a href="${(window.__SITE__ && window.__SITE__.config.integrations && window.__SITE__.config.integrations.mapsUrl) || '#'}" target="_blank" rel="noopener" class="btn btn-primary">Open in Google Maps →</a>
         </div>
       </div>
     `;
@@ -1021,7 +1025,7 @@
       if (!u || u.rent == null) {
         linesEl.innerHTML = '';
         totalEl.textContent = 'Contact us';
-        footEl.textContent = 'Pricing for this home is available on request — call (206) 694-1713.';
+        footEl.textContent = 'Pricing for this home is available on request — call ' + ((window.__SITE__ && window.__SITE__.config.contact && window.__SITE__.config.contact.phoneDisplay) || '') + '.';
         return;
       }
       const special = specialEl.checked;
@@ -1149,7 +1153,7 @@
           result.classList.remove('is-active');
           return;
         }
-        destLabel.innerHTML = 'From <strong>2701 W Manor Pl</strong> to <strong>' + dest.name.split(',').slice(0, 2).join(',') + '</strong>';
+        destLabel.innerHTML = 'From <strong>' + ((window.__SITE__ && window.__SITE__.config.address && window.__SITE__.config.address.streetAddress) || '') + '</strong> to <strong>' + dest.name.split(',').slice(0, 2).join(',') + '</strong>';
         let routes = {}, approx = false;
         if (ORS_API_KEY) {
           try {
@@ -1615,7 +1619,7 @@
         'https://www.google.com/calendar/render?action=TEMPLATE' +
         '&text=' + encodeURIComponent(propertyName + ' · Apartment Tour') +
         '&dates=' + toGCalLocal(start) + '/' + toGCalLocal(end) +
-        '&ctz=America/Los_Angeles' +
+        '&ctz=' + encodeURIComponent((cfg.integrations && cfg.integrations.timezone) || 'America/Los_Angeles') +
         '&location=' + encodeURIComponent(fullAddress) +
         '&details=' + details;
       root.querySelector('[data-tw-gcal]').href = gcal;
