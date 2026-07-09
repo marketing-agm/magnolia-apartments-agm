@@ -1,9 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSite } from '../lib/site';
-import bodyHtml from '../generated/body.html?raw';
+import { applyTokens } from '../lib/template';
+import rawBody from '../generated/body.html?raw';
 
 const site = getSite();
+// Shared markup carries {{dotted.path}} tokens; resolve them from this site's
+// config at build time so the page ships fully rendered.
+const bodyHtml = applyTokens(rawBody, site.config);
 ---
 <BaseLayout site={site}>
   <Fragment set:html={bodyHtml} />

@@ -4,7 +4,7 @@
   <div class="container nav-inner">
     <a href="#top" class="brand">
       <span class="brand-mark" aria-hidden="true"></span>
-      <span>Magnolia <em style="font-style: italic; font-variation-settings: 'opsz' 144, 'SOFT' 100;">Crestview</em></span>
+      <span>{{brand.pre}} <em style="font-style: italic; font-variation-settings: 'opsz' 144, 'SOFT' 100;">{{brand.em}}</em></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#floor-plans">Floor plans</a>
@@ -12,7 +12,7 @@
       <a href="#gallery">Gallery</a>
       <a href="#neighborhood">Neighborhood</a>
       <a href="#tour" class="nav-cta">Schedule a tour →</a>
-      <a href="https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state" class="nav-cta nav-cta--secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
+      <a href="{{integrations.appfolioUrl}}" class="nav-cta nav-cta--secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
     </nav>
     <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-controls="nav-mobile" aria-expanded="false">
       <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -23,7 +23,7 @@
       <a href="#gallery">Gallery</a>
       <a href="#neighborhood">Neighborhood</a>
       <a href="#tour" class="nav-mobile-cta">Schedule a tour</a>
-      <a href="https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state" class="nav-mobile-cta is-secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
+      <a href="{{integrations.appfolioUrl}}" class="nav-mobile-cta is-secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
     </nav>
   </div>
 </header>
@@ -34,25 +34,23 @@
     <div class="hero-grid">
       <div>
         <div class="hero-meta reveal">
-          <span class="pill"><span class="dot"></span>9 homes available</span>
-          <span class="pill pill--accent">1 Month Free · 12-Month Lease</span>
+          <span class="pill"><span class="dot"></span>{{copy.heroPillAvail}}</span>
+          <span class="pill pill--accent">{{copy.heroPillPromo}}</span>
         </div>
 
         <h1 class="display reveal" data-delay="1">
-          <span class="line">A small Magnolia</span>
-          <span class="line">building, <span class="italic">big on</span></span>
-          <span class="line">living.</span>
+          {{copy.heroHeadline}}
         </h1>
 
         <div class="hero-sub reveal" data-delay="2">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7.5-7-12a7 7 0 1 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          <a href="https://maps.google.com/maps?t=m&z=14&q=2701+W+Manor+Pl%2C+Seattle%2C+WA+98199" target="_blank" rel="noopener">2701 W Manor Pl · Seattle, WA 98199</a>
+          <a href="{{integrations.mapsUrl}}" target="_blank" rel="noopener">{{address.streetAddress}} · {{address.addressLocality}}, {{address.addressRegion}} {{address.postalCode}}</a>
         </div>
 
         <div class="stat-row reveal" data-delay="3">
-          <div class="stat"><div class="stat-label">Available</div><div class="stat-value">9<span class="unit">homes</span></div></div>
-          <div class="stat"><div class="stat-label">Floor Plans</div><div class="stat-value">2<span class="unit">layouts</span></div></div>
-          <div class="stat"><div class="stat-label">Starting at</div><div class="stat-value">$1,595</div></div>
+          <div class="stat"><div class="stat-label">Available</div><div class="stat-value">{{copy.homeCount}}<span class="unit">homes</span></div></div>
+          <div class="stat"><div class="stat-label">Floor Plans</div><div class="stat-value">{{copy.floorPlanCount}}<span class="unit">layouts</span></div></div>
+          <div class="stat"><div class="stat-label">Starting at</div><div class="stat-value">{{copy.startingPrice}}</div></div>
           <div class="stat"><div class="stat-label">Move-in</div><div class="stat-value">Now</div></div>
         </div>
 
@@ -61,9 +59,9 @@
             Schedule a tour
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
-          <a href="tel:2066941713" class="btn btn-ghost">
+          <a href="{{contact.phoneHref}}" class="btn btn-ghost">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.91.32 1.8.57 2.66a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.42-1.13a2 2 0 0 1 2.11-.45c.86.25 1.75.44 2.66.57a2 2 0 0 1 1.72 2z"/></svg>
-            (206) 694-1713
+            {{contact.phoneDisplay}}
           </a>
         </div>
       </div>
@@ -175,18 +173,16 @@
         <div class="eyebrow">About the home</div>
         <h2 class="display">The kind of find <span class="italic">people tell</span> their friends about.</h2>
       </div>
-      <p class="lede reveal" data-delay="1">Cavernous by Seattle standards — a two-bedroom, two-bath layout that gives every roommate, partner, or family member their own space, without compromise.</p>
+      <p class="lede reveal" data-delay="1">{{copy.aboutLede}}</p>
     </div>
 
     <div class="about-body">
       <aside class="col-aside reveal">
-        <p>“Upper-floor homes capture breathtaking views of the Magnolia neighborhood and the Seattle skyline beyond.”</p>
-        <div class="meta-line">Nine homes · 1 BR – 2 BR · Magnolia, Seattle</div>
+        <p>{{copy.aboutQuote}}</p>
+        <div class="meta-line">{{copy.aboutMetaLine}}</div>
       </aside>
       <div class="col-main reveal" data-delay="1">
-        <p>Magnolia Crestview is a small, well-kept building with a handful of homes — bright one-bedrooms and generously sized two-bedrooms. The two-bedroom plans are spacious by Seattle standards: full updated kitchens, two bathrooms, abundant closet space, and private decks with built-in storage.</p>
-        <p>Every layout was drawn to maximize daily livability. Real bedrooms with real closets. Pass-through kitchens, not galleys. Outdoor space that's actually yours. It's a building that works whether you're solo, partnered, or sharing the rent.</p>
-        <p>Homes don't come available often, and when they do, they go fast. Nine are open now.</p>
+        {{copy.aboutBody}}
       </div>
     </div>
   </div>
@@ -249,11 +245,11 @@
     <div class="plan-switcher reveal" role="tablist" aria-label="Floor plan selector">
       <button class="plan-tab is-active" data-plan="1br" role="tab">
         <span class="tab-title">1 Bedroom</span>
-        <span class="tab-meta">600 sqft · from $1,595</span>
+        <span class="tab-meta">{{copy.plan1brMeta}}</span>
       </button>
       <button class="plan-tab" data-plan="2br" role="tab">
         <span class="tab-title">2 Bedroom</span>
-        <span class="tab-meta">1,000 sqft · from $1,995</span>
+        <span class="tab-meta">{{copy.plan2brMeta}}</span>
       </button>
     </div>
 
@@ -290,27 +286,27 @@
         <div class="plan-content is-active" data-plan="1br">
           <span class="eyebrow">1 Bedroom · 1 Bath</span>
           <h3 class="display">Bright 1BR, <span class="italic">private deck.</span></h3>
-          <p>An open kitchen and living area connect to a separate bedroom with closet and a full bath. Every one-bedroom in the building includes a private deck and a quick walk to Discovery Park.</p>
+          <p>{{copy.plan1brDesc}}</p>
           <ul class="plan-stats">
             <li><span>Square feet</span><strong>600</strong></li>
             <li><span>Bathroom</span><strong>1 full</strong></li>
             <li><span>Outdoor</span><strong>Private deck</strong></li>
             <li><span>Views</span><strong>Neighborhood &amp; skyline</strong></li>
-            <li><span>Starting at</span><strong>$1,595 / mo</strong></li>
+            <li><span>Starting at</span><strong>{{copy.plan1brPrice}}</strong></li>
           </ul>
           <a href="#availability" class="btn btn-ghost">See available 1 BRs →</a>
         </div>
 
         <div class="plan-content" data-plan="2br">
           <span class="eyebrow">2 Bedroom · 2 Bath</span>
-          <h3 class="display">Spacious 2BR/2BA, <span class="italic">by Seattle standards.</span></h3>
-          <p>Two true bedrooms, two full bathrooms, an updated kitchen, and a private deck with built-in storage. The layout gives every roommate, partner, or family member their own space — steps from Discovery Park.</p>
+          <h3 class="display">{{copy.plan2brHeading}}</h3>
+          <p>{{copy.plan2brDesc}}</p>
           <ul class="plan-stats">
             <li><span>Square feet</span><strong>1,000</strong></li>
             <li><span>Bathrooms</span><strong>2 full</strong></li>
             <li><span>Kitchen</span><strong>Updated</strong></li>
             <li><span>Outdoor</span><strong>Private deck</strong></li>
-            <li><span>Starting at</span><strong>$1,995 / mo</strong></li>
+            <li><span>Starting at</span><strong>{{copy.plan2brPrice}}</strong></li>
           </ul>
           <a href="#availability" class="btn btn-ghost">See available 2 BRs →</a>
         </div>
@@ -369,7 +365,7 @@
         </div>
       </div>
       <div class="filter-meta">
-        Showing <span id="results-count">9</span> of 9 homes
+        Showing <span id="results-count">{{copy.homeCount}}</span> of {{copy.homeCount}} homes
       </div>
     </div>
 
@@ -380,7 +376,7 @@
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       </div>
       <h4>No homes match those filters</h4>
-      <p>Try adjusting your selection — or call <a href="tel:2066941713">(206) 694-1713</a> to be notified when something opens up.</p>
+      <p>Try adjusting your selection — or call <a href="{{contact.phoneHref}}">{{contact.phoneDisplay}}</a> to be notified when something opens up.</p>
       <button class="btn btn-ghost" id="reset-filters">Reset filters</button>
     </div>
   </div>
@@ -438,7 +434,7 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
         </div>
         <h4>Skyline views</h4>
-        <p>Select upper-floor units look out over Magnolia and the downtown Seattle skyline. Cascade views available.</p>
+        <p>{{copy.featureSkylineDesc}}</p>
       </div>
     </div>
 
@@ -482,9 +478,9 @@
     <div class="section-head">
       <div class="reveal">
         <div class="eyebrow">The neighborhood</div>
-        <h2 class="display">Magnolia, <span class="italic">at the edge</span> of everything.</h2>
+        <h2 class="display">{{copy.neighborhoodHeading}}</h2>
       </div>
-      <p class="lede reveal" data-delay="1">A peninsula neighborhood with trail access to Discovery Park, the weekend energy of Magnolia Village, and direct bus routes to downtown. Filter by category — or just explore the map.</p>
+      <p class="lede reveal" data-delay="1">{{copy.neighborhoodLede}}</p>
     </div>
 
     <!-- Category filter chips -->
@@ -531,17 +527,17 @@
         <div id="leaflet-map" aria-label="Interactive neighborhood map"></div>
         <div class="nb-map-overlay-legend">
           <span class="legend-home"></span>
-          Magnolia Crestview
+          {{name}}
           <span class="legend-sep"></span>
           <span class="legend-route"></span> Route 33
           <span class="legend-route legend-route-dashed"></span> Route 24
         </div>
         <div class="nb-map-foot">
           <div class="addr">
-            <strong>2701 W Manor Pl</strong>
-            Seattle, WA 98199
+            <strong>{{address.streetAddress}}</strong>
+            {{address.addressLocality}}, {{address.addressRegion}} {{address.postalCode}}
           </div>
-          <a href="https://maps.google.com/maps?t=m&z=14&q=2701+W+Manor+Pl%2C+Seattle%2C+WA+98199" target="_blank" rel="noopener" class="openmap">Get directions →</a>
+          <a href="{{integrations.mapsUrl}}" target="_blank" rel="noopener" class="openmap">Get directions →</a>
         </div>
       </div>
     </div>
@@ -555,7 +551,7 @@
         </div>
       </div>
       <form class="commute-form" id="commute-form">
-        <input id="commute-dest" type="text" placeholder="e.g., Amazon Spheres, Seattle" aria-label="Destination address" autocomplete="off" />
+        <input id="commute-dest" type="text" placeholder="{{copy.commutePlaceholder}}" aria-label="Destination address" autocomplete="off" />
         <button type="submit" id="commute-submit">Estimate</button>
       </form>
       <div class="commute-result" id="commute-result" aria-live="polite">
@@ -598,7 +594,7 @@
           <div class="label">Monthly rent
             <small>Varies by home · 12-month lease</small>
           </div>
-          <div class="value">$1,395 – $2,095</div>
+          <div class="value">{{copy.rentRange}}</div>
         </div>
         <div class="ledger-row">
           <div class="label">Refundable security deposit
@@ -620,7 +616,7 @@
         </div>
         <div class="ledger-row">
           <div class="label">Electricity
-            <small>Tenant sets up Seattle City Light</small>
+            <small>{{copy.utilityProvider}}</small>
           </div>
           <div class="value muted">Tenant</div>
         </div>
@@ -641,7 +637,7 @@
         </ul>
         <div class="move-in-cost">
           <span class="lbl">Estimated due at signing</span>
-          <span class="val">$2,840 – $4,240</span>
+          <span class="val">{{copy.moveInRange}}</span>
         </div>
         <ul class="summary-list" style="margin-top:8px;">
           <li><span>Lease term</span><strong>12 months</strong></li>
@@ -696,7 +692,7 @@
         <div class="eyebrow">Application & policies</div>
         <h2 class="display">Clear criteria, <span class="italic">no guesswork.</span></h2>
       </div>
-      <p class="lede reveal" data-delay="1">We process applications transparently and in compliance with all applicable Seattle and Washington state regulations.</p>
+      <p class="lede reveal" data-delay="1">{{copy.policiesLede}}</p>
     </div>
 
     <div class="reqs">
@@ -742,7 +738,7 @@
       <div class="list-block reveal" data-delay="2">
         <h5>Process</h5>
         <ul>
-          <li>SMC 14.08 First-in-Time (Seattle)</li>
+          <li>{{copy.processJurisdiction}}</li>
           <li>RCW 59.18.257 compliant</li>
           <li>Reusable screening reports not accepted</li>
         </ul>
@@ -770,7 +766,7 @@
           </div>
           <div class="ml">
             <small>Call us</small>
-            <a href="tel:2066941713">(206) 694-1713</a>
+            <a href="{{contact.phoneHref}}">{{contact.phoneDisplay}}</a>
           </div>
         </div>
         <div class="contact-method">
@@ -779,7 +775,7 @@
           </div>
           <div class="ml">
             <small>Email us</small>
-            <a href="mailto:leasing@agmrealestategroup.com">leasing@agmrealestategroup.com</a>
+            <a href="mailto:{{contact.email}}">{{contact.email}}</a>
           </div>
         </div>
         <div class="contact-method">
@@ -788,12 +784,12 @@
           </div>
           <div class="ml">
             <small>Visit</small>
-            <a href="https://maps.google.com/maps?t=m&z=14&q=2701+W+Manor+Pl%2C+Seattle%2C+WA+98199" target="_blank" rel="noopener">2701 W Manor Pl, Seattle</a>
+            <a href="{{integrations.mapsUrl}}" target="_blank" rel="noopener">{{address.streetAddress}}, {{address.addressLocality}}</a>
           </div>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--rule);">
           <span style="font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--ink-3);">Managed by</span>
-          <span style="font-family:var(--serif);font-weight:400;color:var(--ink);">AGM Real Estate Group</span>
+          <span style="font-family:var(--serif);font-weight:400;color:var(--ink);">{{company.name}}</span>
         </div>
       </div>
 
@@ -1009,14 +1005,14 @@
                 Add to Google Calendar
                 <svg class="tw-action-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
               </a>
-              <a class="tw-action" href="https://maps.google.com/maps?t=m&z=14&q=2701+W+Manor+Pl%2C+Seattle%2C+WA+98199" target="_blank" rel="noopener">
+              <a class="tw-action" href="{{integrations.mapsUrl}}" target="_blank" rel="noopener">
                 <span class="tw-action-ic">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7.5-7-12a7 7 0 1 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
                 </span>
-                Get directions to 2701 W Manor Pl
+                Get directions to {{address.streetAddress}}
                 <svg class="tw-action-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
               </a>
-              <a class="tw-action" href="sms:2066941713">
+              <a class="tw-action" href="{{contact.smsHref}}">
                 <span class="tw-action-ic">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 </span>
@@ -1027,7 +1023,7 @@
           </div>
         </div>
 
-        <p class="tw-fineprint">By submitting, you agree to be contacted by AGM Real Estate Group regarding this listing.</p>
+        <p class="tw-fineprint">By submitting, you agree to be contacted by {{company.name}} regarding this listing.</p>
       </div>
     </div>
   </div>
@@ -1184,7 +1180,7 @@
             Send to leasing
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <p class="form-note">By submitting, you agree to be contacted by AGM Real Estate Group regarding this listing.</p>
+          <p class="form-note">By submitting, you agree to be contacted by {{company.name}} regarding this listing.</p>
         </form>
       </div>
 
@@ -1250,7 +1246,7 @@
           </div>
           <label class="checkbox-row">
             <input type="checkbox" name="permission" />
-            <span>Permission to enter when I'm not home (a Magnolia Crestview team member will leave a notice).</span>
+            <span>Permission to enter when I'm not home (a {{name}} team member will leave a notice).</span>
           </label>
           <label class="checkbox-row">
             <input type="checkbox" name="pets" />
@@ -1260,7 +1256,7 @@
             Submit maintenance request
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <p class="form-note">For after-hours emergencies (active leak, no heat, lockout), please call <a href="tel:2066941713" style="color:var(--accent);">(206) 694-1713</a>.</p>
+          <p class="form-note">For after-hours emergencies (active leak, no heat, lockout), please call <a href="{{contact.phoneHref}}" style="color:var(--accent);">{{contact.phoneDisplay}}</a>.</p>
         </form>
       </div>
     </div>
@@ -1322,9 +1318,9 @@
       <div class="col">
         <div class="brand" style="margin-bottom:14px;">
           <span class="brand-mark" aria-hidden="true"></span>
-          <span>Magnolia <em style="font-style:italic;font-variation-settings:'opsz' 144, 'SOFT' 100;">Crestview</em></span>
+          <span>{{brand.pre}} <em style="font-style:italic;font-variation-settings:'opsz' 144, 'SOFT' 100;">{{brand.em}}</em></span>
         </div>
-        <p style="max-width:48ch;">One and two-bedroom apartments in one of Seattle's most livable neighborhoods, professionally managed by AGM Real Estate Group, LLC.</p>
+        <p style="max-width:48ch;">{{copy.footerBlurb}}</p>
       </div>
       <div class="col">
         <h6>Property</h6>
@@ -1335,9 +1331,9 @@
       </div>
       <div class="col">
         <h6>Contact</h6>
-        <p><a href="tel:2066941713">(206) 694-1713</a></p>
-        <p><a href="mailto:leasing@agmrealestategroup.com">leasing@agmrealestategroup.com</a></p>
-        <p>2701 W Manor Pl<br/>Seattle, WA 98199</p>
+        <p><a href="{{contact.phoneHref}}">{{contact.phoneDisplay}}</a></p>
+        <p><a href="mailto:{{contact.email}}">{{contact.email}}</a></p>
+        <p>{{address.streetAddress}}<br/>{{address.addressLocality}}, {{address.addressRegion}} {{address.postalCode}}</p>
       </div>
     </div>
 
@@ -1348,7 +1344,7 @@
     </div>
 
     <div class="bottom">
-      <span>© <span id="yr"></span> AGM Real Estate Group, LLC. All rights reserved.</span>
+      <span>© <span id="yr"></span> {{company.legalName}}. All rights reserved.</span>
       <span class="eho"><span class="eho-mark"></span>Equal Housing Opportunity</span>
     </div>
   </div>
