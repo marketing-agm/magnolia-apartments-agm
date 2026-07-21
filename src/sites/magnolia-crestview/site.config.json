@@ -1,6 +1,6 @@
 {
   "id": "magnolia-crestview",
-  "name": "Magnolia Crestview",
+  "name": "Magnolia Crestview | Manor | Vista",
   "shortName": "Crestview",
   "domain": "https://magnolia-apartments-agm.pages.dev",
   "locale": "en_US",
@@ -24,7 +24,7 @@
     "longitude": -122.3915
   },
   "seo": {
-    "title": "Magnolia Crestview · Apartments in Magnolia, Seattle",
+    "title": "Magnolia Crestview | Manor | Vista · Apartments in Magnolia, Seattle",
     "description": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Updated kitchens, private decks, views. Steps from Discovery Park. From $1,595/mo.",
     "keywords": "apartments in Magnolia, Magnolia Seattle apartments, Magnolia Crestview, apartments near Discovery Park, 2701 W Manor Pl, 1 bedroom apartment Seattle 98199, 2 bedroom apartment Magnolia, apartments for rent Magnolia Seattle",
     "author": "Magnolia Crestview",
@@ -54,9 +54,9 @@
   },
   "theme": {
     "colors": {
-      "--bg": "#f5efe4",
-      "--bg-2": "#efe7d8",
-      "--paper": "#f4f1ec",
+      "--bg": "#f6f5f2",
+      "--bg-2": "#edece8",
+      "--paper": "#f8f7f5",
       "--paper-2": "#ffffff",
       "--ink": "#0a0a0a",
       "--ink-2": "#3a3733",
@@ -68,7 +68,7 @@
       "--warm": "#d4ad7a"
     },
     "themeColor": "#129AE5",
-    "backgroundColor": "#f5efe4"
+    "backgroundColor": "#f6f5f2"
   },
   "manifest": {
     "description": "Apartments in Magnolia, Seattle — 1BR & 2BR, steps from Discovery Park."
