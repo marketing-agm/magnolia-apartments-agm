@@ -1,76 +1,135 @@
 {
   "units": [
     {
-      "id": "301",
+      "id": "manor-306",
+      "unit": "306",
+      "property": "Magnolia Manor",
       "beds": 2,
       "baths": 2,
       "sqft": 1000,
       "rent": 2195,
-      "floor": "Third floor",
+      "floor": "Third Floor",
       "floorNum": 3,
       "available": "Now",
       "availType": "now",
       "features": [
-        "In-unit W/D",
-        "2 balconies",
-        "Corner unit",
-        "Views",
-        "Updated kitchen"
+        "Private deck",
+        "Spacious floorplan",
+        "Mountain views"
       ],
-      "plan": "2br2ba",
-      "featured": true
+      "plan": "2br2ba"
     },
     {
-      "id": "307",
+      "id": "crestview-402",
+      "unit": "402",
+      "property": "Magnolia Crestview",
       "beds": 2,
       "baths": 2,
       "sqft": 1000,
       "rent": 1995,
-      "floor": "Third floor",
+      "floor": "Fourth Floor",
+      "floorNum": 4,
+      "available": "Now",
+      "availType": "now",
+      "features": [
+        "Private deck",
+        "Updated kitchen",
+        "Neighborhood views"
+      ],
+      "plan": "2br2ba"
+    },
+    {
+      "id": "vista-102",
+      "unit": "102",
+      "property": "Magnolia Vista",
+      "beds": 1,
+      "baths": 1,
+      "sqft": 600,
+      "rent": 1595,
+      "floor": "First Floor",
+      "floorNum": 1,
+      "available": "Now",
+      "availType": "now",
+      "features": [
+        "Private deck",
+        "Updated kitchen",
+        "Spacious floorplan"
+      ],
+      "plan": "1br"
+    },
+    {
+      "id": "vista-307",
+      "unit": "307",
+      "property": "Magnolia Vista",
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1000,
+      "rent": 1995,
+      "floor": "Third Floor",
       "floorNum": 3,
       "available": "Now",
       "availType": "now",
       "features": [
-        "In-unit W/D",
-        "Balcony",
-        "Views",
-        "Updated kitchen"
+        "Private deck",
+        "Spacious floorplan",
+        "Mountain views"
       ],
       "plan": "2br2ba"
     },
     {
-      "id": "402",
+      "id": "crestview-407",
+      "unit": "407",
+      "property": "Magnolia Crestview",
       "beds": 2,
       "baths": 2,
       "sqft": 1000,
       "rent": 1995,
-      "floor": "Upper floor",
+      "floor": "Fourth Floor",
       "floorNum": 4,
       "available": "Now",
       "availType": "now",
       "features": [
-        "In-unit W/D",
-        "Balcony",
-        "Views",
-        "Updated kitchen"
+        "Private deck",
+        "Updated kitchen",
+        "Neighborhood views"
       ],
       "plan": "2br2ba"
     },
     {
-      "id": "407",
+      "id": "manor-103",
+      "unit": "103",
+      "property": "Magnolia Manor",
+      "beds": 1,
+      "baths": 1,
+      "sqft": 600,
+      "rent": 1595,
+      "floor": "First Floor",
+      "floorNum": 1,
+      "available": "Now",
+      "availType": "now",
+      "features": [
+        "Private deck",
+        "Updated kitchen",
+        "Spacious floorplan"
+      ],
+      "plan": "1br"
+    },
+    {
+      "id": "crestview-307",
+      "unit": "307",
+      "property": "Magnolia Crestview",
       "beds": 2,
       "baths": 2,
       "sqft": 1000,
       "rent": 1995,
-      "floor": "Upper floor",
-      "floorNum": 4,
+      "floor": "Third Floor",
+      "floorNum": 3,
       "available": "Now",
       "availType": "now",
       "features": [
-        "In-unit W/D",
-        "Balcony",
-        "Views",
-        "Updated kitchen"
+        "Private deck",
+        "Updated kitchen",
+        "Neighborhood views"
       ],
       "plan": "2br2ba"
     }

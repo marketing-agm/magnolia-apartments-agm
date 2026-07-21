@@ -142,14 +142,14 @@
         <div class="unit-card-body">
           <div class="unit-card-head">
             <div>
-              <span class="unit-card-num">Unit <span class="italic">${unit.id}</span></span>
-              <span class="unit-card-floor">${unit.floor}</span>
+              <span class="unit-card-num">Unit <span class="italic">${unit.unit}</span></span>
+              <span class="unit-card-floor">${unit.property} · ${unit.floor}</span>
             </div>
             <div class="unit-card-tools">
-              <button class="unit-fav" type="button" data-fav="${unit.id}" aria-pressed="${isFaved}" aria-label="${isFaved ? 'Remove Unit ' + unit.id + ' from saved homes' : 'Save Unit ' + unit.id}" title="Save home">
+              <button class="unit-fav" type="button" data-fav="${unit.id}" aria-pressed="${isFaved}" aria-label="${isFaved ? 'Remove ' + unit.property + ' Unit ' + unit.unit + ' from saved homes' : 'Save ' + unit.property + ' Unit ' + unit.unit}" title="Save home">
                 <svg width="16" height="16" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
               </button>
-              <button class="unit-cmp" type="button" data-cmp="${unit.id}" aria-pressed="${isCmp}" aria-label="${isCmp ? 'Remove Unit ' + unit.id + ' from comparison' : 'Add Unit ' + unit.id + ' to comparison'}" title="Compare">vs</button>
+              <button class="unit-cmp" type="button" data-cmp="${unit.id}" aria-pressed="${isCmp}" aria-label="${isCmp ? 'Remove ' + unit.property + ' Unit ' + unit.unit + ' from comparison' : 'Add ' + unit.property + ' Unit ' + unit.unit + ' to comparison'}" title="Compare">vs</button>
             </div>
           </div>
           ${budgetTag}
@@ -330,11 +330,11 @@
       const price = u.rent == null ? 'Inquire' : '$' + u.rent.toLocaleString() + '<span>/mo</span>';
       return `<div class="sl-row">
         <div class="sl-row-info">
-          <div class="sl-row-title">Unit <span class="italic">${u.id}</span></div>
-          <div class="sl-row-meta">${PLAN_LABELS[u.plan]} · ${u.sqft.toLocaleString()} sqft · ${u.floor}</div>
+          <div class="sl-row-title">Unit <span class="italic">${u.unit}</span></div>
+          <div class="sl-row-meta">${u.property} · ${PLAN_LABELS[u.plan]} · ${u.sqft.toLocaleString()} sqft · ${u.floor}</div>
         </div>
         <div class="sl-row-price">${price}</div>
-        <button class="sl-row-remove" type="button" data-sl-remove="${u.id}" aria-label="Remove Unit ${u.id}">
+        <button class="sl-row-remove" type="button" data-sl-remove="${u.id}" aria-label="Remove ${u.property} Unit ${u.unit}">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>`;
@@ -369,11 +369,12 @@
     const minRent = Math.min.apply(null, units.filter(u => u.rent != null).map(u => u.rent));
     const maxSqft = Math.max.apply(null, units.map(u => u.sqft));
     const minPpsq = Math.min.apply(null, units.filter(u => ppsq(u) != null).map(ppsq));
-    const head = '<tr><th></th>' + units.map(u => `<th>Unit <span class="italic">${u.id}</span></th>`).join('') + '</tr>';
+    const head = '<tr><th></th>' + units.map(u => `<th>Unit <span class="italic">${u.unit}</span></th>`).join('') + '</tr>';
     function row(label, fn) {
       return '<tr><th>' + label + '</th>' + units.map(fn).join('') + '</tr>';
     }
     const rows = [
+      row('Property', u => `<td>${u.property}</td>`),
       row('Plan', u => `<td>${PLAN_LABELS[u.plan]}</td>`),
       row('Beds', u => `<td>${u.beds}</td>`),
       row('Baths', u => `<td>${u.baths}</td>`),
@@ -403,7 +404,7 @@
   function sendShortlistToTour(ids) {
     const valid = ids.map(unitById).filter(Boolean);
     if (valid.length === 0) return;
-    const list = valid.map(u => u.id).join(', ');
+    const list = valid.map(u => u.property + ' Unit ' + u.unit).join(', ');
     const plural = valid.length === 1 ? 'unit' : 'units';
     const msg = "I'm interested in " + plural + ' ' + list + '. Could we tour ' + (valid.length === 1 ? 'it' : 'them') + '?';
     if (typeof window.tourPrefill === 'function') window.tourPrefill(msg);
@@ -712,7 +713,7 @@
       });
       L.marker([PROPERTY.lat, PROPERTY.lng], { icon: homeIcon, zIndexOffset: 1000 })
         .addTo(map)
-        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>Magnolia Crestview</h4><p>2701 W Manor Pl<br>Seattle, WA 98199</p><div class="foot"><span>9 homes</span><span>From $1,595</span></div></div>`);
+        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>Magnolia Crestview</h4><p>2701 W Manor Pl<br>Seattle, WA 98199</p><div class="foot"><span>7 homes</span><span>From $1,595</span></div></div>`);
 
       // Bus routes — drawn once, beneath the markers, always visible
       BUS_ROUTES.forEach(r => {
@@ -1010,7 +1011,7 @@
     // Populate from priced UNITS (skip inquire-only), 1BR then 2BR
     const priced = UNITS.filter(u => u.rent != null).sort((a, b) => a.beds - b.beds || a.rent - b.rent);
     sel.innerHTML = priced.map(u =>
-      `<option value="${u.id}">Unit ${u.id} · ${PLAN_LABELS[u.plan]} · $${u.rent.toLocaleString()}/mo</option>`
+      `<option value="${u.id}">${u.property} · Unit ${u.unit} · ${PLAN_LABELS[u.plan]} · $${u.rent.toLocaleString()}/mo</option>`
     ).join('');
 
     function money(n) { return '$' + Math.round(n).toLocaleString(); }

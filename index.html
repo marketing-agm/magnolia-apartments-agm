@@ -49,7 +49,7 @@
   "url": "https://magnolia-apartments-agm.pages.dev/",
   "telephone": "+1-206-694-1713",
   "email": "leasing@agmrealestategroup.com",
-  "priceRange": "$1,395–$1,995/mo",
+  "priceRange": "$1,595–$2,195/mo",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "2701 W Manor Pl",
@@ -3961,7 +3961,7 @@
     <div class="hero-grid">
       <div>
         <div class="hero-meta reveal">
-          <span class="pill"><span class="dot"></span>4 homes available</span>
+          <span class="pill"><span class="dot"></span>7 homes available</span>
           <span class="pill pill--accent">1 Month Free · 12-Month Lease</span>
         </div>
 
@@ -3977,7 +3977,7 @@
         </div>
 
         <div class="stat-row reveal" data-delay="3">
-          <div class="stat"><div class="stat-label">Available</div><div class="stat-value">4<span class="unit">homes</span></div></div>
+          <div class="stat"><div class="stat-label">Available</div><div class="stat-value">7<span class="unit">homes</span></div></div>
           <div class="stat"><div class="stat-label">Floor Plans</div><div class="stat-value">2<span class="unit">layouts</span></div></div>
           <div class="stat"><div class="stat-label">Starting at</div><div class="stat-value">$1,595</div></div>
           <div class="stat"><div class="stat-label">Move-in</div><div class="stat-value">Now</div></div>
@@ -4108,7 +4108,7 @@
     <div class="about-body">
       <aside class="col-aside reveal">
         <p>“Upper-floor homes capture breathtaking views of the Magnolia neighborhood and the Seattle skyline beyond.”</p>
-        <div class="meta-line">Nine homes · 1 BR – 2 BR · Magnolia, Seattle</div>
+        <div class="meta-line">Seven homes · 1 BR – 2 BR · Magnolia, Seattle</div>
       </aside>
       <div class="col-main reveal" data-delay="1">
         <p>Magnolia Crestview is a small, well-kept building with a handful of homes — bright one-bedrooms and generously sized two-bedrooms. The two-bedroom plans are spacious by Seattle standards: full updated kitchens, two bathrooms, abundant closet space, and private decks with built-in storage.</p>
@@ -4296,7 +4296,7 @@
         </div>
       </div>
       <div class="filter-meta">
-        Showing <span id="results-count">4</span> of 4 homes
+        Showing <span id="results-count">7</span> of 7 homes
       </div>
     </div>
 
@@ -5422,33 +5422,60 @@
   // ============== UNITS DATA & RENDERING ==============
   const UNITS = [
     {
-      id: '301', beds: 2, baths: 2, sqft: 1000, rent: 1995,
-      floor: 'Third floor', floorNum: 3,
+      id: 'manor-306', unit: '306', property: 'Magnolia Manor',
+      beds: 2, baths: 2, sqft: 1000, rent: 2195,
+      floor: 'Third Floor', floorNum: 3,
+      available: 'Now', availType: 'now',
+      features: ['Private deck', 'Spacious floorplan', 'Mountain views'],
+      plan: '2br2ba'
+    },
+    {
+      id: 'crestview-402', unit: '402', property: 'Magnolia Crestview',
+      beds: 2, baths: 2, sqft: 1000, rent: 1995,
+      floor: 'Fourth Floor', floorNum: 4,
       available: 'Now', availType: 'now',
       features: ['Private deck', 'Updated kitchen', 'Neighborhood views'],
       plan: '2br2ba'
     },
     {
-      id: '307', beds: 2, baths: 2, sqft: 1000, rent: 1995,
-      floor: 'Third floor', floorNum: 3,
+      id: 'vista-102', unit: '102', property: 'Magnolia Vista',
+      beds: 1, baths: 1, sqft: 600, rent: 1595,
+      floor: 'First Floor', floorNum: 1,
+      available: 'Now', availType: 'now',
+      features: ['Private deck', 'Updated kitchen', 'Spacious floorplan'],
+      plan: '1br'
+    },
+    {
+      id: 'vista-307', unit: '307', property: 'Magnolia Vista',
+      beds: 2, baths: 2, sqft: 1000, rent: 1995,
+      floor: 'Third Floor', floorNum: 3,
+      available: 'Now', availType: 'now',
+      features: ['Private deck', 'Spacious floorplan', 'Mountain views'],
+      plan: '2br2ba'
+    },
+    {
+      id: 'crestview-407', unit: '407', property: 'Magnolia Crestview',
+      beds: 2, baths: 2, sqft: 1000, rent: 1995,
+      floor: 'Fourth Floor', floorNum: 4,
       available: 'Now', availType: 'now',
       features: ['Private deck', 'Updated kitchen', 'Neighborhood views'],
       plan: '2br2ba'
     },
     {
-      id: '402', beds: 2, baths: 2, sqft: 1000, rent: null,
-      floor: 'Upper floor', floorNum: 4,
+      id: 'manor-103', unit: '103', property: 'Magnolia Manor',
+      beds: 1, baths: 1, sqft: 600, rent: 1595,
+      floor: 'First Floor', floorNum: 1,
       available: 'Now', availType: 'now',
-      features: ['Private deck', 'Updated kitchen', 'Skyline views'],
-      plan: '2br2ba'
+      features: ['Private deck', 'Updated kitchen', 'Spacious floorplan'],
+      plan: '1br'
     },
     {
-      id: '407', beds: 2, baths: 2, sqft: 1000, rent: 1995,
-      floor: 'Upper floor', floorNum: 4,
+      id: 'crestview-307', unit: '307', property: 'Magnolia Crestview',
+      beds: 2, baths: 2, sqft: 1000, rent: 1995,
+      floor: 'Third Floor', floorNum: 3,
       available: 'Now', availType: 'now',
-      features: ['Private deck', 'Updated kitchen', 'Skyline views'],
-      plan: '2br2ba',
-      featured: true
+      features: ['Private deck', 'Updated kitchen', 'Neighborhood views'],
+      plan: '2br2ba'
     }
   ];
 
@@ -5548,14 +5575,14 @@
         <div class="unit-card-body">
           <div class="unit-card-head">
             <div>
-              <span class="unit-card-num">Unit <span class="italic">${unit.id}</span></span>
-              <span class="unit-card-floor">${unit.floor}</span>
+              <span class="unit-card-num">Unit <span class="italic">${unit.unit}</span></span>
+              <span class="unit-card-floor">${unit.property} · ${unit.floor}</span>
             </div>
             <div class="unit-card-tools">
-              <button class="unit-fav" type="button" data-fav="${unit.id}" aria-pressed="${isFaved}" aria-label="${isFaved ? 'Remove Unit ' + unit.id + ' from saved homes' : 'Save Unit ' + unit.id}" title="Save home">
+              <button class="unit-fav" type="button" data-fav="${unit.id}" aria-pressed="${isFaved}" aria-label="${isFaved ? 'Remove ' + unit.property + ' Unit ' + unit.unit + ' from saved homes' : 'Save ' + unit.property + ' Unit ' + unit.unit}" title="Save home">
                 <svg width="16" height="16" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
               </button>
-              <button class="unit-cmp" type="button" data-cmp="${unit.id}" aria-pressed="${isCmp}" aria-label="${isCmp ? 'Remove Unit ' + unit.id + ' from comparison' : 'Add Unit ' + unit.id + ' to comparison'}" title="Compare">vs</button>
+              <button class="unit-cmp" type="button" data-cmp="${unit.id}" aria-pressed="${isCmp}" aria-label="${isCmp ? 'Remove ' + unit.property + ' Unit ' + unit.unit + ' from comparison' : 'Add ' + unit.property + ' Unit ' + unit.unit + ' to comparison'}" title="Compare">vs</button>
             </div>
           </div>
           ${budgetTag}
@@ -5736,11 +5763,11 @@
       const price = u.rent == null ? 'Inquire' : '$' + u.rent.toLocaleString() + '<span>/mo</span>';
       return `<div class="sl-row">
         <div class="sl-row-info">
-          <div class="sl-row-title">Unit <span class="italic">${u.id}</span></div>
-          <div class="sl-row-meta">${PLAN_LABELS[u.plan]} · ${u.sqft.toLocaleString()} sqft · ${u.floor}</div>
+          <div class="sl-row-title">Unit <span class="italic">${u.unit}</span></div>
+          <div class="sl-row-meta">${u.property} · ${PLAN_LABELS[u.plan]} · ${u.sqft.toLocaleString()} sqft · ${u.floor}</div>
         </div>
         <div class="sl-row-price">${price}</div>
-        <button class="sl-row-remove" type="button" data-sl-remove="${u.id}" aria-label="Remove Unit ${u.id}">
+        <button class="sl-row-remove" type="button" data-sl-remove="${u.id}" aria-label="Remove ${u.property} Unit ${u.unit}">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>`;
@@ -5775,11 +5802,12 @@
     const minRent = Math.min.apply(null, units.filter(u => u.rent != null).map(u => u.rent));
     const maxSqft = Math.max.apply(null, units.map(u => u.sqft));
     const minPpsq = Math.min.apply(null, units.filter(u => ppsq(u) != null).map(ppsq));
-    const head = '<tr><th></th>' + units.map(u => `<th>Unit <span class="italic">${u.id}</span></th>`).join('') + '</tr>';
+    const head = '<tr><th></th>' + units.map(u => `<th>Unit <span class="italic">${u.unit}</span></th>`).join('') + '</tr>';
     function row(label, fn) {
       return '<tr><th>' + label + '</th>' + units.map(fn).join('') + '</tr>';
     }
     const rows = [
+      row('Property', u => `<td>${u.property}</td>`),
       row('Plan', u => `<td>${PLAN_LABELS[u.plan]}</td>`),
       row('Beds', u => `<td>${u.beds}</td>`),
       row('Baths', u => `<td>${u.baths}</td>`),
@@ -5809,7 +5837,7 @@
   function sendShortlistToTour(ids) {
     const valid = ids.map(unitById).filter(Boolean);
     if (valid.length === 0) return;
-    const list = valid.map(u => u.id).join(', ');
+    const list = valid.map(u => u.property + ' Unit ' + u.unit).join(', ');
     const plural = valid.length === 1 ? 'unit' : 'units';
     const msg = "I'm interested in " + plural + ' ' + list + '. Could we tour ' + (valid.length === 1 ? 'it' : 'them') + '?';
     if (typeof window.tourPrefill === 'function') window.tourPrefill(msg);
@@ -6110,7 +6138,7 @@
       });
       L.marker([PROPERTY.lat, PROPERTY.lng], { icon: homeIcon, zIndexOffset: 1000 })
         .addTo(map)
-        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>Magnolia Crestview</h4><p>2701 W Manor Pl<br>Seattle, WA 98199</p><div class="foot"><span>9 homes</span><span>From $1,595</span></div></div>`);
+        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>Magnolia Crestview</h4><p>2701 W Manor Pl<br>Seattle, WA 98199</p><div class="foot"><span>7 homes</span><span>From $1,595</span></div></div>`);
 
       // Bus routes — drawn once, beneath the markers, always visible
       BUS_ROUTES.forEach(r => {
@@ -6433,7 +6461,7 @@
     // Populate from priced UNITS (skip inquire-only), 1BR then 2BR
     const priced = UNITS.filter(u => u.rent != null).sort((a, b) => a.beds - b.beds || a.rent - b.rent);
     sel.innerHTML = priced.map(u =>
-      `<option value="${u.id}">Unit ${u.id} · ${PLAN_LABELS[u.plan]} · $${u.rent.toLocaleString()}/mo</option>`
+      `<option value="${u.id}">${u.property} · Unit ${u.unit} · ${PLAN_LABELS[u.plan]} · $${u.rent.toLocaleString()}/mo</option>`
     ).join('');
 
     function money(n) { return '$' + Math.round(n).toLocaleString(); }
