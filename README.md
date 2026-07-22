@@ -17,13 +17,23 @@ src/
     places.json          ← neighborhood places
     photos.json          ← gallery
     bus-stops.json       ← transit points for the map
+    public/              ← per-site static files copied verbatim into the build
+      guides/            ←   standalone guide pages (/guides/...)
+      assets/guide.css   ←   styles for the guide pages
+      llms.txt           ←   /llms.txt for AI crawlers
   layouts/BaseLayout.astro   ← <head>: SEO, Open Graph, JSON-LD, theme — all from config
   components/Analytics.astro  ← PostHog + Clarity + conversion-event taxonomy
   styles/global.css      ← shared styles (theme colors overridden per site)
   generated/body.html    ← shared page markup (produced by scripts/migrate.mjs)
   pages/                 ← index + dynamic robots.txt / sitemap.xml / site.webmanifest
-public/app.js            ← shared client logic (reads its data from window.__SITE__)
+public/                  ← shared static files for every site (app.js, favicon, _headers, /admin)
+  app.js                 ← shared client logic (reads its data from window.__SITE__)
 ```
+
+Two static-file surfaces: shared `public/` ships with every site, while
+`src/sites/<id>/public/` ships only with that property (copied into the build by
+a small integration in `astro.config.mjs`). On a path collision the per-site file
+wins.
 
 The original single-file `index.html` is kept at the repo root as the source the
 migration script slices from. It is **not** what gets deployed once you cut over.
@@ -47,11 +57,15 @@ SITE=magnolia-crestview npm run build
 
 1. `cp -r src/sites/magnolia-crestview src/sites/<new-id>`
 2. Edit `<new-id>/site.config.json` — name, domain, address, geo, theme colors,
-   SEO copy, and analytics IDs.
+   SEO copy, analytics IDs, and the `sitemap.pages` list (extra URLs like guides).
 3. Replace `units.json` / `places.json` / `photos.json` / `bus-stops.json` with
    that property's data. Heavy assets (photos, 3D tours) should point at object
    storage (e.g. Cloudflare R2/Images), not be committed here.
-4. `SITE=<new-id> npm run build` and deploy (below).
+4. Update `<new-id>/public/` — swap in that property's guides, `llms.txt`, and any
+   property-specific static files (or delete the ones you don't need).
+5. Add `<new-id>` to the `site` matrix in `.github/workflows/build.yml` so CI
+   verifies its build.
+6. `SITE=<new-id> npm run build` and deploy (below).
 
 Template-wide changes (anything in `layouts/`, `components/`, `styles/`,
 `generated/`, `public/app.js`) automatically apply to every site on its next build.

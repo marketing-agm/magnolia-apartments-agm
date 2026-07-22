@@ -73,6 +73,13 @@
   "manifest": {
     "description": "Apartments in Magnolia, Seattle — 1BR & 2BR, steps from Discovery Park."
   },
+  "sitemap": {
+    "pages": [
+      { "path": "/guides/living-in-magnolia/", "changefreq": "monthly", "priority": 0.7 },
+      { "path": "/guides/discovery-park/", "changefreq": "monthly", "priority": 0.7 },
+      { "path": "/guides/magnolia-commute/", "changefreq": "monthly", "priority": 0.7 }
+    ]
+  },
   "floorPlans": {
     "1br": {
       "image": "",

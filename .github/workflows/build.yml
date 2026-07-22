@@ -1,0 +1,29 @@
+name: Build
+
+# Verify the Astro template builds for every property. A red check here means
+# a change would break a live site's build — so it can't merge.
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # One entry per property folder in src/sites/. Add new sites here so
+        # their build is verified on every change to the shared template.
+        site: [magnolia-crestview]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Build ${{ matrix.site }}
+        run: npm run build
+        env:
+          SITE: ${{ matrix.site }}
