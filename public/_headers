@@ -26,3 +26,9 @@
   Cache-Control: public, max-age=3600
 /sitemap.xml
   Cache-Control: public, max-age=3600
+/llms.txt
+  Cache-Control: public, max-age=3600
+
+# Guide/static assets (per-site public/): long cache, versioned by content
+/assets/*
+  Cache-Control: public, max-age=604800
