@@ -93,9 +93,9 @@
   "integrations": {
     "orsApiKey": "",
     "emailjs": {
-      "publicKey": "",
-      "serviceId": "",
-      "templateId": "",
+      "publicKey": "oVeCEKCpUsDe3_ba2",
+      "serviceId": "service_k20kun9",
+      "templateId": "template_tan1cbq",
       "toEmail": "leasing@agmrealestategroup.com"
     }
   },
