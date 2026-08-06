@@ -107,5 +107,9 @@
     "clarity": {
       "id": ""
     }
+  },
+  "availability": {
+    "source": "https://raw.githubusercontent.com/marketing-agm/agm-availabilities/main/listings.json",
+    "appfolioProperty": "Magnolia Crestview"
   }
 }
