@@ -1,0 +1,94 @@
+<!-- EmailJS template body for the tour/leasing lead notification.
+     Paste into EmailJS → Templates → (your template) → Content tab → code/HTML view.
+     Settings tab must be:
+       To Email:  {{to_email}}
+       Reply To:  {{lead_email}}
+       From Name: {{property_name}} Website
+       Subject:   New tour request — {{lead_first_name}} {{lead_last_name}} — {{property_name}}
+     All {{variables}} are supplied by app.js on form submit. -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0;padding:0;background:#f5efe4;">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border:1px solid #e6ddca;border-radius:14px;overflow:hidden;">
+        <!-- accent bar -->
+        <tr><td style="height:4px;background:#129AE5;line-height:4px;font-size:0;">&nbsp;</td></tr>
+
+        <!-- header -->
+        <tr>
+          <td style="padding:28px 32px 6px;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+            <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#129AE5;font-weight:700;">New tour request</div>
+            <div style="font-family:Georgia,'Times New Roman',serif;font-size:25px;line-height:1.15;color:#0a0a0a;margin-top:8px;">{{property_name}}</div>
+          </td>
+        </tr>
+
+        <!-- lead identity -->
+        <tr>
+          <td style="padding:14px 32px 0;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+            <div style="font-size:20px;font-weight:700;color:#0a0a0a;">{{lead_first_name}} {{lead_last_name}}</div>
+            <div style="margin-top:8px;font-size:15px;color:#3a3733;">
+              <a href="mailto:{{lead_email}}" style="color:#129AE5;text-decoration:none;">{{lead_email}}</a>
+              <span style="color:#d9d0bd;">&nbsp;·&nbsp;</span>
+              <a href="tel:{{lead_phone}}" style="color:#129AE5;text-decoration:none;">{{lead_phone}}</a>
+            </div>
+          </td>
+        </tr>
+
+        <!-- divider -->
+        <tr><td style="padding:22px 32px 0;"><div style="border-top:1px solid #eae1cc;font-size:0;line-height:0;">&nbsp;</div></td></tr>
+
+        <!-- details -->
+        <tr>
+          <td style="padding:14px 32px 0;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;color:#0a0a0a;">
+              <tr>
+                <td style="padding:7px 0;color:#6e6a63;width:132px;">Bedrooms</td>
+                <td style="padding:7px 0;font-weight:600;text-align:right;">{{beds_interest}}</td>
+              </tr>
+              <tr>
+                <td style="padding:7px 0;color:#6e6a63;border-top:1px solid #f2ecde;">Move-in</td>
+                <td style="padding:7px 0;font-weight:600;text-align:right;border-top:1px solid #f2ecde;">{{move_in_date}}</td>
+              </tr>
+              <tr>
+                <td style="padding:7px 0;color:#6e6a63;border-top:1px solid #f2ecde;">Tour date</td>
+                <td style="padding:7px 0;font-weight:600;text-align:right;border-top:1px solid #f2ecde;">{{tour_date}}</td>
+              </tr>
+              <tr>
+                <td style="padding:7px 0;color:#6e6a63;border-top:1px solid #f2ecde;">Tour time</td>
+                <td style="padding:7px 0;font-weight:600;text-align:right;border-top:1px solid #f2ecde;">{{tour_time}}</td>
+              </tr>
+              <tr>
+                <td style="padding:7px 0;color:#6e6a63;border-top:1px solid #f2ecde;">Unit of interest</td>
+                <td style="padding:7px 0;font-weight:600;text-align:right;border-top:1px solid #f2ecde;">{{unit_interest}}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- message -->
+        <tr>
+          <td style="padding:20px 32px 0;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6e6a63;margin-bottom:8px;">Message</div>
+            <div style="font-size:15px;line-height:1.6;color:#3a3733;background:#f7f3ea;border-left:3px solid #129AE5;padding:14px 16px;border-radius:0 8px 8px 0;">{{message}}</div>
+          </td>
+        </tr>
+
+        <!-- footer meta -->
+        <tr>
+          <td style="padding:22px 32px 30px;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+            <div style="border-top:1px solid #eae1cc;padding-top:14px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:12px;color:#6e6a63;">
+                <tr><td style="padding:3px 0;">Source</td><td style="padding:3px 0;text-align:right;color:#3a3733;">{{source}}</td></tr>
+                <tr><td style="padding:3px 0;">Property</td><td style="padding:3px 0;text-align:right;color:#3a3733;">{{property_site_id}}</td></tr>
+                <tr><td style="padding:3px 0;">Page</td><td style="padding:3px 0;text-align:right;"><a href="{{page_url}}" style="color:#129AE5;text-decoration:none;">{{page_url}}</a></td></tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <div style="max-width:600px;margin:16px auto 0;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:11px;color:#9a9488;text-align:center;">
+        Sent automatically from the {{property_name}} website.
+      </div>
+    </td>
+  </tr>
+</table>
