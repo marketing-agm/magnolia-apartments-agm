@@ -1,0 +1,11 @@
+# Cloudflare Pages project configuration (config as code).
+#
+# The build output directory is pinned here so it can't be lost or reset in the
+# dashboard — Cloudflare reads `pages_build_output_dir` from this file and the
+# dashboard field becomes managed by it. The build command (`npm run build`) and
+# the per-site `SITE` build variable still live in the Pages dashboard.
+#
+# `name` must match the Pages project name exactly.
+name = "magnolia-apartments-agm"
+pages_build_output_dir = "./dist"
+compatibility_date = "2024-11-01"
