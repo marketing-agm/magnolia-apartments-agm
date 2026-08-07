@@ -1618,13 +1618,27 @@
   }
 
   /* Unit grid */
+  /* Horizontal rail: three homes in view, the rest scroll into place. Keeps the
+     section compact no matter how many units the availability feed returns. */
   .unit-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
     gap: 20px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 4px 4px 18px;
+    margin: 0 -4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  @media (max-width: 960px) { .unit-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 600px) { .unit-grid { grid-template-columns: 1fr; } }
+  .unit-grid::-webkit-scrollbar { display: none; }
+  .unit-grid > * {
+    flex: 0 0 calc((100% - 40px) / 3);
+    scroll-snap-align: start;
+  }
+  @media (max-width: 960px) { .unit-grid > * { flex-basis: calc((100% - 20px) / 2); } }
+  @media (max-width: 600px) { .unit-grid > * { flex-basis: 86%; } }
 
   @keyframes cardIn {
     from { opacity: 0; transform: translateY(12px); }
@@ -3839,6 +3853,152 @@
     width: 100%; height: 100%; max-height: 520px; object-fit: contain;
     display: block; border-radius: var(--radius);
   }
+
+  /* ---------- Dark gallery section ----------
+     Photography reads better against black; the section also breaks up the
+     otherwise all-white page. Tokens stay light — only this scope inverts. */
+  .gallery-section {
+    background: var(--ink);
+    color: #fff;
+  }
+  .gallery-section .eyebrow { color: rgba(255,255,255,0.55); }
+  .gallery-section .eyebrow::before { background: rgba(255,255,255,0.35); }
+  .gallery-section .display { color: #fff; }
+  .gallery-section .lede,
+  .gallery-section p { color: rgba(255,255,255,0.72); }
+
+  .gallery-section .gallery-tab {
+    background: transparent;
+    border-color: rgba(255,255,255,0.22);
+    color: rgba(255,255,255,0.7);
+  }
+  .gallery-section .gallery-tab:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+  .gallery-section .gallery-tab.is-active {
+    background: #fff; color: var(--ink); border-color: #fff;
+  }
+
+  .gallery-section .gallery-item {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.14);
+  }
+  .gallery-section .gallery-item:hover { border-color: rgba(255,255,255,0.4); }
+  .gallery-section .gallery-item-img { background: rgba(255,255,255,0.06); }
+  .gallery-section .gallery-item-title { color: #fff; }
+  .gallery-section .gallery-item-cat { color: rgba(255,255,255,0.55); }
+  .gallery-section .gallery-item-placeholder {
+    background: rgba(255,255,255,0.06);
+    border-bottom-color: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.6);
+  }
+  .gallery-section .gallery-item-placeholder .ph-eyebrow { color: rgba(255,255,255,0.5); }
+  .gallery-section .gallery-item-placeholder .ph-title { color: rgba(255,255,255,0.85); }
+
+  /* Edge fades must blend into the dark section, not the page background. */
+  .gallery-section .gallery-strip-wrap::before {
+    background: linear-gradient(to right, var(--ink), transparent);
+  }
+  .gallery-section .gallery-strip-wrap::after {
+    background: linear-gradient(to left, var(--ink), transparent);
+  }
+  .gallery-section .strip-prev,
+  .gallery-section .strip-next {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.22);
+    color: #fff;
+  }
+  .gallery-section .strip-prev:hover,
+  .gallery-section .strip-next:hover { background: rgba(255,255,255,0.2); }
+
+  /* ---------- Dark unit cards ---------- */
+  .unit-card {
+    background: var(--ink);
+    border-color: rgba(255,255,255,0.14);
+    color: #fff;
+  }
+  .unit-card:hover { border-color: rgba(255,255,255,0.45); }
+  .unit-card-plan {
+    background: rgba(255,255,255,0.06);
+    border-bottom-color: rgba(255,255,255,0.12);
+  }
+  .unit-plan-placeholder { color: rgba(255,255,255,0.66); }
+  .unit-plan-placeholder em { color: #fff; }
+  .unit-plan-label {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.75);
+  }
+  .unit-card-num, .unit-card .price { color: #fff; }
+  .unit-card-floor { color: rgba(255,255,255,0.55); }
+  .unit-card .price span { color: rgba(255,255,255,0.6); }
+  .unit-card .unit-card-specs { border-color: rgba(255,255,255,0.12); }
+  .unit-card .unit-card-specs > div { border-color: rgba(255,255,255,0.12); }
+  .unit-card .unit-card-specs strong { color: #fff; }
+  .unit-card .unit-card-specs span { color: rgba(255,255,255,0.55); }
+  .unit-card .unit-card-price { border-color: rgba(255,255,255,0.12); }
+  .unit-card .unit-card-features li {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.8);
+  }
+  .unit-card .avail { color: rgba(255,255,255,0.75); }
+  .unit-card .unit-fav, .unit-card .unit-cmp {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.22);
+    color: rgba(255,255,255,0.85);
+  }
+  .unit-card .unit-fav:hover, .unit-card .unit-cmp:hover {
+    background: rgba(255,255,255,0.16); border-color: #fff; color: #fff;
+  }
+  .unit-card.is-compared .unit-cmp { background: #fff; color: var(--ink); border-color: #fff; }
+  .unit-card .unit-card-cta {
+    background: #fff;
+    color: var(--ink);
+  }
+  .unit-card .unit-card-cta:hover { background: rgba(255,255,255,0.88); }
+  .unit-card.is-featured { border-color: var(--accent); }
+
+  /* The card itself opens the detail modal. */
+  .unit-card { cursor: pointer; }
+  .unit-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* ---------- Unit detail modal ----------
+     Holds what used to be three full-width sections (inside the home, rental
+     terms, application criteria) plus a per-unit summary. */
+  .ct-panel--wide { max-width: 960px; width: 100%; }
+  .ud-inner { max-width: none; margin: 0; padding: 0; }
+  .ud-block { padding: 28px 0 4px; border-top: 1px solid var(--rule); }
+  .ud-block:first-of-type { border-top: 0; }
+  .ud-block .section-head { margin-bottom: 20px; }
+  .ud-block h2.display { font-size: clamp(22px, 2.4vw, 30px); }
+  .ud-block .lede { font-size: 16px; }
+  .ud-block section, .ud-block .features-grid { padding: 0; }
+
+  .ud-summary { padding-bottom: 4px; }
+  .ud-summary-top {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .ud-price { font-family: var(--serif); font-size: clamp(28px, 4vw, 38px); color: var(--ink); line-height: 1; }
+  .ud-price span { font-size: 15px; color: var(--ink-3); font-family: var(--sans); }
+  .ud-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--rule); border-radius: var(--radius-lg);
+    overflow: hidden; margin-bottom: 18px;
+  }
+  .ud-stats > div { padding: 14px 16px; border-right: 1px solid var(--rule); }
+  .ud-stats > div:last-child { border-right: 0; }
+  .ud-stats dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+  .ud-stats dd { margin: 0; font-size: 17px; color: var(--ink); }
+  @media (max-width: 620px) {
+    .ud-stats { grid-template-columns: repeat(2, 1fr); }
+    .ud-stats > div:nth-child(2) { border-right: 0; }
+  }
+  .ud-tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 20px; }
+  .ud-tags li {
+    font-size: 13px; padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--rule); color: var(--ink-2); background: var(--bg-2);
+  }
+  .ud-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
 
   /* ---------- FAQ ---------- */
   .faq { padding: clamp(56px, 8vw, 104px) 0; border-top: 1px solid var(--rule); }

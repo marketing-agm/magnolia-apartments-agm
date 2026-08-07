@@ -142,7 +142,7 @@
       : '';
     const cls = 'unit-card' + (unit.featured ? ' is-featured' : '') + (isFaved ? ' is-faved' : '') + (isCmp ? ' is-compared' : '') + budgetClass;
     return `
-      <article class="${cls}" style="animation-delay:${idx * 50}ms">
+      <article class="${cls}" style="animation-delay:${idx * 50}ms" data-unit-open="${unit.id}" tabindex="0" role="button" aria-label="View details for Unit ${unit.id}">
         <div class="unit-card-plan">
           <span class="unit-plan-label">${PLAN_LABELS[unit.plan]}</span>
           ${featured}
@@ -268,7 +268,22 @@
         return;
       }
       toggleCompare(id);
+      return;
     }
+    // Anything else on the card opens the detail modal — except the tour CTA,
+    // which should keep its own jump-to-form behaviour.
+    if (e.target.closest('.unit-card-cta')) return;
+    const card = e.target.closest('[data-unit-open]');
+    if (card) openUnitDetail(card.dataset.unitOpen);
+  });
+
+  // Keyboard parity for the card-as-button.
+  document.getElementById('unit-grid').addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest('[data-unit-open]');
+    if (!card || e.target !== card) return;
+    e.preventDefault();
+    openUnitDetail(card.dataset.unitOpen);
   });
 
   // ----- Shortlist bar + overlays
@@ -317,6 +332,53 @@
   }
   document.querySelectorAll('.ct-overlay').forEach(ov => {
     ov.querySelectorAll('[data-ct-close]').forEach(b => b.addEventListener('click', () => closeOverlay(ov)));
+  });
+
+  // ----- Unit detail modal
+  // Inside-the-home, rental terms and application criteria are static content in
+  // the modal; only this per-unit summary is rendered per open.
+  function openUnitDetail(id) {
+    const u = unitById(id);
+    const overlay = document.getElementById('unit-overlay');
+    if (!u || !overlay) return;
+
+    const title = document.getElementById('ud-title');
+    const eyebrow = document.getElementById('ud-eyebrow');
+    const summary = document.getElementById('ud-summary');
+
+    if (title) title.innerHTML = 'Unit <span class="italic">' + u.id + '</span>';
+    if (eyebrow) eyebrow.textContent = PLAN_LABELS[u.plan] || 'Available home';
+    if (summary) {
+      const price = u.rent == null
+        ? 'Inquire'
+        : '$' + u.rent.toLocaleString() + '<span>/mo</span>';
+      const tags = (u.features || []).map(f => '<li>' + f + '</li>').join('');
+      summary.className = 'ud-summary';
+      summary.innerHTML =
+        '<div class="ud-summary-top">' +
+          '<div class="ud-price">' + price + '</div>' +
+          '<div class="' + (u.availType === 'soon' ? 'avail soon' : 'avail') + '"><span class="dot"></span>' + u.available + '</div>' +
+        '</div>' +
+        '<dl class="ud-stats">' +
+          '<div><dt>Beds</dt><dd>' + (u.beds === 0 ? 'Studio' : u.beds) + '</dd></div>' +
+          '<div><dt>Baths</dt><dd>' + u.baths + '</dd></div>' +
+          '<div><dt>Size</dt><dd>' + u.sqft.toLocaleString() + ' sqft</dd></div>' +
+          '<div><dt>Floor</dt><dd>' + (u.floor || '—') + '</dd></div>' +
+        '</dl>' +
+        (tags ? '<ul class="ud-tags">' + tags + '</ul>' : '') +
+        '<div class="ud-actions">' +
+          '<a href="#tour" class="btn btn-primary" data-ud-tour>Schedule a tour →</a>' +
+        '</div>';
+    }
+    openOverlay(overlay);
+    if (window.trackEvent) window.trackEvent('unit_detail_opened', { unit: u.id });
+  }
+
+  // Tour CTA inside the modal: dismiss, then jump to the form.
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-ud-tour]')) return;
+    const ov = document.getElementById('unit-overlay');
+    if (ov) closeOverlay(ov);
   });
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
