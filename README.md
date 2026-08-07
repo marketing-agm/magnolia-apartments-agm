@@ -24,7 +24,7 @@ src/
   layouts/BaseLayout.astro   ← <head>: SEO, Open Graph, JSON-LD, theme — all from config
   components/Analytics.astro  ← PostHog + Clarity + conversion-event taxonomy
   styles/global.css      ← shared styles (theme colors overridden per site)
-  generated/body.html    ← shared page markup (produced by scripts/migrate.mjs)
+  generated/body.html    ← shared page markup (edit directly)
   pages/                 ← index + dynamic robots.txt / sitemap.xml / site.webmanifest
 public/                  ← shared static files for every site (app.js, favicon, _headers, /admin)
   app.js                 ← shared client logic (reads its data from window.__SITE__)
@@ -35,11 +35,9 @@ Two static-file surfaces: shared `public/` ships with every site, while
 a small integration in `astro.config.mjs`). On a path collision the per-site file
 wins.
 
-The original single-file `index.html` is kept at the repo root as a historical
-reference only. It is **not** deployed — the cutover to the Astro build is done
-(see "Cutover status" below). Note that `scripts/migrate.mjs` can no longer be
-re-run against it: `src/generated/body.html` has been edited by hand many times
-since (FAQ, unit modal, sheet dialogs), and re-running would overwrite all of it.
+The cutover to the Astro build is done (see "Cutover status" below). The
+pre-migration single-file `index.html` has been removed from the repo root; it
+lives in git history if you need it.
 
 ## Run locally
 
@@ -93,8 +91,9 @@ Magnolia Crestview is **live on the Astro build**. The Pages project runs
 pinned in `wrangler.toml` (`pages_build_output_dir = "./dist"`) so it can't be
 lost in the dashboard.
 
-The root `index.html` is the pre-migration single-file site, kept only as a
-historical reference. **It is not served.** Everything the live site needs —
+The pre-migration single-file `index.html` has been deleted from the repo root,
+so there is no longer a stale page for a mis-configured project to fall back to.
+Everything the live site needs —
 `/app.js`, `/favicon.svg`, `/robots.txt`, `/sitemap.xml`, `/site.webmanifest`,
 `/llms.txt`, `/guides/*` and `/images/*` — exists only in the build output, so
 if you ever see those 404 while the homepage still loads, the build step is the
@@ -169,12 +168,16 @@ is identical per site, this is easily generated — a small script can rebuild
 `config.yml` from the list of `src/sites/*` folders so all properties appear in
 the editor automatically.
 
-## Regenerating the shared parts
+## Editing the shared parts
 
-`scripts/migrate.mjs` slices the root `index.html` into `generated/body.html`,
-`styles/global.css`, `public/app.js`, and the data JSON. It was a one-time
-migration; you normally edit the generated/template files directly now. Re-run
-with `npm run migrate` only if you intentionally rebuild from a new `index.html`.
+`src/generated/body.html`, `src/styles/global.css` and `public/app.js` were
+originally produced by a one-time migration from a single-file `index.html`.
+That migration is finished: edit these files directly.
+
+The source `index.html` and `scripts/migrate.mjs` have been removed — re-running
+the migration would have overwritten everything added since (FAQ, unit detail
+modal, sheet dialogs, form styling). Both remain in git history if you ever need
+to see the pre-migration design.
 
 ## External dependencies (load from CDN at runtime)
 

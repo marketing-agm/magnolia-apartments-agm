@@ -1,5 +1,10 @@
 # Launch Magnolia — next-steps playbook
 
+> **SUPERSEDED — historical record.** The Phase-2 cutover described below is
+> done: Magnolia is live on the Astro build and the root `index.html` has been
+> removed. Statements here about production serving the old file describe June
+> 2026, not the current state. See the README for what's true now.
+
 > _Archived planning artifact from the 2026-06-04 working session. Captures the launch sequence agreed on after PRs #19 (FAQ/guides), #20 (Astro multi-site + Sveltia CMS), and #21 (EmailJS tour-form wiring) were merged to `main`._
 
 ## Context
