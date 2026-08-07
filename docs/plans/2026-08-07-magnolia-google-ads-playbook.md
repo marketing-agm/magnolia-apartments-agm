@@ -46,21 +46,33 @@ not vacant right now, or does Crestview not have them? That changes the fix:
 
 Either way, **do not launch ads quoting $1,595.**
 
-### 0b. You're still on `magnolia-apartments-agm.pages.dev`
+### 0b. Confirm the ads' final URL (the build itself is already live)
 
-`site.config.json → domain` is the Cloudflare preview subdomain, and the README
-confirms production still serves the old root `index.html` with no build step.
+**The Astro cutover is done** — the Pages project runs `npm run build` and
+`wrangler.toml` pins `pages_build_output_dir = "./dist"`. So the Phase 1 tracking
+**ships to production on the next deploy of this branch**; there's no separate
+cutover step gating it. Good news for the timeline.
 
-Consequences for Ads specifically:
-- A `.pages.dev` final URL is allowed but reads as untrustworthy to searchers,
-  and you can't verify it as a domain you own for advertiser verification.
-- **The tracking added in Phase 1 lives in the Astro build.** Until Cloudflare's
-  build command is flipped to `npm run build` with output `dist` and
-  `SITE=magnolia-crestview`, the live site keeps serving the old file and *none
-  of the conversion tracking exists in production.*
+Two things still to settle before ads point anywhere:
 
-Phase 2 of `docs/plans/2026-06-04-magnolia-launch-playbook.md` is the cutover.
-**Do that before spending a dollar.** Then update `domain` to the real hostname.
+- **`site.config.json → domain` still reads
+  `https://magnolia-apartments-agm.pages.dev`.** Whether that's stale like the
+  build docs were, or genuinely the live hostname, it needs to be right —
+  `domain` feeds the canonical URL, Open Graph tags, `sitemap.xml`, and
+  `robots.txt`. If a custom domain is attached, update this value; a canonical
+  pointing at `.pages.dev` while ads land on the real domain splits your SEO
+  signals and confuses conversion attribution.
+- **Use the custom domain as the Ads final URL if one exists.** A `.pages.dev`
+  URL is permitted, but it reads as untrustworthy in the ad's display URL and
+  can't be verified as a domain you own for advertiser verification — which
+  Google increasingly requires before serving.
+
+If there's no custom domain yet, you *can* launch on `.pages.dev`; just expect a
+softer CTR, and plan to migrate the final URLs later.
+
+**Deploy-order note:** because a merge to `main` now changes the live site
+directly, deploy this branch and verify the tag with Tag Assistant **before**
+enabling any campaign — not simultaneously.
 
 ---
 
@@ -349,7 +361,8 @@ Same asset pool otherwise — that's the point of RSAs.
 
 ### Final URL + tracking
 
-Final URL: your real domain (post-cutover), landing on the main page.
+Final URL: your custom domain if one is attached, otherwise the live
+`.pages.dev` hostname — landing on the main page.
 
 **Final URL suffix** (Settings → Campaign URL options) — this is what makes the
 `ad_campaign` / `ad_keyword` fields in your lead emails actually populate:
@@ -400,8 +413,8 @@ reminder to check `units.json` against spend weekly.
 
 ```
 [ ] Phase 0a resolved — 1BR/pricing claims match units.json
-[ ] Phase 0b done — Cloudflare cutover complete, custom domain live
-[ ] site.config.json → domain updated to the real hostname
+[ ] site.config.json → domain verified/updated to the real live hostname
+[ ] This branch merged + deployed (tracking is only live once it ships)
 [ ] GA4 property created, linked to Ads
 [ ] 5 conversion actions created; exactly 2 marked Primary
 [ ] ga4Id + adsId + conversionLabels pasted into site.config.json, deployed

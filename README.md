@@ -36,7 +36,8 @@ a small integration in `astro.config.mjs`). On a path collision the per-site fil
 wins.
 
 The original single-file `index.html` is kept at the repo root as the source the
-migration script slices from. It is **not** what gets deployed once you cut over.
+migration script slices from. It is **not** deployed — production serves the
+Astro build in `dist/`.
 
 ## Run locally
 
@@ -83,12 +84,20 @@ A push that touches the template rebuilds all sites; a push that touches one
 site's folder rebuilds only that project (set each project's build-watch paths to
 `src/sites/<id>` + the shared template folders).
 
-### Cutover note (Magnolia)
+### Cutover status (Magnolia) — done
 
-Production currently serves the root `index.html` with **no build step**. Merging
-this branch does **not** change the live site by itself — it keeps serving the old
-file until you switch the Pages build command to `npm run build` and output dir to
-`dist`. So the migration is safe to merge first, cut over second.
+Magnolia is **live on the Astro build**. The Pages project runs `npm run build`,
+and the output directory is pinned as config-as-code in `wrangler.toml`
+(`pages_build_output_dir = "./dist"`), so it can't be lost or reset in the
+dashboard. The build command and the per-site `SITE` variable still live in the
+Pages dashboard.
+
+Practical consequence: **a merge to `main` changes the live site.** Template
+edits (`layouts/`, `components/`, `styles/`, `generated/`, `public/app.js`) ship
+to production on the next deploy, so preview them on a branch deploy first.
+
+The root `index.html` is **not deployed** — it's kept only as the source
+`scripts/migrate.mjs` slices from. Editing it has no effect on the live site.
 
 ## Analytics
 
