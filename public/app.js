@@ -202,6 +202,8 @@
 
     updateAffordResult();
     updateShortlistBar();
+    // Card count changed, so the rail's overflow state may have too.
+    if (typeof updateUnitRailNav === 'function') requestAnimationFrame(updateUnitRailNav);
   }
 
   function updateAffordResult() {
@@ -482,6 +484,56 @@
     const tour = document.getElementById('tour');
     if (tour) tour.scrollIntoView({ behavior: 'smooth' });
   }
+
+  // ----- Availability rail: arrows + scroll affordance
+  // Without a visible cue the extra homes past the third card go unnoticed.
+  function updateUnitRailNav() {
+    const grid = document.getElementById('unit-grid');
+    const wrap = document.getElementById('unit-rail-wrap');
+    if (!grid || !wrap) return;
+    // The rail carries 4px of scroll padding, so resting "at start" is a few
+    // pixels in rather than exactly 0.
+    const EDGE = 8;
+    const overflowing = grid.scrollWidth > grid.clientWidth + EDGE;
+    const atStart = grid.scrollLeft <= EDGE;
+    const atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - EDGE;
+    wrap.classList.toggle('has-overflow', overflowing);
+    wrap.classList.toggle('is-at-start', atStart);
+    wrap.classList.toggle('is-at-end', atEnd);
+    const prev = wrap.querySelector('.unit-prev');
+    const next = wrap.querySelector('.unit-next');
+    if (prev) prev.classList.toggle('is-hidden', !overflowing || atStart);
+    if (next) next.classList.toggle('is-hidden', !overflowing || atEnd);
+  }
+  function scrollUnitRail(dir) {
+    const grid = document.getElementById('unit-grid');
+    if (!grid) return;
+    const card = grid.querySelector('.unit-card');
+    const step = card ? card.getBoundingClientRect().width + 20 : grid.clientWidth * 0.7;
+    grid.scrollBy({ left: dir * step, behavior: 'smooth' });
+  }
+  document.querySelector('.unit-prev')?.addEventListener('click', () => scrollUnitRail(-1));
+  document.querySelector('.unit-next')?.addEventListener('click', () => scrollUnitRail(1));
+  document.getElementById('unit-grid')?.addEventListener('scroll', () => {
+    requestAnimationFrame(updateUnitRailNav);
+  }, { passive: true });
+  window.addEventListener('resize', () => requestAnimationFrame(updateUnitRailNav));
+
+  // Hero photography. Falls back to the illustrated skyline when a site hasn't
+  // supplied a photo yet, and also if the file 404s.
+  (function () {
+    const cfg = (window.__SITE__ && window.__SITE__.config) || {};
+    const hero = cfg.hero || {};
+    const visual = document.querySelector('.hero-visual');
+    if (!visual || !hero.image) return;
+    const img = new Image();
+    img.className = 'hero-photo';
+    img.alt = hero.alt || '';
+    img.decoding = 'async';
+    img.fetchPriority = 'high';
+    img.onload = () => { visual.classList.add('has-photo'); visual.prepend(img); };
+    img.src = hero.image;
+  })();
 
   // Initial render
   syncUnitCounts();

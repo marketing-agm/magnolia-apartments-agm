@@ -80,6 +80,10 @@
       { "path": "/guides/magnolia-commute/", "changefreq": "monthly", "priority": 0.7 }
     ]
   },
+  "hero": {
+    "image": "/images/hero.jpg",
+    "alt": "Magnolia Crestview building exterior with private balconies"
+  },
   "floorPlans": {
     "1br": {
       "image": "",

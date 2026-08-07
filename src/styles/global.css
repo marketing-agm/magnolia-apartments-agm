@@ -16,6 +16,7 @@
     --radius: 4px;
     --radius-lg: 8px;
     --container: 1280px;
+    --nav-h: 64px;
     --serif: "Fraunces", "Source Serif 4", Georgia, serif;
     --sans: "Geist", -apple-system, "Helvetica Neue", Arial, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -3854,6 +3855,39 @@
     display: block; border-radius: var(--radius);
   }
 
+  /* ---------- Full-bleed hero visual ----------
+     The image anchors to the right edge of the viewport and spans from the top
+     of the page (behind the sticky nav) down to the bottom of the marquee — the
+     marquee lives inside .hero, so its bottom is the section's bottom. The left
+     edge stays roughly where the grid column started. */
+  @media (min-width: 961px) {
+    .hero { position: relative; }
+    .hero-visual {
+      position: absolute;
+      top: calc(-1 * var(--nav-h, 64px));
+      right: 0;
+      bottom: 0;
+      width: 47vw;
+      aspect-ratio: auto;
+      border-radius: 0;
+      box-shadow: none;
+      z-index: 0; /* under the sticky nav (50) */
+    }
+    /* The grid column is now empty but must still reserve its width. */
+    .hero-grid > div:first-child { position: relative; z-index: 1; }
+  }
+  .hero-visual.has-photo { background: var(--bg-2); }
+  .hero-visual.has-photo svg.skyline,
+  .hero-visual.has-photo .frame-overlay { display: none; }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   /* ---------- Dark gallery section ----------
      Photography reads better against black; the section also breaks up the
      otherwise all-white page. Tokens stay light — only this scope inverts. */
@@ -3894,12 +3928,9 @@
   .gallery-section .gallery-item-placeholder .ph-title { color: rgba(255,255,255,0.85); }
 
   /* Edge fades must blend into the dark section, not the page background. */
-  .gallery-section .gallery-strip-wrap::before {
-    background: linear-gradient(to right, var(--ink), transparent);
-  }
-  .gallery-section .gallery-strip-wrap::after {
-    background: linear-gradient(to left, var(--ink), transparent);
-  }
+  /* Hard cut at the rail edges instead of a gradient fade. */
+  .gallery-strip-wrap::before,
+  .gallery-strip-wrap::after { display: none; }
   .gallery-section .strip-prev,
   .gallery-section .strip-next {
     background: rgba(255,255,255,0.1);
@@ -3956,6 +3987,30 @@
   }
   .unit-card .unit-card-cta:hover { background: rgba(255,255,255,0.88); }
   .unit-card.is-featured { border-color: var(--accent); }
+
+  /* Availability rail affordances — arrows plus a hint, so it's obvious there
+     are more homes than the three in view. */
+  .unit-rail-wrap { position: relative; }
+  .unit-rail-wrap .strip-nav { opacity: 1; transition: opacity 200ms ease; }
+  .unit-rail-wrap .strip-nav.is-hidden { opacity: 0; pointer-events: none; }
+  .unit-prev { left: -18px; }
+  .unit-next { right: -18px; }
+  .unit-rail-hint {
+    margin: 4px 0 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: right;
+    opacity: 0;
+    transition: opacity 220ms ease;
+  }
+  .unit-rail-wrap.has-overflow .unit-rail-hint { opacity: 1; }
+  .unit-rail-wrap.is-at-end .unit-rail-hint { opacity: 0; }
+  @media (max-width: 720px) {
+    .unit-prev, .unit-next { display: none; }
+  }
 
   /* The card itself opens the detail modal. */
   .unit-card { cursor: pointer; }

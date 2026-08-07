@@ -351,7 +351,16 @@
       </div>
     </div>
 
-    <div class="unit-grid" id="unit-grid"></div>
+    <div class="unit-rail-wrap is-at-start" id="unit-rail-wrap">
+      <button class="strip-nav unit-prev" aria-label="Scroll to previous homes" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="strip-nav unit-next" aria-label="Scroll to more homes" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="unit-grid" id="unit-grid"></div>
+      <p class="unit-rail-hint" id="unit-rail-hint" aria-hidden="true">Scroll for more homes →</p>
+    </div>
 
     <div class="empty-state" id="empty-state" hidden>
       <div class="empty-icon">
