@@ -3,6 +3,7 @@
     {
       "id": 1,
       "cat": "interior",
+      "src": "/images/gallery/interior-updated-kitchen.jpg",
       "size": "hero",
       "title": "Updated kitchen",
       "desc": "Modern appliances, pass-through to the living area",
@@ -12,6 +13,7 @@
     {
       "id": 2,
       "cat": "interior",
+      "src": "/images/gallery/interior-living-area.jpg",
       "size": "wide",
       "title": "Living area",
       "desc": "Generous proportions, natural light through the day",
@@ -21,6 +23,7 @@
     {
       "id": 3,
       "cat": "interior",
+      "src": "/images/gallery/interior-primary-bedroom.jpg",
       "size": "tall",
       "title": "Primary bedroom",
       "desc": "A real bedroom — generous size, abundant closet",
@@ -30,6 +33,7 @@
     {
       "id": 4,
       "cat": "interior",
+      "src": "/images/gallery/interior-bathroom.jpg",
       "size": "square",
       "title": "Bathroom",
       "desc": "Updated fixtures, full tub-and-shower combo",
@@ -39,6 +43,7 @@
     {
       "id": 5,
       "cat": "interior",
+      "src": "/images/gallery/interior-dining.jpg",
       "size": "square",
       "title": "Dining",
       "desc": "Open to the kitchen and living area",
@@ -48,6 +53,7 @@
     {
       "id": 6,
       "cat": "interior",
+      "src": "/images/gallery/interior-second-bedroom.jpg",
       "size": "square",
       "title": "Second bedroom",
       "desc": "Roommate-friendly — equal in size with its own closet",
@@ -57,6 +63,7 @@
     {
       "id": 7,
       "cat": "exterior",
+      "src": "/images/gallery/exterior-building-facade.jpg",
       "size": "hero",
       "title": "Building facade",
       "desc": "A quiet residential street in the heart of Magnolia",
@@ -66,6 +73,7 @@
     {
       "id": 8,
       "cat": "exterior",
+      "src": "/images/gallery/exterior-the-approach.jpg",
       "size": "wide",
       "title": "The approach",
       "desc": "Mature trees and tree-lined sidewalks",
@@ -75,6 +83,7 @@
     {
       "id": 9,
       "cat": "exterior",
+      "src": "/images/gallery/exterior-original-architecture.jpg",
       "size": "tall",
       "title": "Original architecture",
       "desc": "Mid-century forms, carefully maintained",
@@ -84,6 +93,7 @@
     {
       "id": 10,
       "cat": "exterior",
+      "src": "/images/gallery/exterior-private-deck.jpg",
       "size": "square",
       "title": "Private deck",
       "desc": "Built-in storage, skyline views from upper floors",
@@ -93,6 +103,7 @@
     {
       "id": 11,
       "cat": "exterior",
+      "src": "/images/gallery/exterior-garden-side.jpg",
       "size": "square",
       "title": "Garden side",
       "desc": "Quiet shared outdoor space",
@@ -102,6 +113,7 @@
     {
       "id": 12,
       "cat": "exterior",
+      "src": "/images/gallery/exterior-covered-parking.jpg",
       "size": "square",
       "title": "Covered parking",
       "desc": "Covered + uncovered options on-site",
@@ -111,6 +123,7 @@
     {
       "id": 13,
       "cat": "units",
+      "src": "/images/gallery/units-unit-407.jpg",
       "size": "hero",
       "title": "Unit 407",
       "desc": "2 BR · 2 BA · 1,000 sqft · Top floor · $1,995/mo",
@@ -120,6 +133,7 @@
     {
       "id": 14,
       "cat": "units",
+      "src": "/images/gallery/units-unit-306.jpg",
       "size": "wide",
       "title": "Unit 306",
       "desc": "1 BR · 600 sqft · Private deck · $1,695/mo",
@@ -129,6 +143,7 @@
     {
       "id": 15,
       "cat": "units",
+      "src": "/images/gallery/units-unit-103.jpg",
       "size": "tall",
       "title": "Unit 103",
       "desc": "1 BR · 600 sqft · Ground floor · $1,595/mo",
@@ -138,6 +153,7 @@
     {
       "id": 16,
       "cat": "units",
+      "src": "/images/gallery/units-built-in-storage.jpg",
       "size": "square",
       "title": "Built-in storage",
       "desc": "Closets and shelving throughout",
@@ -147,6 +163,7 @@
     {
       "id": 17,
       "cat": "units",
+      "src": "/images/gallery/units-unit-402.jpg",
       "size": "square",
       "title": "Unit 402",
       "desc": "2 BR · 2 BA · 1,000 sqft · Upper floor · Skyline views",
@@ -156,6 +173,7 @@
     {
       "id": 18,
       "cat": "units",
+      "src": "/images/gallery/units-unit-203.jpg",
       "size": "square",
       "title": "Unit 203",
       "desc": "1 BR · 600 sqft · Second floor · $1,595/mo",
@@ -165,6 +183,7 @@
     {
       "id": 19,
       "cat": "neighborhood",
+      "src": "/images/gallery/neighborhood-discovery-park.jpg",
       "size": "hero",
       "title": "Discovery Park",
       "desc": "534 acres of trails, beach, and old-growth forest",
@@ -174,6 +193,7 @@
     {
       "id": 20,
       "cat": "neighborhood",
+      "src": "/images/gallery/neighborhood-magnolia-village.jpg",
       "size": "wide",
       "title": "Magnolia Village",
       "desc": "Shops, cafés, weekend farmers market",
@@ -183,6 +203,7 @@
     {
       "id": 21,
       "cat": "neighborhood",
+      "src": "/images/gallery/neighborhood-seattle-skyline.jpg",
       "size": "tall",
       "title": "Seattle skyline",
       "desc": "Visible from upper-floor decks",
@@ -192,6 +213,7 @@
     {
       "id": 22,
       "cat": "neighborhood",
+      "src": "/images/gallery/neighborhood-puget-sound.jpg",
       "size": "square",
       "title": "Puget Sound",
       "desc": "Waterfront walks and beach access",
@@ -201,6 +223,7 @@
     {
       "id": 23,
       "cat": "neighborhood",
+      "src": "/images/gallery/neighborhood-local-cafe.jpg",
       "size": "square",
       "title": "Local café",
       "desc": "One of many independents in Magnolia Village",
@@ -210,6 +233,7 @@
     {
       "id": 24,
       "cat": "neighborhood",
+      "src": "/images/gallery/neighborhood-ballard.jpg",
       "size": "square",
       "title": "Ballard",
       "desc": "10 min away — restaurants, breweries, Sunday market",

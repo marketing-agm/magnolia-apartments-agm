@@ -946,6 +946,12 @@
   // (Replace imgId values with actual property photos when available)
   const PHOTOS = (window.__SITE__ && window.__SITE__.data.photos) || [];
 
+  const PHOTO_PLACEHOLDER =
+    '<div class="gallery-item-placeholder">' +
+      '<span class="ph-eyebrow">Photography</span>' +
+      '<span class="ph-title">Coming <em>soon.</em></span>' +
+    '</div>';
+
   let galleryCat = 'all';
   let lightboxIdx = 0;
   let lightboxList = [];
@@ -962,10 +968,7 @@
       const delay = Math.min(i, 12) * 35;
       const media = p.src
         ? `<img class="gallery-item-photo" src="${p.src}" alt="${p.title}" loading="lazy" />`
-        : `<div class="gallery-item-placeholder">
-              <span class="ph-eyebrow">Photography</span>
-              <span class="ph-title">Coming <em>soon.</em></span>
-            </div>`;
+        : PHOTO_PLACEHOLDER;
       return `
         <button class="gallery-item" type="button" data-photo-id="${p.id}" style="animation-delay:${delay}ms" aria-label="View ${p.title}">
           <div class="gallery-item-img">
@@ -978,6 +981,16 @@
         </button>
       `;
     }).join('');
+
+    // photos.json ships the intended filename for every slot, so a photo that
+    // hasn't been supplied yet 404s. Fall back to the placeholder rather than
+    // showing a broken image.
+    strip.querySelectorAll('.gallery-item-photo').forEach(img => {
+      img.addEventListener('error', () => {
+        const wrap = img.closest('.gallery-item-img');
+        if (wrap) wrap.innerHTML = PHOTO_PLACEHOLDER;
+      }, { once: true });
+    });
 
     strip.querySelectorAll('.gallery-item').forEach(el => {
       el.addEventListener('click', () => {
@@ -1054,7 +1067,10 @@
     lbDesc.textContent = p.desc;
     lbCounter.textContent = `${lightboxIdx + 1} / ${lightboxList.length}`;
     if (lbImg) {
-      if (p.src) { lbImg.src = p.src; lbImg.alt = p.title; lbImg.hidden = false; }
+      if (p.src) {
+        lbImg.onerror = () => { lbImg.hidden = true; };  // photo not supplied yet
+        lbImg.src = p.src; lbImg.alt = p.title; lbImg.hidden = false;
+      }
       else { lbImg.removeAttribute('src'); lbImg.hidden = true; }
     }
     // Reset animation
