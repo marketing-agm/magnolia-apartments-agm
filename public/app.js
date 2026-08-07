@@ -10,6 +10,40 @@
   document.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  // Scrollspy: highlight the nav link for whichever section is in view, so the
+  // bar doubles as a position indicator on a long single-page layout.
+  (function () {
+    const links = [...document.querySelectorAll('.nav-links a[href^="#"]:not(.nav-cta)')];
+    const targets = links
+      .map(a => ({ a, el: document.getElementById(a.getAttribute('href').slice(1)) }))
+      .filter(t => t.el);
+    if (!targets.length) return;
+
+    let current = null;
+    const setActive = (a) => {
+      if (current === a) return;
+      links.forEach(l => l.classList.remove('is-active'));
+      if (a) a.classList.add('is-active');
+      current = a;
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      // Pick the entry nearest the top of the viewport that's still on screen.
+      const visible = entries.filter(e => e.isIntersecting);
+      if (!visible.length) return;
+      const best = visible.reduce((a, b) =>
+        Math.abs(a.boundingClientRect.top) < Math.abs(b.boundingClientRect.top) ? a : b);
+      const match = targets.find(t => t.el === best.target);
+      if (match) setActive(match.a);
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+    targets.forEach(t => io.observe(t.el));
+    // Back at the very top, no section is "current".
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < 80) setActive(null);
+    }, { passive: true });
+  })();
+
   // Mobile menu toggle
   (function () {
     const toggle = document.getElementById('nav-toggle');
@@ -65,6 +99,15 @@
     try { localStorage.setItem('mc_favs', JSON.stringify([...favorites])); } catch (e) {}
   }
   function unitById(id) { return UNITS.find(u => u.id === id); }
+
+  // Advertised home counts come from the live unit data, never hardcoded copy —
+  // availability is refreshed automatically, so any typed-in number goes stale.
+  // Fills [data-unit-count] with the total and [data-unit-noun] with home/homes.
+  function syncUnitCounts() {
+    const n = UNITS.length;
+    document.querySelectorAll('[data-unit-count]').forEach((el) => { el.textContent = n; });
+    document.querySelectorAll('[data-unit-noun]').forEach((el) => { el.textContent = n === 1 ? 'home' : 'homes'; });
+  }
 
   function toggleFav(id) {
     if (favorites.has(id)) favorites.delete(id);
@@ -133,7 +176,7 @@
       : '';
     const cls = 'unit-card' + (unit.featured ? ' is-featured' : '') + (isFaved ? ' is-faved' : '') + (isCmp ? ' is-compared' : '') + budgetClass;
     return `
-      <article class="${cls}" style="animation-delay:${idx * 50}ms">
+      <article class="${cls}" style="animation-delay:${idx * 50}ms" data-unit-open="${unit.id}" tabindex="0" role="button" aria-label="View details for Unit ${unit.id}">
         <div class="unit-card-plan">
           <span class="unit-plan-label">${PLAN_LABELS[unit.plan]}</span>
           ${featured}
@@ -193,6 +236,8 @@
 
     updateAffordResult();
     updateShortlistBar();
+    // Card count changed, so the rail's overflow state may have too.
+    if (typeof updateUnitRailNav === 'function') requestAnimationFrame(updateUnitRailNav);
   }
 
   function updateAffordResult() {
@@ -259,7 +304,22 @@
         return;
       }
       toggleCompare(id);
+      return;
     }
+    // Anything else on the card opens the detail modal — except the tour CTA,
+    // which should keep its own jump-to-form behaviour.
+    if (e.target.closest('.unit-card-cta')) return;
+    const card = e.target.closest('[data-unit-open]');
+    if (card) openUnitDetail(card.dataset.unitOpen);
+  });
+
+  // Keyboard parity for the card-as-button.
+  document.getElementById('unit-grid').addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest('[data-unit-open]');
+    if (!card || e.target !== card) return;
+    e.preventDefault();
+    openUnitDetail(card.dataset.unitOpen);
   });
 
   // ----- Shortlist bar + overlays
@@ -309,6 +369,147 @@
   document.querySelectorAll('.ct-overlay').forEach(ov => {
     ov.querySelectorAll('[data-ct-close]').forEach(b => b.addEventListener('click', () => closeOverlay(ov)));
   });
+
+  // ----- Sheet modals (neighborhood, tour, FAQ)
+  // These used to be full-page sections. Every existing link that pointed at
+  // them — nav, footer, hero CTA, unit cards, sticky mobile bar — now opens the
+  // matching dialog instead of scrolling, so no link had to be rewritten.
+  const SHEETS = {
+    '#neighborhood': 'neighborhood-overlay',
+    '#tour': 'tour-overlay',
+    '#faq': 'faq-overlay',
+  };
+
+  function openSheet(hash) {
+    const el = document.getElementById(SHEETS[hash]);
+    if (!el) return false;
+    openOverlay(el);
+    // Leaflet lays out to zero size while its container is hidden, so re-measure
+    // once the sheet is on screen.
+    if (hash === '#neighborhood' && typeof map !== 'undefined' && map) {
+      setTimeout(() => { try { map.invalidateSize(); } catch (e) {} }, 60);
+    }
+    if (window.trackEvent) window.trackEvent('sheet_opened', { sheet: hash.slice(1) });
+    return true;
+  }
+
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const hash = a.getAttribute('href');
+    if (!SHEETS[hash]) return;
+    e.preventDefault();
+    // Coming from another dialog (e.g. a unit's tour button): close it first.
+    document.querySelectorAll('.ct-overlay.is-open').forEach(closeOverlay);
+    openSheet(hash);
+  });
+
+  // ----- Unit detail modal
+  // Units carry a more specific plan key than the floor-plan config sometimes
+  // does (e.g. "2br2ba" vs "2br"), so fall back to the bedroom-count prefix.
+  // Keeps studio / 1br / 3br2ba working without renaming existing config.
+  function planConfig(plan) {
+    const fp = (window.__SITE__ && window.__SITE__.config.floorPlans) || {};
+    if (fp[plan]) return fp[plan];
+    const m = String(plan || '').match(/^(studio|\d+br)/);
+    return (m && fp[m[1]]) || null;
+  }
+
+  // Representative media for the unit's plan: the floor-plan drawing first,
+  // then photos of that layout. Anything not supplied yet shows the placeholder.
+  function renderUnitMedia(unit) {
+    const wrap = document.getElementById('ud-media');
+    if (!wrap) return;
+    const cfg = planConfig(unit.plan) || {};
+    const items = [];
+    if (cfg.image) items.push({ src: cfg.image, title: 'Floor plan', kind: 'plan' });
+    (cfg.photos || []).forEach(p => items.push({ src: p.src, title: p.title, kind: 'photo' }));
+
+    if (!items.length) { wrap.innerHTML = ''; wrap.hidden = true; return; }
+    wrap.hidden = false;
+    wrap.innerHTML =
+      '<div class="ud-media-strip">' +
+      items.map(it =>
+        '<figure class="ud-media-item' + (it.kind === 'plan' ? ' is-plan' : '') + '">' +
+          '<div class="ud-media-img">' +
+            '<img src="' + it.src + '" alt="' + it.title + '" loading="lazy" />' +
+          '</div>' +
+          '<figcaption>' + it.title + '</figcaption>' +
+        '</figure>'
+      ).join('') +
+      '</div>';
+
+    wrap.querySelectorAll('.ud-media-img img').forEach(img => {
+      img.addEventListener('error', () => {
+        const box = img.closest('.ud-media-img');
+        if (box) box.innerHTML = '<span class="ud-media-ph">Coming soon</span>';
+      }, { once: true });
+    });
+  }
+
+  // Tabs keep the detail content in one consistent container.
+  (function () {
+    const tabs = [...document.querySelectorAll('[data-ud-tab]')];
+    if (!tabs.length) return;
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      const key = tab.dataset.udTab;
+      tabs.forEach(t => {
+        const on = t === tab;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-ud-panel]').forEach(p => {
+        p.hidden = p.dataset.udPanel !== key;
+      });
+    }));
+  })();
+
+  // Inside-the-home, rental terms and application criteria are static content in
+  // the modal; only this per-unit summary is rendered per open.
+  function openUnitDetail(id) {
+    const u = unitById(id);
+    const overlay = document.getElementById('unit-overlay');
+    if (!u || !overlay) return;
+
+    const title = document.getElementById('ud-title');
+    const eyebrow = document.getElementById('ud-eyebrow');
+    const summary = document.getElementById('ud-summary');
+
+    if (title) title.innerHTML = 'Unit <span class="italic">' + u.id + '</span>';
+    if (eyebrow) eyebrow.textContent = PLAN_LABELS[u.plan] || 'Available home';
+    if (summary) {
+      const price = u.rent == null
+        ? 'Inquire'
+        : '$' + u.rent.toLocaleString() + '<span>/mo</span>';
+      const tags = (u.features || []).map(f => '<li>' + f + '</li>').join('');
+      summary.className = 'ud-summary';
+      summary.innerHTML =
+        '<div class="ud-summary-top">' +
+          '<div class="ud-price">' + price + '</div>' +
+          '<div class="' + (u.availType === 'soon' ? 'avail soon' : 'avail') + '"><span class="dot"></span>' + u.available + '</div>' +
+        '</div>' +
+        '<dl class="ud-stats">' +
+          '<div><dt>Beds</dt><dd>' + (u.beds === 0 ? 'Studio' : u.beds) + '</dd></div>' +
+          '<div><dt>Baths</dt><dd>' + u.baths + '</dd></div>' +
+          '<div><dt>Size</dt><dd>' + u.sqft.toLocaleString() + ' sqft</dd></div>' +
+          '<div><dt>Floor</dt><dd>' + (u.floor || '—') + '</dd></div>' +
+        '</dl>' +
+        (tags ? '<ul class="ud-tags">' + tags + '</ul>' : '') +
+        '<div class="ud-actions">' +
+          '<a href="#tour" class="btn btn-primary" data-ud-tour>Schedule a tour →</a>' +
+        '</div>';
+    }
+    renderUnitMedia(u);
+    // Always reopen on the first tab so the modal reads the same way each time.
+    const firstTab = document.querySelector('[data-ud-tab]');
+    if (firstTab) firstTab.click();
+
+    openOverlay(overlay);
+    if (window.trackEvent) window.trackEvent('unit_detail_opened', { unit: u.id });
+  }
+
+  // The tour CTA inside the unit modal is an <a href="#tour">, so the sheet
+  // handler above closes this dialog and opens the tour sheet.
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     document.querySelectorAll('.ct-overlay.is-open').forEach(closeOverlay);
@@ -408,11 +609,61 @@
     const msg = "I'm interested in " + plural + ' ' + list + '. Could we tour ' + (valid.length === 1 ? 'it' : 'them') + '?';
     if (typeof window.tourPrefill === 'function') window.tourPrefill(msg);
     document.querySelectorAll('.ct-overlay.is-open').forEach(closeOverlay);
-    const tour = document.getElementById('tour');
-    if (tour) tour.scrollIntoView({ behavior: 'smooth' });
+    openSheet('#tour');
   }
 
+  // ----- Availability rail: arrows + scroll affordance
+  // Without a visible cue the extra homes past the third card go unnoticed.
+  function updateUnitRailNav() {
+    const grid = document.getElementById('unit-grid');
+    const wrap = document.getElementById('unit-rail-wrap');
+    if (!grid || !wrap) return;
+    // The rail carries 4px of scroll padding, so resting "at start" is a few
+    // pixels in rather than exactly 0.
+    const EDGE = 8;
+    const overflowing = grid.scrollWidth > grid.clientWidth + EDGE;
+    const atStart = grid.scrollLeft <= EDGE;
+    const atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - EDGE;
+    wrap.classList.toggle('has-overflow', overflowing);
+    wrap.classList.toggle('is-at-start', atStart);
+    wrap.classList.toggle('is-at-end', atEnd);
+    const prev = wrap.querySelector('.unit-prev');
+    const next = wrap.querySelector('.unit-next');
+    if (prev) prev.classList.toggle('is-hidden', !overflowing || atStart);
+    if (next) next.classList.toggle('is-hidden', !overflowing || atEnd);
+  }
+  function scrollUnitRail(dir) {
+    const grid = document.getElementById('unit-grid');
+    if (!grid) return;
+    const card = grid.querySelector('.unit-card');
+    const step = card ? card.getBoundingClientRect().width + 20 : grid.clientWidth * 0.7;
+    grid.scrollBy({ left: dir * step, behavior: 'smooth' });
+  }
+  document.querySelector('.unit-prev')?.addEventListener('click', () => scrollUnitRail(-1));
+  document.querySelector('.unit-next')?.addEventListener('click', () => scrollUnitRail(1));
+  document.getElementById('unit-grid')?.addEventListener('scroll', () => {
+    requestAnimationFrame(updateUnitRailNav);
+  }, { passive: true });
+  window.addEventListener('resize', () => requestAnimationFrame(updateUnitRailNav));
+
+  // Hero photography. Falls back to the illustrated skyline when a site hasn't
+  // supplied a photo yet, and also if the file 404s.
+  (function () {
+    const cfg = (window.__SITE__ && window.__SITE__.config) || {};
+    const hero = cfg.hero || {};
+    const visual = document.querySelector('.hero-visual');
+    if (!visual || !hero.image) return;
+    const img = new Image();
+    img.className = 'hero-photo';
+    img.alt = hero.alt || '';
+    img.decoding = 'async';
+    img.fetchPriority = 'high';
+    img.onload = () => { visual.classList.add('has-photo'); visual.prepend(img); };
+    img.src = hero.image;
+  })();
+
   // Initial render
+  syncUnitCounts();
   renderUnits();
 
   // ============== FLOOR PLAN SWITCHER ==============
@@ -822,6 +1073,12 @@
   // (Replace imgId values with actual property photos when available)
   const PHOTOS = (window.__SITE__ && window.__SITE__.data.photos) || [];
 
+  const PHOTO_PLACEHOLDER =
+    '<div class="gallery-item-placeholder">' +
+      '<span class="ph-eyebrow">Photography</span>' +
+      '<span class="ph-title">Coming <em>soon.</em></span>' +
+    '</div>';
+
   let galleryCat = 'all';
   let lightboxIdx = 0;
   let lightboxList = [];
@@ -838,10 +1095,7 @@
       const delay = Math.min(i, 12) * 35;
       const media = p.src
         ? `<img class="gallery-item-photo" src="${p.src}" alt="${p.title}" loading="lazy" />`
-        : `<div class="gallery-item-placeholder">
-              <span class="ph-eyebrow">Photography</span>
-              <span class="ph-title">Coming <em>soon.</em></span>
-            </div>`;
+        : PHOTO_PLACEHOLDER;
       return `
         <button class="gallery-item" type="button" data-photo-id="${p.id}" style="animation-delay:${delay}ms" aria-label="View ${p.title}">
           <div class="gallery-item-img">
@@ -854,6 +1108,16 @@
         </button>
       `;
     }).join('');
+
+    // photos.json ships the intended filename for every slot, so a photo that
+    // hasn't been supplied yet 404s. Fall back to the placeholder rather than
+    // showing a broken image.
+    strip.querySelectorAll('.gallery-item-photo').forEach(img => {
+      img.addEventListener('error', () => {
+        const wrap = img.closest('.gallery-item-img');
+        if (wrap) wrap.innerHTML = PHOTO_PLACEHOLDER;
+      }, { once: true });
+    });
 
     strip.querySelectorAll('.gallery-item').forEach(el => {
       el.addEventListener('click', () => {
@@ -930,7 +1194,10 @@
     lbDesc.textContent = p.desc;
     lbCounter.textContent = `${lightboxIdx + 1} / ${lightboxList.length}`;
     if (lbImg) {
-      if (p.src) { lbImg.src = p.src; lbImg.alt = p.title; lbImg.hidden = false; }
+      if (p.src) {
+        lbImg.onerror = () => { lbImg.hidden = true; };  // photo not supplied yet
+        lbImg.src = p.src; lbImg.alt = p.title; lbImg.hidden = false;
+      }
       else { lbImg.removeAttribute('src'); lbImg.hidden = true; }
     }
     // Reset animation

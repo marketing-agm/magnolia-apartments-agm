@@ -3,7 +3,6 @@
 <header class="nav" id="nav">
   <div class="container nav-inner">
     <a href="#top" class="brand">
-      <span class="brand-mark" aria-hidden="true"></span>
       <span>Magnolia <em style="font-style: italic; font-variation-settings: 'opsz' 144, 'SOFT' 100;">Crestview</em></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
@@ -11,9 +10,11 @@
       <a href="#availability">Availability</a>
       <a href="#gallery">Gallery</a>
       <a href="#neighborhood">Neighborhood</a>
-      <a href="#tour" class="nav-cta">Schedule a tour →</a>
-      <a href="https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state" class="nav-cta nav-cta--secondary" target="_blank" rel="noopener noreferrer">Resident Login</a>
     </nav>
+    <div class="nav-actions">
+      <a href="https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-2b6a90b2e2ee157bf0b2f7736a3c1ed5d64fa984&portfolio_uuid&redirect_uri=https%3A%2F%2Fagmrealestategroup.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state" class="nav-login" target="_blank" rel="noopener noreferrer">Resident Login</a>
+      <a href="#tour" class="nav-cta">Schedule a tour</a>
+    </div>
     <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-controls="nav-mobile" aria-expanded="false">
       <span class="nav-toggle-bars" aria-hidden="true"></span>
     </button>
@@ -34,7 +35,7 @@
     <div class="hero-grid">
       <div>
         <div class="hero-meta reveal">
-          <span class="pill"><span class="dot"></span>9 homes available</span>
+          <span class="pill"><span class="dot"></span><span data-unit-count>9</span> <span data-unit-noun>homes</span> available</span>
           <span class="pill pill--accent">1 Month Free · 12-Month Lease</span>
         </div>
 
@@ -50,7 +51,7 @@
         </div>
 
         <div class="stat-row reveal" data-delay="3">
-          <div class="stat"><div class="stat-label">Available</div><div class="stat-value">9<span class="unit">homes</span></div></div>
+          <div class="stat"><div class="stat-label">Available</div><div class="stat-value"><span data-unit-count>9</span><span class="unit" data-unit-noun>homes</span></div></div>
           <div class="stat"><div class="stat-label">Floor Plans</div><div class="stat-value">2<span class="unit">layouts</span></div></div>
           <div class="stat"><div class="stat-label">Starting at</div><div class="stat-value">$1,595</div></div>
           <div class="stat"><div class="stat-label">Move-in</div><div class="stat-value">Now</div></div>
@@ -168,29 +169,7 @@
 </section>
 
 <!-- ================= ABOUT ================= -->
-<section id="overview">
-  <div class="container">
-    <div class="section-head">
-      <div class="reveal">
-        <div class="eyebrow">About the home</div>
-        <h2 class="display">The kind of find <span class="italic">people tell</span> their friends about.</h2>
-      </div>
-      <p class="lede reveal" data-delay="1">Cavernous by Seattle standards — a two-bedroom, two-bath layout that gives every roommate, partner, or family member their own space, without compromise.</p>
-    </div>
 
-    <div class="about-body">
-      <aside class="col-aside reveal">
-        <p>“Upper-floor homes capture breathtaking views of the Magnolia neighborhood and the Seattle skyline beyond.”</p>
-        <div class="meta-line">Nine homes · 1 BR – 2 BR · Magnolia, Seattle</div>
-      </aside>
-      <div class="col-main reveal" data-delay="1">
-        <p>Magnolia Crestview is a small, well-kept building with a handful of homes — bright one-bedrooms and generously sized two-bedrooms. The two-bedroom plans are spacious by Seattle standards: full updated kitchens, two bathrooms, abundant closet space, and private decks with built-in storage.</p>
-        <p>Every layout was drawn to maximize daily livability. Real bedrooms with real closets. Pass-through kitchens, not galleys. Outdoor space that's actually yours. It's a building that works whether you're solo, partnered, or sharing the rent.</p>
-        <p>Homes don't come available often, and when they do, they go fast. Nine are open now.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ================= GALLERY ================= -->
 <section id="gallery" class="gallery-section">
@@ -369,11 +348,20 @@
         </div>
       </div>
       <div class="filter-meta">
-        Showing <span id="results-count">9</span> of 9 homes
+        Showing <span id="results-count">9</span> of <span data-unit-count>9</span> <span data-unit-noun>homes</span>
       </div>
     </div>
 
-    <div class="unit-grid" id="unit-grid"></div>
+    <div class="unit-rail-wrap is-at-start" id="unit-rail-wrap">
+      <button class="strip-nav unit-prev" aria-label="Scroll to previous homes" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="strip-nav unit-next" aria-label="Scroll to more homes" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="unit-grid" id="unit-grid"></div>
+      <p class="unit-rail-hint" id="unit-rail-hint" aria-hidden="true">Scroll for more homes →</p>
+    </div>
 
     <div class="empty-state" id="empty-state" hidden>
       <div class="empty-icon">
@@ -387,108 +375,326 @@
 </section>
 
 <!-- ================= FEATURES ================= -->
-<section class="features" id="features">
-  <div class="container">
-    <div class="section-head">
-      <div class="reveal">
-        <div class="eyebrow">Inside the home</div>
-        <h2 class="display">Built for <span class="italic">how you actually live.</span></h2>
-      </div>
-      <p class="lede reveal" data-delay="1">A practical, considered layout with the everyday details that matter — and the views that don't hurt either.</p>
-    </div>
 
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
-        </div>
-        <h4>Updated kitchen</h4>
-        <p>Modern appliances, full-size dishwasher, generous counter space — set up for cooking, not just heating things up.</p>
-      </div>
-      <div class="feature-card reveal" data-delay="1">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21V12h6v9"/></svg>
-        </div>
-        <h4>Two true bedrooms</h4>
-        <p>Both rooms are generously sized — real bedrooms with closets, not converted nooks or office corners.</p>
-      </div>
-      <div class="feature-card reveal" data-delay="2">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 9h18M7 5v14M17 5v14"/></svg>
-        </div>
-        <h4>Private deck</h4>
-        <p>Outdoor space that's actually yours, with built-in storage. Skyline views from the upper floors.</p>
-      </div>
-      <div class="feature-card reveal" data-delay="1">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
-        </div>
-        <h4>Two full baths</h4>
-        <p>Roommate-friendly, family-friendly, guest-friendly. No more morning queues for the shower.</p>
-      </div>
-      <div class="feature-card reveal" data-delay="2">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M5 9l-2 3 2 3M19 9l2 3-2 3M12 16v6M3 12h18"/></svg>
-        </div>
-        <h4>Abundant closets</h4>
-        <p>Storage you'll actually use. Coats, gear, off-season clothes — all with somewhere to live.</p>
-      </div>
-      <div class="feature-card reveal" data-delay="3">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-        </div>
-        <h4>Skyline views</h4>
-        <p>Select upper-floor units look out over Magnolia and the downtown Seattle skyline. Cascade views available.</p>
+
+<!-- ================= NEIGHBORHOOD ================= -->
+
+
+<!-- ================= PRICING ================= -->
+
+
+<!-- ================= POLICIES / APPLICATION ================= -->
+
+
+<!-- ================= CONTACT / TOUR ================= -->
+
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="lightbox-backdrop" data-lb-close></div>
+  <button class="lightbox-btn lightbox-close" aria-label="Close gallery">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+  <button class="lightbox-btn lightbox-prev" aria-label="Previous image">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <button class="lightbox-btn lightbox-next" aria-label="Next image">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+  <div class="lightbox-stage">
+    <div class="lightbox-img-wrap">
+      <div class="lightbox-placeholder" id="lightbox-img">
+        <span class="ph-eyebrow">Photography</span>
+        <p class="ph-title">Coming <em>soon.</em></p>
+        <p class="ph-meta">Professional photos of the building, the homes, and the neighborhood are on the way — schedule a tour to see it in person.</p>
       </div>
     </div>
+    <div class="lightbox-meta">
+      <div class="lightbox-text">
+        <span class="lightbox-cat" id="lightbox-cat"></span>
+        <h4 class="lightbox-title" id="lightbox-title"></h4>
+        <p class="lightbox-desc" id="lightbox-desc"></p>
+      </div>
+      <span class="lightbox-counter" id="lightbox-counter"></span>
+    </div>
+  </div>
+</div>
 
-    <!-- Lists -->
-    <div class="lists-grid">
-      <div class="list-block reveal">
-        <h5>Amenities</h5>
-        <ul>
-          <li>Electric heat</li>
-          <li>Private balcony</li>
-          <li>Large closets</li>
-          <li>Cascade Mountain views <span class="badge">Select units</span></li>
-          <li>On-site laundry</li>
-          <li>Smoke-free building</li>
-        </ul>
+<!-- ================= FLOATING CONTACT WIDGET ================= -->
+<button class="fab-contact" id="fab-contact" type="button" aria-haspopup="dialog" aria-controls="contact-widget" aria-expanded="false">
+  <span class="fab-ic" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </span>
+  <span class="fab-label">Contact us</span>
+</button>
+
+<div class="cw-overlay" id="contact-widget" role="dialog" aria-modal="true" aria-labelledby="cw-title" aria-hidden="true">
+  <div class="cw-backdrop" data-cw-close></div>
+  <div class="cw-panel" data-step="choose">
+    <header class="cw-head">
+      <div class="cw-head-text">
+        <span class="cw-head-eyebrow" data-cw-eyebrow>Get in touch</span>
+        <h3 class="cw-head-title" id="cw-title" data-cw-title>How can we help?</h3>
       </div>
-      <div class="list-block reveal" data-delay="1">
-        <h5>Appliances</h5>
-        <ul>
-          <li>Stove / oven</li>
-          <li>Full-size dishwasher</li>
-          <li>Refrigerator / freezer</li>
-          <li>Modern fixtures</li>
-        </ul>
+      <div class="cw-head-actions">
+        <button class="cw-icon-btn cw-back" type="button" aria-label="Back" data-cw-back>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="cw-icon-btn" type="button" aria-label="Close" data-cw-close>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
-      <div class="list-block reveal" data-delay="2">
-        <h5>Parking</h5>
-        <ul>
-          <li>Covered parking <span class="badge">$75/mo</span></li>
-          <li>Uncovered parking <span class="badge">$50/mo</span></li>
-          <li>Free residential street parking nearby</li>
-        </ul>
+    </header>
+
+    <div class="cw-body">
+      <!-- Step 1: choose -->
+      <div class="cw-step" data-step="choose">
+        <p class="cw-intro">Tell us a little about why you're reaching out and we'll route you to the right team.</p>
+        <div class="cw-grid">
+          <button class="cw-card" type="button" data-cw-go="leasing">
+            <span class="cw-card-ic" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+            </span>
+            <span class="cw-card-text">
+              <span class="cw-card-title">I'm interested in leasing</span>
+              <span class="cw-card-meta">New prospect · tour, pricing, availability</span>
+            </span>
+            <span class="cw-card-arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </button>
+          <button class="cw-card is-maintenance" type="button" data-cw-go="maintenance">
+            <span class="cw-card-ic" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.4-.6-.6-2.4 2.3-2.3z"/></svg>
+            </span>
+            <span class="cw-card-text">
+              <span class="cw-card-title">I'm a current resident</span>
+              <span class="cw-card-meta">Maintenance request or issue in your home</span>
+            </span>
+            <span class="cw-card-arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2a: leasing -->
+      <div class="cw-step" data-step="leasing">
+        <form class="cw-form" data-cw-form="leasing" onsubmit="handleWidgetSubmit(event)">
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-l-fname">First name</label>
+              <input id="cw-l-fname" name="fname" type="text" required />
+            </div>
+            <div class="field">
+              <label for="cw-l-lname">Last name</label>
+              <input id="cw-l-lname" name="lname" type="text" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-l-email">Email</label>
+              <input id="cw-l-email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="cw-l-phone">Phone</label>
+              <input id="cw-l-phone" name="phone" type="tel" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-l-beds">Bedrooms</label>
+              <select id="cw-l-beds" name="beds">
+                <option value="1">1 Bedroom</option>
+                <option value="2">2 Bedroom</option>
+                <option value="either">Either</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cw-l-movein">Target move-in</label>
+              <input id="cw-l-movein" name="movein" type="text" placeholder="e.g., June 1" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="cw-l-time">Preferred tour time</label>
+            <select id="cw-l-time" name="tour-time">
+              <option>No preference</option>
+              <option>Weekday morning</option>
+              <option>Weekday afternoon</option>
+              <option>Weekday evening</option>
+              <option>Saturday</option>
+              <option>Sunday</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cw-l-msg">Anything we should know?</label>
+            <textarea id="cw-l-msg" name="msg" placeholder="Number of occupants, must-haves, questions about the unit, etc."></textarea>
+          </div>
+          <button class="form-submit" type="submit">
+            Send to leasing
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <p class="form-note">By submitting, you agree to be contacted by AGM Real Estate Group regarding this listing.</p>
+        </form>
+      </div>
+
+      <!-- Step 2b: maintenance -->
+      <div class="cw-step" data-step="maintenance">
+        <form class="cw-form is-maintenance" data-cw-form="maintenance" onsubmit="handleWidgetSubmit(event)">
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-m-name">Name</label>
+              <input id="cw-m-name" name="name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="cw-m-unit">Unit #</label>
+              <input id="cw-m-unit" name="unit" type="text" placeholder="e.g., 204" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-m-email">Email</label>
+              <input id="cw-m-email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="cw-m-phone">Phone</label>
+              <input id="cw-m-phone" name="phone" type="tel" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cw-m-cat">Issue type</label>
+              <select id="cw-m-cat" name="category" required>
+                <option value="">Select…</option>
+                <option>Plumbing / leak</option>
+                <option>Appliance</option>
+                <option>Electrical</option>
+                <option>Heating / cooling</option>
+                <option>Lock / key / door</option>
+                <option>Window / screen</option>
+                <option>Pest control</option>
+                <option>Common area</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cw-m-urgency">Urgency</label>
+              <select id="cw-m-urgency" name="urgency" required>
+                <option value="routine">Routine · a few days</option>
+                <option value="urgent">Urgent · 24 hours</option>
+                <option value="emergency">Emergency · call now</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="cw-m-loc">Where in the unit?</label>
+            <input id="cw-m-loc" name="location" type="text" placeholder="e.g., kitchen sink, primary bathroom" />
+          </div>
+          <div class="field">
+            <label for="cw-m-desc">Describe the issue</label>
+            <textarea id="cw-m-desc" name="description" placeholder="What's happening, when it started, anything you've tried…" required></textarea>
+          </div>
+          <div class="field">
+            <label for="cw-m-best">Best time to access the unit</label>
+            <input id="cw-m-best" name="best-time" type="text" placeholder="e.g., weekdays after 3pm" />
+          </div>
+          <label class="checkbox-row">
+            <input type="checkbox" name="permission" />
+            <span>Permission to enter when I'm not home (a Magnolia Crestview team member will leave a notice).</span>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" name="pets" />
+            <span>Pets in the unit — please be aware on entry.</span>
+          </label>
+          <button class="form-submit" type="submit">
+            Submit maintenance request
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <p class="form-note">For after-hours emergencies (active leak, no heat, lockout), please call <a href="tel:2066941713" style="color:var(--accent);">(206) 694-1713</a>.</p>
+        </form>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ================= NEIGHBORHOOD ================= -->
-<section id="neighborhood">
-  <div class="container">
-    <div class="section-head">
-      <div class="reveal">
-        <div class="eyebrow">The neighborhood</div>
-        <h2 class="display">Magnolia, <span class="italic">at the edge</span> of everything.</h2>
+<!-- ================= SHORTLIST BAR + OVERLAYS ================= -->
+<div class="shortlist-bar" id="shortlist-bar" role="region" aria-label="Saved homes">
+  <div class="sl-summary">
+    <span id="sl-fav-summary"><span class="sl-count" id="sl-fav-count">0</span> saved</span>
+    <span id="sl-cmp-summary" hidden><span class="sl-count" id="sl-cmp-count">0</span> to compare</span>
+  </div>
+  <div class="sl-actions">
+    <button class="sl-btn sl-btn-ghost" id="sl-compare-btn" type="button" disabled>Compare</button>
+    <button class="sl-btn sl-btn-primary" id="sl-view-btn" type="button">View shortlist</button>
+  </div>
+</div>
+
+<div class="ct-overlay" id="shortlist-overlay" role="dialog" aria-modal="true" aria-labelledby="sl-drawer-title" aria-hidden="true">
+  <div class="ct-backdrop" data-ct-close></div>
+  <div class="ct-panel is-narrow">
+    <header class="cw-head">
+      <div class="cw-head-text">
+        <span class="cw-head-eyebrow">Your shortlist</span>
+        <h3 class="cw-head-title" id="sl-drawer-title">Saved homes</h3>
       </div>
-      <p class="lede reveal" data-delay="1">A peninsula neighborhood with trail access to Discovery Park, the weekend energy of Magnolia Village, and direct bus routes to downtown. Filter by category — or just explore the map.</p>
-    </div>
+      <div class="cw-head-actions">
+        <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="ct-body" id="sl-drawer-body"></div>
+  </div>
+</div>
+
+<div class="ct-overlay" id="compare-overlay" role="dialog" aria-modal="true" aria-labelledby="cmp-title" aria-hidden="true">
+  <div class="ct-backdrop" data-ct-close></div>
+  <div class="ct-panel">
+    <header class="cw-head">
+      <div class="cw-head-text">
+        <span class="cw-head-eyebrow">Side by side</span>
+        <h3 class="cw-head-title" id="cmp-title">Compare homes</h3>
+      </div>
+      <div class="cw-head-actions">
+        <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="ct-body" id="cmp-body"></div>
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+
+
+<div class="ct-overlay sheet-overlay" id="neighborhood-overlay" role="dialog" aria-modal="true" aria-labelledby="neighborhood-overlay-title" aria-hidden="true">
+  <div class="ct-backdrop" data-ct-close></div>
+  <div class="ct-panel ct-panel--sheet">
+    <header class="cw-head">
+      <div class="cw-head-text">
+        <span class="cw-head-eyebrow">The neighborhood</span>
+        <h3 class="cw-head-title" id="neighborhood-overlay-title">Magnolia, at the edge of everything</h3>
+      </div>
+      <div class="cw-head-actions">
+        <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="ct-body">
+
+  <div class="ud-inner">
+    <p class="ud-intro">A peninsula neighborhood with trail access to Discovery Park, the weekend energy of Magnolia Village, and direct bus routes to downtown. Filter by category — or just explore the map.</p>
 
     <!-- Category filter chips -->
-    <div class="nb-filters reveal">
+    <div class="nb-filters">
       <div class="nb-filter-pills">
         <button class="nb-pill is-active" data-cat="all">
           <span class="nb-pill-dot nb-pill-dot--all"></span>
@@ -518,7 +724,7 @@
     </div>
 
     <!-- List + Map -->
-    <div class="nb-main reveal" data-delay="1">
+    <div class="nb-main">
       <aside class="nb-list-panel">
         <div class="nb-list-head">
           <span><strong id="visible-count">—</strong> places nearby</span>
@@ -547,7 +753,7 @@
     </div>
 
     <!-- Commute estimator -->
-    <div class="commute reveal" data-delay="1">
+    <div class="commute">
       <div class="commute-head">
         <div>
           <h3>How far is your <span style="font-style:italic;font-variation-settings:'opsz' 144,'SOFT' 100;">commute?</span></h3>
@@ -579,191 +785,32 @@
       <p class="commute-error" id="commute-error" hidden></p>
     </div>
   </div>
-</section>
 
-<!-- ================= PRICING ================= -->
-<section class="pricing" id="pricing">
-  <div class="container">
-    <div class="section-head">
-      <div class="reveal">
-        <div class="eyebrow">Rental terms</div>
-        <h2 class="display">Straightforward <span class="italic">pricing.</span></h2>
-      </div>
-      <p class="lede reveal" data-delay="1">Everything you need to know before applying — laid out plainly, with no surprises at signing.</p>
-    </div>
-
-    <div class="pricing-grid">
-      <div class="ledger reveal">
-        <div class="ledger-row">
-          <div class="label">Monthly rent
-            <small>Varies by home · 12-month lease</small>
-          </div>
-          <div class="value">$1,395 – $2,095</div>
-        </div>
-        <div class="ledger-row">
-          <div class="label">Refundable security deposit
-            <small>Equal to one month's rent · due prior to move in</small>
-          </div>
-          <div class="value">1 mo. rent</div>
-        </div>
-        <div class="ledger-row">
-          <div class="label">Non-refundable screening fee
-            <small>Per adult applicant</small>
-          </div>
-          <div class="value">$50</div>
-        </div>
-        <div class="ledger-row">
-          <div class="label">Water / sewer / garbage
-            <small>Flat rate · +$50 per additional occupant</small>
-          </div>
-          <div class="value">$100<span style="font-size:14px;color:rgba(255,255,255,0.5);font-family:var(--mono);"> /mo</span></div>
-        </div>
-        <div class="ledger-row">
-          <div class="label">Electricity
-            <small>Tenant sets up Seattle City Light</small>
-          </div>
-          <div class="value muted">Tenant</div>
-        </div>
-        <div class="ledger-row total">
-          <div class="label">Move-in special
-            <small>1 month free on 12-month lease · ask for details</small>
-          </div>
-          <div class="value">−1 mo</div>
-        </div>
-      </div>
-
-      <aside class="summary-card reveal" data-delay="1">
-        <h3>What's due at move-in</h3>
-        <ul class="summary-list">
-          <li><span>First 30 days base rent</span><strong>1 mo. rent</strong></li>
-          <li><span>Refundable security deposit</span><strong>1 mo. rent</strong></li>
-          <li><span>Screening fee (per adult)</span><strong>$50</strong></li>
-        </ul>
-        <div class="move-in-cost">
-          <span class="lbl">Estimated due at signing</span>
-          <span class="val">$2,840 – $4,240</span>
-        </div>
-        <ul class="summary-list" style="margin-top:8px;">
-          <li><span>Lease term</span><strong>12 months</strong></li>
-          <li><span>Smoking</span><strong>Not permitted</strong></li>
-          <li><span>Renters insurance</span><strong>Required</strong></li>
-        </ul>
-      </aside>
-    </div>
-
-    <!-- Move-in cost calculator -->
-    <div class="movein-calc reveal" id="movein-calc">
-      <div class="mc-controls-wrap">
-        <h3>Estimate your <span style="font-style:italic;font-variation-settings:'opsz' 144,'SOFT' 100;">move-in cost.</span></h3>
-        <p class="mc-sub">Pick a home and household size for an exact figure due at signing.</p>
-        <div class="mc-controls">
-          <div class="mc-field">
-            <label for="mc-unit">Choose a home</label>
-            <select id="mc-unit"></select>
-          </div>
-          <div class="mc-field">
-            <label for="mc-adults">Adults on the lease</label>
-            <div class="mc-stepper" data-mc-stepper="adults">
-              <button type="button" data-mc-step="-1" aria-label="Fewer adults">−</button>
-              <span class="mc-val" id="mc-adults" aria-live="polite">1</span>
-              <button type="button" data-mc-step="1" aria-label="More adults">+</button>
-            </div>
-          </div>
-          <label class="mc-toggle">
-            <input type="checkbox" id="mc-special" checked />
-            <span>Apply 1-month-free move-in special (12-mo lease)</span>
-          </label>
-        </div>
-      </div>
-      <div class="mc-summary" aria-live="polite">
-        <div class="mc-sum-head">Due at signing</div>
-        <div id="mc-lines"></div>
-        <div class="mc-total">
-          <span class="mc-total-lbl">Estimated total</span>
-          <span class="mc-total-val" id="mc-total">—</span>
-        </div>
-        <p class="mc-foot-note" id="mc-foot"></p>
-      </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ================= POLICIES / APPLICATION ================= -->
-<section>
-  <div class="container">
-    <div class="section-head">
-      <div class="reveal">
-        <div class="eyebrow">Application & policies</div>
-        <h2 class="display">Clear criteria, <span class="italic">no guesswork.</span></h2>
+<div class="ct-overlay sheet-overlay" id="tour-overlay" role="dialog" aria-modal="true" aria-labelledby="tour-overlay-title" aria-hidden="true">
+  <div class="ct-backdrop" data-ct-close></div>
+  <div class="ct-panel ct-panel--sheet">
+    <header class="cw-head">
+      <div class="cw-head-text">
+        <span class="cw-head-eyebrow">Schedule a tour</span>
+        <h3 class="cw-head-title" id="tour-overlay-title">Let's get you in the door</h3>
       </div>
-      <p class="lede reveal" data-delay="1">We process applications transparently and in compliance with all applicable Seattle and Washington state regulations.</p>
-    </div>
+      <div class="cw-head-actions">
+        <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="ct-body">
 
-    <div class="reqs">
-      <div class="req reveal">
-        <span class="req-num">01</span>
-        <div class="req-val">650<span class="sub"> credit score</span></div>
-        <div class="req-desc">Minimum credit score, with minimal negative reporting on file.</div>
-      </div>
-      <div class="req reveal" data-delay="1">
-        <span class="req-num">02</span>
-        <div class="req-val">1–2<span class="sub"> years</span></div>
-        <div class="req-desc">Of positive rental history from prior landlords.</div>
-      </div>
-      <div class="req reveal" data-delay="2">
-        <span class="req-num">03</span>
-        <div class="req-val">3×<span class="sub"> rent</span></div>
-        <div class="req-desc">Collective monthly income of three times the rent.</div>
-      </div>
-      <div class="req reveal" data-delay="3">
-        <span class="req-num">04</span>
-        <div class="req-val">$50<span class="sub"> /adult</span></div>
-        <div class="req-desc">Non-refundable screening fee per adult applicant.</div>
-      </div>
-    </div>
-
-    <div class="lists-grid" style="margin-top: 64px;">
-      <div class="list-block reveal">
-        <h5>Pet policy</h5>
-        <ul>
-          <li>No pets allowed</li>
-          <li>ESA & service animals accepted</li>
-          <li>Proper documentation required</li>
-        </ul>
-      </div>
-      <div class="list-block reveal" data-delay="1">
-        <h5>Building policy</h5>
-        <ul>
-          <li>Smoke-free building</li>
-          <li>Renters insurance required</li>
-          <li>12-month lease</li>
-        </ul>
-      </div>
-      <div class="list-block reveal" data-delay="2">
-        <h5>Process</h5>
-        <ul>
-          <li>SMC 14.08 First-in-Time (Seattle)</li>
-          <li>RCW 59.18.257 compliant</li>
-          <li>Reusable screening reports not accepted</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CONTACT / TOUR ================= -->
-<section class="contact" id="tour">
-  <div class="container">
-    <div class="section-head">
-      <div class="reveal">
-        <div class="eyebrow">Schedule a tour</div>
-        <h2 class="display">Let's get you <span class="italic">in the door.</span></h2>
-      </div>
-      <p class="lede reveal" data-delay="1">Reach out by phone or email, or send us a few details and we'll get back to you within one business day.</p>
-    </div>
+  <div class="ud-inner">
+    <p class="ud-intro">Reach out by phone or email, or send us a few details and we'll get back to you within one business day.</p>
 
     <div class="contact-grid">
-      <div class="contact-card reveal">
+      <div class="contact-card">
         <div class="contact-method">
           <div class="ic">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.91.32 1.8.57 2.66a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.42-1.13a2 2 0 0 1 2.11-.45c.86.25 1.75.44 2.66.57a2 2 0 0 1 1.72 2z"/></svg>
@@ -797,7 +844,7 @@
         </div>
       </div>
 
-      <div class="tw reveal" data-delay="1" id="tour-wizard" data-tw-step="1">
+      <div class="tw" id="tour-wizard" data-tw-step="1">
         <div class="tw-head">
           <div class="tw-dots" role="tablist" aria-label="Tour booking steps">
             <button class="tw-dot is-active" type="button" data-tw-goto="1" aria-label="Step 1: Date and time">
@@ -1031,291 +1078,226 @@
       </div>
     </div>
   </div>
-</section>
 
-<!-- ================= LIGHTBOX ================= -->
-<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="lightbox-backdrop" data-lb-close></div>
-  <button class="lightbox-btn lightbox-close" aria-label="Close gallery">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-    </svg>
-  </button>
-  <button class="lightbox-btn lightbox-prev" aria-label="Previous image">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="15 18 9 12 15 6"/>
-    </svg>
-  </button>
-  <button class="lightbox-btn lightbox-next" aria-label="Next image">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="9 18 15 12 9 6"/>
-    </svg>
-  </button>
-  <div class="lightbox-stage">
-    <div class="lightbox-img-wrap">
-      <div class="lightbox-placeholder" id="lightbox-img">
-        <span class="ph-eyebrow">Photography</span>
-        <p class="ph-title">Coming <em>soon.</em></p>
-        <p class="ph-meta">Professional photos of the building, the homes, and the neighborhood are on the way — schedule a tour to see it in person.</p>
-      </div>
-    </div>
-    <div class="lightbox-meta">
-      <div class="lightbox-text">
-        <span class="lightbox-cat" id="lightbox-cat"></span>
-        <h4 class="lightbox-title" id="lightbox-title"></h4>
-        <p class="lightbox-desc" id="lightbox-desc"></p>
-      </div>
-      <span class="lightbox-counter" id="lightbox-counter"></span>
     </div>
   </div>
 </div>
 
-<!-- ================= FLOATING CONTACT WIDGET ================= -->
-<button class="fab-contact" id="fab-contact" type="button" aria-haspopup="dialog" aria-controls="contact-widget" aria-expanded="false">
-  <span class="fab-ic" aria-hidden="true">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-  </span>
-  <span class="fab-label">Contact us</span>
-</button>
-
-<div class="cw-overlay" id="contact-widget" role="dialog" aria-modal="true" aria-labelledby="cw-title" aria-hidden="true">
-  <div class="cw-backdrop" data-cw-close></div>
-  <div class="cw-panel" data-step="choose">
+<!-- ================= UNIT DETAIL MODAL =================
+     Inside-the-home, rental terms, and application criteria live here instead
+     of as three full-width sections. Opened by clicking an available-home card.
+     Content stays in the DOM so it remains crawlable. -->
+<div class="ct-overlay ud-overlay" id="unit-overlay" role="dialog" aria-modal="true" aria-labelledby="ud-title" aria-hidden="true">
+  <div class="ct-backdrop" data-ct-close></div>
+  <div class="ct-panel ct-panel--wide">
     <header class="cw-head">
       <div class="cw-head-text">
-        <span class="cw-head-eyebrow" data-cw-eyebrow>Get in touch</span>
-        <h3 class="cw-head-title" id="cw-title" data-cw-title>How can we help?</h3>
+        <span class="cw-head-eyebrow" id="ud-eyebrow">Available home</span>
+        <h3 class="cw-head-title" id="ud-title">Home details</h3>
       </div>
       <div class="cw-head-actions">
-        <button class="cw-icon-btn cw-back" type="button" aria-label="Back" data-cw-back>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button class="cw-icon-btn" type="button" aria-label="Close" data-cw-close>
+        <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
     </header>
+    <div class="ct-body">
+      <!-- Plan media (floor plan + representative photos) and unit facts are
+           rendered per unit by app.js. -->
+      <div class="ud-media" id="ud-media"></div>
+      <div id="ud-summary"></div>
 
-    <div class="cw-body">
-      <!-- Step 1: choose -->
-      <div class="cw-step" data-step="choose">
-        <p class="cw-intro">Tell us a little about why you're reaching out and we'll route you to the right team.</p>
-        <div class="cw-grid">
-          <button class="cw-card" type="button" data-cw-go="leasing">
-            <span class="cw-card-ic" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
-            </span>
-            <span class="cw-card-text">
-              <span class="cw-card-title">I'm interested in leasing</span>
-              <span class="cw-card-meta">New prospect · tour, pricing, availability</span>
-            </span>
-            <span class="cw-card-arrow" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </span>
-          </button>
-          <button class="cw-card is-maintenance" type="button" data-cw-go="maintenance">
-            <span class="cw-card-ic" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.4-.6-.6-2.4 2.3-2.3z"/></svg>
-            </span>
-            <span class="cw-card-text">
-              <span class="cw-card-title">I'm a current resident</span>
-              <span class="cw-card-meta">Maintenance request or issue in your home</span>
-            </span>
-            <span class="cw-card-arrow" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </span>
-          </button>
+      <!-- One consistent container for the detail content instead of three
+           stacked full-width section designs. -->
+      <div class="ud-tabs" role="tablist" aria-label="Home details">
+<button class="ud-tab is-active" type="button" role="tab" id="ud-tab-features" data-ud-tab="features" aria-selected="true">Inside the home</button>
+<button class="ud-tab" type="button" role="tab" id="ud-tab-terms" data-ud-tab="terms" aria-selected="false">Rental terms</button>
+<button class="ud-tab" type="button" role="tab" id="ud-tab-criteria" data-ud-tab="criteria" aria-selected="false">Application</button>
+      </div>
+      <div class="ud-panels">
+<div class="ud-panel" data-ud-panel="features" role="tabpanel" aria-labelledby="ud-tab-features">
+<p class="ud-intro">A practical, considered layout with the everyday details that matter — and the views that don't hurt either.</p><div class="ud-inner">
+    
+
+    <!-- Lists -->
+    <div class="lists-grid">
+      <div class="list-block">
+        <h5>Amenities</h5>
+        <ul>
+          <li>Electric heat</li>
+          <li>Private balcony</li>
+          <li>Large closets</li>
+          <li>Cascade Mountain views <span class="badge">Select units</span></li>
+          <li>On-site laundry</li>
+          <li>Smoke-free building</li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <h5>Appliances</h5>
+        <ul>
+          <li>Stove / oven</li>
+          <li>Full-size dishwasher</li>
+          <li>Refrigerator / freezer</li>
+          <li>Modern fixtures</li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <h5>Parking</h5>
+        <ul>
+          <li>Covered parking <span class="badge">$75/mo</span></li>
+          <li>Uncovered parking <span class="badge">$50/mo</span></li>
+          <li>Free residential street parking nearby</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="ud-panel" data-ud-panel="terms" role="tabpanel" aria-labelledby="ud-tab-terms" hidden>
+<p class="ud-intro">Everything you need to know before applying — laid out plainly, with no surprises at signing.</p><div class="ud-inner">
+    
+        <div class="ledger-row">
+          <div class="label">Refundable security deposit
+            <small>Equal to one month's rent · due prior to move in</small>
+          </div>
+          <div class="value">1 mo. rent</div>
+        </div>
+        <div class="ledger-row">
+          <div class="label">Non-refundable screening fee
+            <small>Per adult applicant</small>
+          </div>
+          <div class="value">$50</div>
+        </div>
+        <div class="ledger-row">
+          <div class="label">Water / sewer / garbage
+            <small>Flat rate · +$50 per additional occupant</small>
+          </div>
+          <div class="value">$100<span style="font-size:14px;color:var(--ink-3);font-family:var(--mono);"> /mo</span></div>
+        </div>
+        <div class="ledger-row">
+          <div class="label">Electricity
+            <small>Tenant sets up Seattle City Light</small>
+          </div>
+          <div class="value muted">Tenant</div>
+        </div>
+        <div class="ledger-row total">
+          <div class="label">Move-in special
+            <small>1 month free on 12-month lease · ask for details</small>
+          </div>
+          <div class="value">−1 mo</div>
         </div>
       </div>
 
-      <!-- Step 2a: leasing -->
-      <div class="cw-step" data-step="leasing">
-        <form class="cw-form" data-cw-form="leasing" onsubmit="handleWidgetSubmit(event)">
-          <div class="form-row">
-            <div class="field">
-              <label for="cw-l-fname">First name</label>
-              <input id="cw-l-fname" name="fname" type="text" required />
-            </div>
-            <div class="field">
-              <label for="cw-l-lname">Last name</label>
-              <input id="cw-l-lname" name="lname" type="text" required />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="field">
-              <label for="cw-l-email">Email</label>
-              <input id="cw-l-email" name="email" type="email" required />
-            </div>
-            <div class="field">
-              <label for="cw-l-phone">Phone</label>
-              <input id="cw-l-phone" name="phone" type="tel" />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="field">
-              <label for="cw-l-beds">Bedrooms</label>
-              <select id="cw-l-beds" name="beds">
-                <option value="1">1 Bedroom</option>
-                <option value="2">2 Bedroom</option>
-                <option value="either">Either</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="cw-l-movein">Target move-in</label>
-              <input id="cw-l-movein" name="movein" type="text" placeholder="e.g., June 1" />
-            </div>
-          </div>
-          <div class="field">
-            <label for="cw-l-time">Preferred tour time</label>
-            <select id="cw-l-time" name="tour-time">
-              <option>No preference</option>
-              <option>Weekday morning</option>
-              <option>Weekday afternoon</option>
-              <option>Weekday evening</option>
-              <option>Saturday</option>
-              <option>Sunday</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="cw-l-msg">Anything we should know?</label>
-            <textarea id="cw-l-msg" name="msg" placeholder="Number of occupants, must-haves, questions about the unit, etc."></textarea>
-          </div>
-          <button class="form-submit" type="submit">
-            Send to leasing
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-          <p class="form-note">By submitting, you agree to be contacted by AGM Real Estate Group regarding this listing.</p>
-        </form>
-      </div>
+      <aside class="summary-card">
+        <h3>What's due at move-in</h3>
+        <ul class="summary-list">
+          <li><span>First 30 days base rent</span><strong>1 mo. rent</strong></li>
+          <li><span>Refundable security deposit</span><strong>1 mo. rent</strong></li>
+          <li><span>Screening fee (per adult)</span><strong>$50</strong></li>
+        </ul>
+        <div class="move-in-cost">
+          <span class="lbl">Estimated due at signing</span>
+          <span class="val">$2,840 – $4,240</span>
+        </div>
+        <ul class="summary-list" style="margin-top:8px;">
+          <li><span>Lease term</span><strong>12 months</strong></li>
+          <li><span>Smoking</span><strong>Not permitted</strong></li>
+          <li><span>Renters insurance</span><strong>Required</strong></li>
+        </ul>
+      </aside>
+    </div>
 
-      <!-- Step 2b: maintenance -->
-      <div class="cw-step" data-step="maintenance">
-        <form class="cw-form is-maintenance" data-cw-form="maintenance" onsubmit="handleWidgetSubmit(event)">
-          <div class="form-row">
-            <div class="field">
-              <label for="cw-m-name">Name</label>
-              <input id="cw-m-name" name="name" type="text" required />
-            </div>
-            <div class="field">
-              <label for="cw-m-unit">Unit #</label>
-              <input id="cw-m-unit" name="unit" type="text" placeholder="e.g., 204" required />
-            </div>
+    <!-- Move-in cost calculator -->
+    <div class="movein-calc" id="movein-calc">
+      <div class="mc-controls-wrap">
+        <h3>Estimate your <span style="font-style:italic;font-variation-settings:'opsz' 144,'SOFT' 100;">move-in cost.</span></h3>
+        <p class="mc-sub">Pick a home and household size for an exact figure due at signing.</p>
+        <div class="mc-controls">
+          <div class="mc-field">
+            <label for="mc-unit">Choose a home</label>
+            <select id="mc-unit"></select>
           </div>
-          <div class="form-row">
-            <div class="field">
-              <label for="cw-m-email">Email</label>
-              <input id="cw-m-email" name="email" type="email" required />
-            </div>
-            <div class="field">
-              <label for="cw-m-phone">Phone</label>
-              <input id="cw-m-phone" name="phone" type="tel" />
+          <div class="mc-field">
+            <label for="mc-adults">Adults on the lease</label>
+            <div class="mc-stepper" data-mc-stepper="adults">
+              <button type="button" data-mc-step="-1" aria-label="Fewer adults">−</button>
+              <span class="mc-val" id="mc-adults" aria-live="polite">1</span>
+              <button type="button" data-mc-step="1" aria-label="More adults">+</button>
             </div>
           </div>
-          <div class="form-row">
-            <div class="field">
-              <label for="cw-m-cat">Issue type</label>
-              <select id="cw-m-cat" name="category" required>
-                <option value="">Select…</option>
-                <option>Plumbing / leak</option>
-                <option>Appliance</option>
-                <option>Electrical</option>
-                <option>Heating / cooling</option>
-                <option>Lock / key / door</option>
-                <option>Window / screen</option>
-                <option>Pest control</option>
-                <option>Common area</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="cw-m-urgency">Urgency</label>
-              <select id="cw-m-urgency" name="urgency" required>
-                <option value="routine">Routine — within a few days</option>
-                <option value="urgent">Urgent — within 24 hours</option>
-                <option value="emergency">Emergency — call us now</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label for="cw-m-loc">Where in the unit?</label>
-            <input id="cw-m-loc" name="location" type="text" placeholder="e.g., kitchen sink, primary bathroom" />
-          </div>
-          <div class="field">
-            <label for="cw-m-desc">Describe the issue</label>
-            <textarea id="cw-m-desc" name="description" placeholder="What's happening, when it started, anything you've tried…" required></textarea>
-          </div>
-          <div class="field">
-            <label for="cw-m-best">Best time to access the unit</label>
-            <input id="cw-m-best" name="best-time" type="text" placeholder="e.g., weekdays after 3pm" />
-          </div>
-          <label class="checkbox-row">
-            <input type="checkbox" name="permission" />
-            <span>Permission to enter when I'm not home (a Magnolia Crestview team member will leave a notice).</span>
+          <label class="mc-toggle">
+            <input type="checkbox" id="mc-special" checked />
+            <span>Apply 1-month-free move-in special (12-mo lease)</span>
           </label>
-          <label class="checkbox-row">
-            <input type="checkbox" name="pets" />
-            <span>Pets in the unit — please be aware on entry.</span>
-          </label>
-          <button class="form-submit" type="submit">
-            Submit maintenance request
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-          <p class="form-note">For after-hours emergencies (active leak, no heat, lockout), please call <a href="tel:2066941713" style="color:var(--accent);">(206) 694-1713</a>.</p>
-        </form>
+        </div>
+      </div>
+      <div class="mc-summary" aria-live="polite">
+        <div class="mc-sum-head">Due at signing</div>
+        <div id="mc-lines"></div>
+        <div class="mc-total">
+          <span class="mc-total-lbl">Estimated total</span>
+          <span class="mc-total-val" id="mc-total">—</span>
+        </div>
+        <p class="mc-foot-note" id="mc-foot"></p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="ud-panel" data-ud-panel="criteria" role="tabpanel" aria-labelledby="ud-tab-criteria" hidden>
+<p class="ud-intro">We process applications transparently and in compliance with all applicable Seattle and Washington state regulations.</p><div class="ud-inner">
+    
+      <div class="req">
+        <span class="req-num">02</span>
+        <div class="req-val">1–2<span class="sub"> years</span></div>
+        <div class="req-desc">Of positive rental history from prior landlords.</div>
+      </div>
+      <div class="req">
+        <span class="req-num">03</span>
+        <div class="req-val">3×<span class="sub"> rent</span></div>
+        <div class="req-desc">Collective monthly income of three times the rent.</div>
+      </div>
+      <div class="req">
+        <span class="req-num">04</span>
+        <div class="req-val">$50<span class="sub"> /adult</span></div>
+        <div class="req-desc">Non-refundable screening fee per adult applicant.</div>
+      </div>
+    </div>
+
+    <div class="lists-grid" style="margin-top: 64px;">
+      <div class="list-block">
+        <h5>Pet policy</h5>
+        <ul>
+          <li>No pets allowed</li>
+          <li>ESA & service animals accepted</li>
+          <li>Proper documentation required</li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <h5>Building policy</h5>
+        <ul>
+          <li>Smoke-free building</li>
+          <li>Renters insurance required</li>
+          <li>12-month lease</li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <h5>Process</h5>
+        <ul>
+          <li>SMC 14.08 First-in-Time (Seattle)</li>
+          <li>RCW 59.18.257 compliant</li>
+          <li>Reusable screening reports not accepted</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ================= SHORTLIST BAR + OVERLAYS ================= -->
-<div class="shortlist-bar" id="shortlist-bar" role="region" aria-label="Saved homes">
-  <div class="sl-summary">
-    <span id="sl-fav-summary"><span class="sl-count" id="sl-fav-count">0</span> saved</span>
-    <span id="sl-cmp-summary" hidden><span class="sl-count" id="sl-cmp-count">0</span> to compare</span>
-  </div>
-  <div class="sl-actions">
-    <button class="sl-btn sl-btn-ghost" id="sl-compare-btn" type="button" disabled>Compare</button>
-    <button class="sl-btn sl-btn-primary" id="sl-view-btn" type="button">View shortlist</button>
-  </div>
-</div>
-
-<div class="ct-overlay" id="shortlist-overlay" role="dialog" aria-modal="true" aria-labelledby="sl-drawer-title" aria-hidden="true">
-  <div class="ct-backdrop" data-ct-close></div>
-  <div class="ct-panel is-narrow">
-    <header class="cw-head">
-      <div class="cw-head-text">
-        <span class="cw-head-eyebrow">Your shortlist</span>
-        <h3 class="cw-head-title" id="sl-drawer-title">Saved homes</h3>
-      </div>
-      <div class="cw-head-actions">
-        <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-    </header>
-    <div class="ct-body" id="sl-drawer-body"></div>
-  </div>
-</div>
-
-<div class="ct-overlay" id="compare-overlay" role="dialog" aria-modal="true" aria-labelledby="cmp-title" aria-hidden="true">
-  <div class="ct-backdrop" data-ct-close></div>
-  <div class="ct-panel">
-    <header class="cw-head">
-      <div class="cw-head-text">
-        <span class="cw-head-eyebrow">Side by side</span>
-        <h3 class="cw-head-title" id="cmp-title">Compare homes</h3>
-      </div>
-      <div class="cw-head-actions">
-        <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-    </header>
-    <div class="ct-body" id="cmp-body"></div>
-  </div>
-</div>
-
-<!-- ================= FOOTER ================= -->
 <footer>
   <div class="container">
     <div class="top">
@@ -1328,10 +1310,10 @@
       </div>
       <div class="col">
         <h6>Property</h6>
-        <p><a href="#overview">Overview</a></p>
-        <p><a href="#features">Features</a></p>
+        <p><a href="#floor-plans">Floor plans</a></p>
+        <p><a href="#availability">Availability</a></p>
+        <p><a href="#gallery">Gallery</a></p>
         <p><a href="#neighborhood">Neighborhood</a></p>
-        <p><a href="#pricing">Pricing & terms</a></p>
       </div>
       <div class="col">
         <h6>Contact</h6>
@@ -1348,11 +1330,12 @@
       </div>
     </div>
 
-    <div class="disclaimer">
+    <details class="disclaimer">
+      <summary>Pricing, screening &amp; legal disclosures</summary>
       <p>All pricing, availability, fees, and lease terms are subject to change prior to the execution of a lease agreement. Photographs, renderings, and floor plans are for illustrative purposes and may vary by unit. Information is provided in good faith and is subject to verification.</p>
       <p>For Seattle properties, applications are processed in accordance with Seattle Municipal Code (SMC) 14.08 (First-in-Time Ordinance). For non-Seattle Washington properties, applications are processed in the order received, and all Washington properties comply with RCW 59.18.257 regarding tenant screening disclosures, including notice that comprehensive reusable tenant screening reports are not accepted, as applicable based on the property's jurisdiction and governing municipal regulations.</p>
       <p>Applicants are screened for a credit score of 650 or higher with minimal negative reporting, 1–2 years of positive rental history, and a collective income of 3× the monthly rent. Consider this statement as notification that we do not accept a comprehensive reusable tenant screening report, as defined by RCW 59.18.257.</p>
-    </div>
+    </details>
 
     <div class="bottom">
       <span>© <span id="yr"></span> AGM Real Estate Group, LLC. All rights reserved.</span>

@@ -75,19 +75,75 @@
   },
   "sitemap": {
     "pages": [
-      { "path": "/guides/living-in-magnolia/", "changefreq": "monthly", "priority": 0.7 },
-      { "path": "/guides/discovery-park/", "changefreq": "monthly", "priority": 0.7 },
-      { "path": "/guides/magnolia-commute/", "changefreq": "monthly", "priority": 0.7 }
+      {
+        "path": "/guides/living-in-magnolia/",
+        "changefreq": "monthly",
+        "priority": 0.7
+      },
+      {
+        "path": "/guides/discovery-park/",
+        "changefreq": "monthly",
+        "priority": 0.7
+      },
+      {
+        "path": "/guides/magnolia-commute/",
+        "changefreq": "monthly",
+        "priority": 0.7
+      }
     ]
+  },
+  "hero": {
+    "image": "/images/hero.jpg",
+    "alt": "Magnolia Crestview building exterior with private balconies"
   },
   "floorPlans": {
     "1br": {
-      "image": "",
-      "tourUrl": ""
+      "image": "/images/floorplans/1br.png",
+      "tourUrl": "",
+      "photos": [
+        {
+          "src": "/images/plans/1br-living.jpg",
+          "title": "Living area"
+        },
+        {
+          "src": "/images/plans/1br-kitchen.jpg",
+          "title": "Kitchen"
+        },
+        {
+          "src": "/images/plans/1br-bedroom.jpg",
+          "title": "Bedroom"
+        },
+        {
+          "src": "/images/plans/1br-bath.jpg",
+          "title": "Bathroom"
+        }
+      ]
     },
     "2br": {
-      "image": "",
-      "tourUrl": ""
+      "image": "/images/floorplans/2br.png",
+      "tourUrl": "",
+      "photos": [
+        {
+          "src": "/images/plans/2br-living.jpg",
+          "title": "Living area"
+        },
+        {
+          "src": "/images/plans/2br-kitchen.jpg",
+          "title": "Kitchen"
+        },
+        {
+          "src": "/images/plans/2br-primary-bedroom.jpg",
+          "title": "Primary bedroom"
+        },
+        {
+          "src": "/images/plans/2br-second-bedroom.jpg",
+          "title": "Second bedroom"
+        },
+        {
+          "src": "/images/plans/2br-bath.jpg",
+          "title": "Bathroom"
+        }
+      ]
     }
   },
   "integrations": {
