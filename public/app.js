@@ -66,6 +66,15 @@
   }
   function unitById(id) { return UNITS.find(u => u.id === id); }
 
+  // Advertised home counts come from the live unit data, never hardcoded copy —
+  // availability is refreshed automatically, so any typed-in number goes stale.
+  // Fills [data-unit-count] with the total and [data-unit-noun] with home/homes.
+  function syncUnitCounts() {
+    const n = UNITS.length;
+    document.querySelectorAll('[data-unit-count]').forEach((el) => { el.textContent = n; });
+    document.querySelectorAll('[data-unit-noun]').forEach((el) => { el.textContent = n === 1 ? 'home' : 'homes'; });
+  }
+
   function toggleFav(id) {
     if (favorites.has(id)) favorites.delete(id);
     else favorites.add(id);
@@ -413,6 +422,7 @@
   }
 
   // Initial render
+  syncUnitCounts();
   renderUnits();
 
   // ============== FLOOR PLAN SWITCHER ==============

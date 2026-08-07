@@ -83,7 +83,7 @@
     color: var(--ink);
   }
   .display .italic { font-style: italic; font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1; color: var(--accent); }
-  h1.display { font-size: clamp(48px, 7.6vw, 104px); }
+  h1.display { font-size: clamp(42px, 5.8vw, 78px); }
   h2.display { font-size: clamp(36px, 5vw, 64px); margin: 0 0 12px; }
   h3.display { font-size: clamp(24px, 2.8vw, 32px); margin: 0 0 8px; font-weight: 380; }
   p.lede { font-family: var(--serif); font-weight: 360; font-size: clamp(18px, 1.8vw, 22px); line-height: 1.45; color: var(--ink-2); letter-spacing: -0.01em; }
@@ -285,13 +285,13 @@
 
   /* ---------- Hero ---------- */
   .hero {
-    padding: 56px 0 0;
+    padding: 32px 0 0;
     position: relative;
   }
   .hero-grid {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: 56px;
+    gap: 48px;
     align-items: center;
   }
   @media (max-width: 960px) {
@@ -302,7 +302,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
   }
   .pill {
@@ -429,7 +429,7 @@
   /* Hero visual: stylized window/skyline */
   .hero-visual {
     position: relative;
-    aspect-ratio: 4/5;
+    aspect-ratio: 4/3;
     border-radius: var(--radius-lg);
     overflow: hidden;
     background: linear-gradient(180deg, #d8c5a3 0%, #b59574 55%, #6e5b46 100%);
