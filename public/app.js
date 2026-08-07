@@ -10,6 +10,40 @@
   document.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  // Scrollspy: highlight the nav link for whichever section is in view, so the
+  // bar doubles as a position indicator on a long single-page layout.
+  (function () {
+    const links = [...document.querySelectorAll('.nav-links a[href^="#"]:not(.nav-cta)')];
+    const targets = links
+      .map(a => ({ a, el: document.getElementById(a.getAttribute('href').slice(1)) }))
+      .filter(t => t.el);
+    if (!targets.length) return;
+
+    let current = null;
+    const setActive = (a) => {
+      if (current === a) return;
+      links.forEach(l => l.classList.remove('is-active'));
+      if (a) a.classList.add('is-active');
+      current = a;
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      // Pick the entry nearest the top of the viewport that's still on screen.
+      const visible = entries.filter(e => e.isIntersecting);
+      if (!visible.length) return;
+      const best = visible.reduce((a, b) =>
+        Math.abs(a.boundingClientRect.top) < Math.abs(b.boundingClientRect.top) ? a : b);
+      const match = targets.find(t => t.el === best.target);
+      if (match) setActive(match.a);
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+    targets.forEach(t => io.observe(t.el));
+    // Back at the very top, no section is "current".
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < 80) setActive(null);
+    }, { passive: true });
+  })();
+
   // Mobile menu toggle
   (function () {
     const toggle = document.getElementById('nav-toggle');
