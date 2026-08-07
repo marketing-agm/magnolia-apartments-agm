@@ -4053,12 +4053,99 @@
      terms, application criteria) plus a per-unit summary. */
   .ct-panel--wide { max-width: 960px; width: 100%; }
   .ud-inner { max-width: none; margin: 0; padding: 0; }
-  .ud-block { padding: 28px 0 4px; border-top: 1px solid var(--rule); }
-  .ud-block:first-of-type { border-top: 0; }
-  .ud-block .section-head { margin-bottom: 20px; }
-  .ud-block h2.display { font-size: clamp(22px, 2.4vw, 30px); }
-  .ud-block .lede { font-size: 16px; }
-  .ud-block section, .ud-block .features-grid { padding: 0; }
+
+  /* Plan media: floor plan drawing + representative photos of that layout. */
+  .ud-media { margin-bottom: 24px; }
+  .ud-media-strip {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .ud-media-strip::-webkit-scrollbar { display: none; }
+  .ud-media-item {
+    flex: 0 0 clamp(180px, 26%, 240px);
+    scroll-snap-align: start;
+    margin: 0;
+  }
+  .ud-media-img {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-2);
+    border: 1px solid var(--rule);
+    display: grid;
+    place-items: center;
+  }
+  .ud-media-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ud-media-item.is-plan .ud-media-img img { object-fit: contain; padding: 10px; background: #fff; }
+  .ud-media-ph {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .ud-media-item figcaption {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--ink-3);
+  }
+
+  /* Tabs — one container for what used to be three full-width sections. */
+  .ud-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 10px;
+    margin: 26px 0 22px;
+  }
+  .ud-tab {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    color: var(--ink-3);
+    background: transparent;
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease;
+  }
+  .ud-tab:hover { background: var(--bg-2); color: var(--ink); }
+  .ud-tab.is-active { background: var(--ink); color: #fff; }
+  .ud-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .ud-panel[hidden] { display: none; }
+  .ud-intro { font-size: 15px; color: var(--ink-2); margin: 0 0 20px; max-width: 68ch; }
+  .ud-panel section, .ud-panel .features-grid { padding: 0; }
+
+  /* These blocks were authored for full-width sections — some on a dark
+     background. Re-tone them for the white modal panel. */
+  .ud-panel .ledger { border-top-color: var(--rule); }
+  .ud-panel .ledger-row { border-bottom-color: var(--rule); padding: 14px 0; }
+  .ud-panel .ledger-row .label { color: var(--ink); font-size: 14.5px; }
+  .ud-panel .ledger-row .label small { color: var(--ink-3); }
+  .ud-panel .ledger-row .value { color: var(--ink); font-size: 19px; }
+  .ud-panel .ledger-row .value.muted { color: var(--ink-3); font-size: 16px; }
+  .ud-panel .ledger-row.total .value { color: var(--accent); font-size: 24px; }
+  .ud-panel .summary-card {
+    background: var(--bg-2);
+    border-color: var(--rule);
+    padding: 22px;
+    gap: 14px;
+  }
+  .ud-panel .summary-card h3 { color: var(--ink); font-size: 21px; }
+  .ud-panel .summary-list li { color: var(--ink-2); }
+  .ud-panel .summary-list li strong,
+  .ud-panel .summary-list li b { color: var(--ink); }
+  .ud-panel .pricing-grid { gap: 32px; }
+  .ud-panel .feature-card { padding: 20px 18px; min-height: 0; }
+  .ud-panel .feature-card h4 { font-size: 16px; }
 
   .ud-summary { padding-bottom: 4px; }
   .ud-summary-top {

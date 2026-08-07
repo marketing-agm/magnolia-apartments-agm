@@ -25,8 +25,25 @@ soon" placeholder, so partial uploads are fine.
 
 | File | Used by |
 |---|---|
-| `floorplans/1br.png` | `site.config.json` → `floorPlans.1br.image` |
-| `floorplans/2br2ba.png` | `site.config.json` → `floorPlans.2br2ba.image` |
+| `floorplans/1br.png` | Floor plan drawing for the 1br layout |
+| `floorplans/2br.png` | Floor plan drawing for the 2br layout |
+
+### Plan photos
+
+Representative photos of each layout. Shown in the unit detail modal when a
+home of that plan is opened, so a 2 BR shows 2 BR photos.
+
+| File | Shows |
+|---|---|
+| `plans/1br-living.jpg` | 1br — Living area |
+| `plans/1br-kitchen.jpg` | 1br — Kitchen |
+| `plans/1br-bedroom.jpg` | 1br — Bedroom |
+| `plans/1br-bath.jpg` | 1br — Bathroom |
+| `plans/2br-living.jpg` | 2br — Living area |
+| `plans/2br-kitchen.jpg` | 2br — Kitchen |
+| `plans/2br-primary-bedroom.jpg` | 2br — Primary bedroom |
+| `plans/2br-second-bedroom.jpg` | 2br — Second bedroom |
+| `plans/2br-bath.jpg` | 2br — Bathroom |
 
 ## Gallery
 

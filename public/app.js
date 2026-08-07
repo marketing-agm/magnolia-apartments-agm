@@ -371,6 +371,65 @@
   });
 
   // ----- Unit detail modal
+  // Units carry a more specific plan key than the floor-plan config sometimes
+  // does (e.g. "2br2ba" vs "2br"), so fall back to the bedroom-count prefix.
+  // Keeps studio / 1br / 3br2ba working without renaming existing config.
+  function planConfig(plan) {
+    const fp = (window.__SITE__ && window.__SITE__.config.floorPlans) || {};
+    if (fp[plan]) return fp[plan];
+    const m = String(plan || '').match(/^(studio|\d+br)/);
+    return (m && fp[m[1]]) || null;
+  }
+
+  // Representative media for the unit's plan: the floor-plan drawing first,
+  // then photos of that layout. Anything not supplied yet shows the placeholder.
+  function renderUnitMedia(unit) {
+    const wrap = document.getElementById('ud-media');
+    if (!wrap) return;
+    const cfg = planConfig(unit.plan) || {};
+    const items = [];
+    if (cfg.image) items.push({ src: cfg.image, title: 'Floor plan', kind: 'plan' });
+    (cfg.photos || []).forEach(p => items.push({ src: p.src, title: p.title, kind: 'photo' }));
+
+    if (!items.length) { wrap.innerHTML = ''; wrap.hidden = true; return; }
+    wrap.hidden = false;
+    wrap.innerHTML =
+      '<div class="ud-media-strip">' +
+      items.map(it =>
+        '<figure class="ud-media-item' + (it.kind === 'plan' ? ' is-plan' : '') + '">' +
+          '<div class="ud-media-img">' +
+            '<img src="' + it.src + '" alt="' + it.title + '" loading="lazy" />' +
+          '</div>' +
+          '<figcaption>' + it.title + '</figcaption>' +
+        '</figure>'
+      ).join('') +
+      '</div>';
+
+    wrap.querySelectorAll('.ud-media-img img').forEach(img => {
+      img.addEventListener('error', () => {
+        const box = img.closest('.ud-media-img');
+        if (box) box.innerHTML = '<span class="ud-media-ph">Coming soon</span>';
+      }, { once: true });
+    });
+  }
+
+  // Tabs keep the detail content in one consistent container.
+  (function () {
+    const tabs = [...document.querySelectorAll('[data-ud-tab]')];
+    if (!tabs.length) return;
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      const key = tab.dataset.udTab;
+      tabs.forEach(t => {
+        const on = t === tab;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-ud-panel]').forEach(p => {
+        p.hidden = p.dataset.udPanel !== key;
+      });
+    }));
+  })();
+
   // Inside-the-home, rental terms and application criteria are static content in
   // the modal; only this per-unit summary is rendered per open.
   function openUnitDetail(id) {
@@ -406,6 +465,11 @@
           '<a href="#tour" class="btn btn-primary" data-ud-tour>Schedule a tour →</a>' +
         '</div>';
     }
+    renderUnitMedia(u);
+    // Always reopen on the first tab so the modal reads the same way each time.
+    const firstTab = document.querySelector('[data-ud-tab]');
+    if (firstTab) firstTab.click();
+
     openOverlay(overlay);
     if (window.trackEvent) window.trackEvent('unit_detail_opened', { unit: u.id });
   }
