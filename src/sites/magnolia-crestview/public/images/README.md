@@ -56,7 +56,7 @@ so there is no `plans/*-kitchen.jpg` to upload.
 | File | Shows |
 |---|---|
 | `gallery/interior-updated-kitchen.jpg` | ✅ supplied. Updated kitchen — also reused as the Kitchen tile for both floor plans |
-| `gallery/interior-living-area.jpg` | Living area — Generous proportions, natural light through the day |
+| `gallery/interior-living-area.jpg` | ✅ supplied. Living area — Generous proportions, natural light through the day |
 | `gallery/interior-primary-bedroom.jpg` | Primary bedroom — A real bedroom — generous size, abundant closet |
 | `gallery/interior-bathroom.jpg` | Bathroom — Updated fixtures, full tub-and-shower combo |
 | `gallery/interior-dining.jpg` | Dining — Open to the kitchen and living area |
