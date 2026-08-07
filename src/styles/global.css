@@ -3839,3 +3839,74 @@
     width: 100%; height: 100%; max-height: 520px; object-fit: contain;
     display: block; border-radius: var(--radius);
   }
+
+  /* ---------- FAQ ---------- */
+  .faq { padding: clamp(56px, 8vw, 104px) 0; border-top: 1px solid var(--rule); }
+  .faq-head { max-width: 60ch; margin-bottom: clamp(28px, 4vw, 44px); }
+  .faq-head .lede { margin-top: 14px; }
+  .faq-inline-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  .faq-list { display: grid; gap: 0; border-top: 1px solid var(--rule-2); max-width: 860px; }
+  .faq-item { border-bottom: 1px solid var(--rule-2); }
+  .faq-item summary {
+    list-style: none; cursor: pointer; padding: 22px 44px 22px 0; position: relative;
+    font-family: var(--serif); font-weight: 420; font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.3; color: var(--ink); letter-spacing: -0.01em;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: ""; position: absolute; right: 6px; top: 50%; width: 13px; height: 13px;
+    margin-top: -7px; background-size: contain; background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23129AE5' stroke-width='2' stroke-linecap='round'><line x1='12' y1='5' x2='12' y2='19'/><line x1='5' y1='12' x2='19' y2='12'/></svg>");
+    transition: transform 220ms ease;
+  }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  .faq-answer { padding: 0 44px 24px 0; color: var(--ink-2); max-width: 68ch; }
+  .faq-answer p { margin: 0 0 10px; }
+  .faq-answer a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ---------- Sticky mobile CTA ----------
+     Always-visible Call / Schedule-a-tour pair on small screens — the primary
+     mobile lead-capture surface. Desktop already has the header CTA + FAB. */
+  .sticky-cta { display: none; }
+
+  @media (max-width: 720px) {
+    .sticky-cta {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 60; /* above nav (50), below FAB (70) and overlays (90+) */
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-top: 1px solid var(--rule);
+    }
+    .sticky-cta-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 18px; border-radius: 999px;
+      font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+      min-height: 48px; /* comfortable tap target */
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+    .sticky-cta-call {
+      border: 1px solid var(--rule); color: var(--ink); background: var(--paper-2);
+    }
+    .sticky-cta-call:active { background: var(--bg-2); }
+    .sticky-cta-tour { background: var(--ink); color: var(--paper); }
+    .sticky-cta-tour:active { background: var(--ink-2); }
+
+    /* Keep the bar from covering page content or colliding with the FAB. */
+    body { padding-bottom: 76px; }
+    .fab-contact { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+
+    /* Get out of the way of full-screen UI. */
+    body.nav-open .sticky-cta,
+    body.lightbox-open .sticky-cta { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-item summary::after { transition: none; }
+  }

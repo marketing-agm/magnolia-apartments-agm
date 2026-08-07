@@ -1,10 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Faq from '../components/Faq.astro';
 import { getSite } from '../lib/site';
 import bodyHtml from '../generated/body.html?raw';
 
 const site = getSite();
+
+// The shared body markup ends with the footer. Split there so the data-driven
+// FAQ section renders in its designed position (after the tour CTA, before the
+// footer) without editing the generated markup — keeping scripts/migrate.mjs
+// re-runnable. If no footer is found, the FAQ simply appends after the body.
+const footerAt = bodyHtml.lastIndexOf('<footer');
+const bodyMain = footerAt === -1 ? bodyHtml : bodyHtml.slice(0, footerAt);
+const bodyFooter = footerAt === -1 ? '' : bodyHtml.slice(footerAt);
 ---
 <BaseLayout site={site}>
-  <Fragment set:html={bodyHtml} />
+  <Fragment set:html={bodyMain} />
+  <Faq site={site} />
+  <Fragment set:html={bodyFooter} />
 </BaseLayout>
