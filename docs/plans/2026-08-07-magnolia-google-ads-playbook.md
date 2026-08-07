@@ -35,16 +35,57 @@ This matters for three separate reasons, in ascending order of cost:
 3. **Policy.** Advertising unavailable prices/inventory falls under Google's
    Misrepresentation policy. Enforcement is account-level, not ad-level.
 
-**Decision needed from you:** are 1BRs genuinely part of this property and just
-not vacant right now, or does Crestview not have them? That changes the fix:
+**Resolved — and fixed.** Crestview *does* have 1BR units (confirmed by ownership;
+`site.config.json → floorPlans.1br` carries a real floor plan and four room
+photos). But the live AppFolio feed — checked via
+`node scripts/refresh-availability.mjs --site magnolia-crestview --dry-run`, feed
+updated 2026-08-07 — reports **`CHANGED=false` with 4 active units, all 2BR/2BA,
+$1,995–$2,195. No 1BR is currently rentable.**
 
-- *1BRs exist but are occupied* → keep the SEO copy aspirational, but the **ads
-  must advertise only 2BR at $1,995+**, and add `1 bedroom` / `studio` as
-  campaign negatives until one opens up.
-- *No 1BRs at all* → I'll correct `seo`, `schema.priceRange`, and
-  `numberOfBedrooms` to match reality. Say the word and it's a two-minute commit.
+So the operative distinction for Ads isn't *"does the property have 1BRs"* — it's
+***"can a searcher rent one this month."*** Today: no.
 
-Either way, **do not launch ads quoting $1,595.**
+What changed in this commit:
+
+- `seo.description` / `seo.twitterDescription` — **keep** the 1BR mention (it's a
+  real plan and earns long-tail organic traffic) but the price claim is now
+  "2BR available now from $1,995/mo", which is both accurate and specific about
+  *what* is available.
+- `schema.priceRange` — corrected to `$1,995–$2,195/mo`, and **now derived from
+  `units.json` at build time** rather than hand-maintained (see below).
+- `numberOfBedrooms: "1-2"` — **left as-is.** The property genuinely has both
+  plans; this describes the building, not current vacancy.
+
+> **Root cause, now fixed.** `units.json` refreshes automatically from AppFolio on
+> a schedule, but `schema.priceRange` was a hand-typed string. Those two were
+> guaranteed to drift — and had, in both directions at once: `seo` claimed "from
+> $1,595" while `schema` claimed "$1,395–$1,995", two different numbers that
+> contradicted each other *and* the feed. `BaseLayout.astro` now computes
+> `priceRange` from live unit rents, so it tracks the feed and can't go stale
+> again. The `seo` strings are still prose and still manual — check them whenever
+> the mix of available bedroom counts changes.
+
+### What this means for the campaign
+
+- **Run 2BR-only ads at $1,995+.** All the copy in Phase 4 already reflects this.
+- **Keep `1 bedroom` / `one bedroom` / `studio` in the negative list** (Phase 3)
+  while zero 1BRs are available. This is a *temporary* negative tied to vacancy,
+  not a permanent one — flag it for review.
+- **Never quote $1,595 or $1,395.** Neither number matches anything rentable.
+
+### When a 1BR does open up
+
+The availability refresh will add it to `units.json`, the derived `priceRange`
+and the on-page listings update themselves — **but the ad account will not.**
+Your manual steps at that point:
+
+1. Remove `1 bedroom` / `one bedroom` from the shared negative list.
+2. Un-pause **Ad group E — 1 bedroom** (build it now, launch it paused) with its
+   own keywords and copy quoting the real 1BR rent.
+3. Update the `seo.description` price sentence.
+
+Because vacancy drives all three, put a recurring check on it — the same Routine
+that refreshes availability is the natural place to surface "bedroom mix changed."
 
 ### 0b. Confirm the ads' final URL (the build itself is already live)
 
@@ -259,10 +300,18 @@ to every campaign, and reuse it across the other 44 properties later.
 -realtor    -mortgage   -house for rent   -houses
 ```
 
-**Wrong inventory** *(see Phase 0a — drop the 1BR/studio lines only if 1BRs open up)*
+**Wrong inventory**
+
+⚠️ The `1 bedroom` / `one bedroom` / `studio` entries are **vacancy-tied, not
+permanent** — Crestview has 1BR units, none currently available. Remove them the
+moment a 1BR hits `units.json` (see Phase 0a). Keep them in a *separate*
+negative list from the permanent ones so this is a one-click change and nobody
+has to remember which lines were conditional.
+
 ```
--studio   -1 bedroom   -one bedroom   -3 bedroom   -three bedroom
--4 bedroom   -townhome   -basement   -room for rent   -roommate
+-studio   -1 bedroom   -one bedroom          ← conditional, review on vacancy
+-3 bedroom   -three bedroom   -4 bedroom     ← permanent
+-townhome   -basement   -room for rent   -roommate
 ```
 
 **Wrong price tier / program**
@@ -412,7 +461,9 @@ reminder to check `units.json` against spend weekly.
 ## Phase 6 — Launch checklist
 
 ```
-[ ] Phase 0a resolved — 1BR/pricing claims match units.json
+[x] Phase 0a resolved — pricing claims match the live feed; ads are 2BR-only
+[ ] 1BR negatives kept in their own list, marked for review on next vacancy
+[ ] Ad group E (1 bedroom) built but left PAUSED, ready for a 1BR vacancy
 [ ] site.config.json → domain verified/updated to the real live hostname
 [ ] This branch merged + deployed (tracking is only live once it ships)
 [ ] GA4 property created, linked to Ads

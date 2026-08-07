@@ -7,6 +7,21 @@ const { site } = Astro.props as { site: { id: string; config: any; data: any; fa
 const c = site.config;
 const url = c.domain.replace(/\/$/, '') + '/';
 
+// Price range is derived from live availability, not hand-maintained. units.json
+// is refreshed from the AppFolio feed on a schedule, so a static
+// schema.priceRange silently drifts out of date the moment rents move — which is
+// exactly how this file ended up advertising a range no unit was renting at.
+// Falls back to the configured string when a site has no units loaded yet.
+const liveRents: number[] = (site.data?.units ?? [])
+  .map((u: any) => Number(u.rent))
+  .filter((n: number) => Number.isFinite(n) && n > 0);
+const money = (n: number) => '$' + n.toLocaleString('en-US');
+const priceRange = liveRents.length
+  ? (Math.min(...liveRents) === Math.max(...liveRents)
+      ? `${money(Math.min(...liveRents))}/mo`
+      : `${money(Math.min(...liveRents))}–${money(Math.max(...liveRents))}/mo`)
+  : c.schema.priceRange;
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': c.schema.type,
@@ -14,7 +29,7 @@ const jsonLd = {
   description: c.schema.description,
   url,
   telephone: c.contact.phone,
-  priceRange: c.schema.priceRange,
+  priceRange,
   address: {
     '@type': 'PostalAddress',
     streetAddress: c.address.streetAddress,
