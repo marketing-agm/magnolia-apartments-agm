@@ -1696,11 +1696,13 @@
   .unit-grid {
     display: flex;
     gap: 20px;
-    overflow-x: auto;
-    overflow-y: visible;
+    /* `overflow-y: visible` alongside a non-visible overflow-x computes to auto,
+       which clipped card hover shadows and focus outlines at the top edge.
+       Clip deliberately and pad enough to fit both. */
+    overflow: auto hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    padding: 4px 4px 18px;
+    padding: 10px 4px 18px;
     margin: 0 -4px;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -2303,11 +2305,13 @@
   .gallery-strip {
     display: flex;
     gap: 20px;
-    overflow-x: auto;
-    overflow-y: visible;
+    /* `overflow-y: visible` alongside a non-visible overflow-x computes to auto,
+       which clipped card hover shadows and focus outlines at the top edge.
+       Clip deliberately and pad enough to fit both. */
+    overflow: auto hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    padding: 4px 4px 18px;
+    padding: 10px 4px 18px;
     margin: 0 -4px;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -4084,9 +4088,18 @@
     .unit-prev, .unit-next { display: none; }
   }
 
-  /* The card itself opens the detail modal. */
+  /* The card opens the detail modal; the unit number is the accessible trigger. */
   .unit-card { cursor: pointer; }
-  .unit-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .unit-card .unit-card-num {
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+  }
+  .unit-card .unit-card-num:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
   /* ---------- Unit detail modal ----------
      Holds what used to be three full-width sections (inside the home, rental
@@ -4235,6 +4248,17 @@
     border: 1px solid var(--rule); color: var(--ink-2); background: var(--bg-2);
   }
   .ud-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+
+  .lightbox-photo {
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: var(--radius-lg);
+  }
+  .lightbox-photo[hidden] { display: none; }
 
   /* ---------- Form system ----------
      One treatment for every lead-capture form (page forms, the contact widget,

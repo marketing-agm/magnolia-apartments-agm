@@ -103,10 +103,25 @@
   // Advertised home counts come from the live unit data, never hardcoded copy —
   // availability is refreshed automatically, so any typed-in number goes stale.
   // Fills [data-unit-count] with the total and [data-unit-noun] with home/homes.
+  function minRentOf(list) {
+    const priced = list.filter((u) => u.rent != null).map((u) => u.rent);
+    return priced.length ? Math.min.apply(null, priced) : null;
+  }
+
   function syncUnitCounts() {
-    const n = UNITS.length;
+    // "N homes available" must count only what someone can actually move into;
+    // the feed also carries units that are merely coming soon.
+    const available = UNITS.filter((u) => u.availType === 'now');
+    const n = available.length;
     document.querySelectorAll('[data-unit-count]').forEach((el) => { el.textContent = n; });
     document.querySelectorAll('[data-unit-noun]').forEach((el) => { el.textContent = n === 1 ? 'home' : 'homes'; });
+    // "Showing X of N homes" counts everything the filters can surface.
+    document.querySelectorAll('[data-unit-total]').forEach((el) => { el.textContent = UNITS.length; });
+    // Advertised starting price, derived so it can't drift from the feed.
+    const min = minRentOf(available.length ? available : UNITS);
+    document.querySelectorAll('[data-unit-min-rent]').forEach((el) => {
+      el.textContent = min == null ? 'Inquire' : '$' + min.toLocaleString();
+    });
   }
 
   function toggleFav(id) {
@@ -176,7 +191,7 @@
       : '';
     const cls = 'unit-card' + (unit.featured ? ' is-featured' : '') + (isFaved ? ' is-faved' : '') + (isCmp ? ' is-compared' : '') + budgetClass;
     return `
-      <article class="${cls}" style="animation-delay:${idx * 50}ms" data-unit-open="${unit.id}" tabindex="0" role="button" aria-label="View details for Unit ${unit.id}">
+      <article class="${cls}" style="animation-delay:${idx * 50}ms" data-unit-open="${unit.id}">
         <div class="unit-card-plan">
           <span class="unit-plan-label">${PLAN_LABELS[unit.plan]}</span>
           ${featured}
@@ -185,7 +200,7 @@
         <div class="unit-card-body">
           <div class="unit-card-head">
             <div>
-              <span class="unit-card-num">Unit <span class="italic">${unit.id}</span></span>
+              <button class="unit-card-num" type="button" data-unit-open="${unit.id}">Unit <span class="italic">${unit.id}</span><span class="sr-only"> — view details</span></button>
               <span class="unit-card-floor">${unit.floor}</span>
             </div>
             <div class="unit-card-tools">
@@ -231,7 +246,12 @@
     } else {
       grid.hidden = false;
       empty.hidden = true;
+      // The rail scrolls horizontally, so rebuilding it would jump back to the
+      // first card — losing the place of anyone who favourited/compared a card
+      // further along. Restore the offset after the swap.
+      const keepScroll = grid.scrollLeft;
       grid.innerHTML = list.map((u, i) => unitCardHTML(u, i)).join('');
+      grid.scrollLeft = keepScroll;
     }
 
     updateAffordResult();
@@ -313,14 +333,10 @@
     if (card) openUnitDetail(card.dataset.unitOpen);
   });
 
-  // Keyboard parity for the card-as-button.
-  document.getElementById('unit-grid').addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    const card = e.target.closest('[data-unit-open]');
-    if (!card || e.target !== card) return;
-    e.preventDefault();
-    openUnitDetail(card.dataset.unitOpen);
-  });
+  // The card is a plain <article>; the unit number inside it is the real button,
+  // so keyboard users get it for free and the nested heart/compare/tour controls
+  // stay individually reachable (they would be presentational children of a
+  // role="button" card).
 
   // ----- Shortlist bar + overlays
   const slBar = document.getElementById('shortlist-bar');
@@ -380,8 +396,12 @@
     '#faq': 'faq-overlay',
   };
 
+  function sheetEl(hash) {
+    return SHEETS[hash] ? document.getElementById(SHEETS[hash]) : null;
+  }
+
   function openSheet(hash) {
-    const el = document.getElementById(SHEETS[hash]);
+    const el = sheetEl(hash);
     if (!el) return false;
     openOverlay(el);
     // Leaflet lays out to zero size while its container is hidden, so re-measure
@@ -397,12 +417,25 @@
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
     const hash = a.getAttribute('href');
-    if (!SHEETS[hash]) return;
+    // Only intercept when the dialog actually exists — a site without FAQ data
+    // renders no #faq-overlay, and swallowing the click would leave a dead link.
+    if (!sheetEl(hash)) return;
     e.preventDefault();
     // Coming from another dialog (e.g. a unit's tour button): close it first.
     document.querySelectorAll('.ct-overlay.is-open').forEach(closeOverlay);
     openSheet(hash);
   });
+
+  // Inbound deep links. These used to be page sections, so /#tour, /#faq and
+  // /#neighborhood are already published — the guide pages and llms.txt point at
+  // them. Without this an arriving visitor lands on the homepage with no dialog.
+  function openSheetFromHash() {
+    if (openSheet(window.location.hash)) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }
+  openSheetFromHash();
+  window.addEventListener('hashchange', openSheetFromHash);
 
   // ----- Unit detail modal
   // Units carry a more specific plan key than the floor-plan config sometimes
@@ -427,24 +460,37 @@
 
     if (!items.length) { wrap.innerHTML = ''; wrap.hidden = true; return; }
     wrap.hidden = false;
-    wrap.innerHTML =
-      '<div class="ud-media-strip">' +
-      items.map(it =>
-        '<figure class="ud-media-item' + (it.kind === 'plan' ? ' is-plan' : '') + '">' +
-          '<div class="ud-media-img">' +
-            '<img src="' + it.src + '" alt="' + it.title + '" loading="lazy" />' +
-          '</div>' +
-          '<figcaption>' + it.title + '</figcaption>' +
-        '</figure>'
-      ).join('') +
-      '</div>';
-
-    wrap.querySelectorAll('.ud-media-img img').forEach(img => {
+    // Built as nodes rather than an HTML string: src/title come from
+    // site.config.json, which is editable through the CMS, so a quote in a title
+    // would otherwise break out of the attribute.
+    wrap.innerHTML = '';
+    const strip = document.createElement('div');
+    strip.className = 'ud-media-strip';
+    items.forEach((it) => {
+      const fig = document.createElement('figure');
+      fig.className = 'ud-media-item' + (it.kind === 'plan' ? ' is-plan' : '');
+      const box = document.createElement('div');
+      box.className = 'ud-media-img';
+      const img = document.createElement('img');
+      img.src = it.src;
+      img.alt = it.title || '';
+      img.loading = 'lazy';
       img.addEventListener('error', () => {
-        const box = img.closest('.ud-media-img');
-        if (box) box.innerHTML = '<span class="ud-media-ph">Coming soon</span>';
+        box.innerHTML = '';
+        const ph = document.createElement('span');
+        ph.className = 'ud-media-ph';
+        ph.textContent = 'Coming soon';
+        box.appendChild(ph);
       }, { once: true });
+      box.appendChild(img);
+      const cap = document.createElement('figcaption');
+      cap.textContent = it.title || '';
+      fig.appendChild(box);
+      fig.appendChild(cap);
+      strip.appendChild(fig);
     });
+    wrap.appendChild(strip);
+
   }
 
   // Tabs keep the detail content in one consistent container.
@@ -756,9 +802,29 @@
   })();
 
   // ============== INTERACTIVE NEIGHBORHOOD MAP ==============
-  const PROPERTY = (window.__SITE__ && window.__SITE__.config.geo)
-    ? { lat: window.__SITE__.config.geo.latitude, lng: window.__SITE__.config.geo.longitude }
-    : { lat: 47.6528, lng: -122.3915 };
+  const PROPERTY = (function () {
+    const c = (window.__SITE__ && window.__SITE__.config) || {};
+    const a = c.address || {};
+    return {
+      lat: c.geo ? c.geo.latitude : 47.6528,
+      lng: c.geo ? c.geo.longitude : -122.3915,
+      name: c.name || '',
+      address: [a.streetAddress, [a.addressLocality, a.addressRegion].filter(Boolean).join(', ') +
+        (a.postalCode ? ' ' + a.postalCode : '')].filter(Boolean).join('<br>'),
+    };
+  })();
+
+  // Map popup copy, derived from the live unit data for the same reason the hero
+  // counts are: availability is refreshed automatically and typed-in figures go stale.
+  function homesLabel() {
+    const n = UNITS.filter((u) => u.availType === 'now').length;
+    return n + (n === 1 ? ' home' : ' homes');
+  }
+  function fromLabel() {
+    const avail = UNITS.filter((u) => u.availType === 'now');
+    const min = minRentOf(avail.length ? avail : UNITS);
+    return min == null ? 'Inquire' : 'From $' + min.toLocaleString();
+  }
 
   // Straight-line (great-circle) distance from the property, in miles
   function haversineMiles(a, b) {
@@ -963,7 +1029,7 @@
       });
       L.marker([PROPERTY.lat, PROPERTY.lng], { icon: homeIcon, zIndexOffset: 1000 })
         .addTo(map)
-        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>Magnolia Crestview</h4><p>2701 W Manor Pl<br>Seattle, WA 98199</p><div class="foot"><span>9 homes</span><span>From $1,595</span></div></div>`);
+        .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>${PROPERTY.name}</h4><p>${PROPERTY.address}</p><div class="foot"><span>${homesLabel()}</span><span>${fromLabel()}</span></div></div>`);
 
       // Bus routes — drawn once, beneath the markers, always visible
       BUS_ROUTES.forEach(r => {
@@ -1194,11 +1260,19 @@
     lbDesc.textContent = p.desc;
     lbCounter.textContent = `${lightboxIdx + 1} / ${lightboxList.length}`;
     if (lbImg) {
-      if (p.src) {
-        lbImg.onerror = () => { lbImg.hidden = true; };  // photo not supplied yet
-        lbImg.src = p.src; lbImg.alt = p.title; lbImg.hidden = false;
+      // #lightbox-img is the "coming soon" placeholder <div>; the photo is a
+      // separate <img>. Show whichever applies, and fall back to the placeholder
+      // if the file hasn't been uploaded yet.
+      const lbPhoto = document.getElementById('lightbox-photo');
+      if (p.src && lbPhoto) {
+        lbPhoto.onerror = () => { lbPhoto.hidden = true; lbImg.hidden = false; };
+        lbPhoto.onload = () => { lbPhoto.hidden = false; lbImg.hidden = true; };
+        lbPhoto.alt = p.title;
+        lbPhoto.src = p.src;
+      } else {
+        if (lbPhoto) { lbPhoto.hidden = true; lbPhoto.removeAttribute('src'); }
+        lbImg.hidden = false;
       }
-      else { lbImg.removeAttribute('src'); lbImg.hidden = true; }
     }
     // Reset animation
     lbImg.style.animation = 'none';
