@@ -4236,6 +4236,110 @@
   }
   .ud-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
 
+  /* ---------- Form system ----------
+     One treatment for every lead-capture form (page forms, the contact widget,
+     the tour wizard). Consolidated here because the three had drifted apart.
+
+     Fixes three things:
+     1. Overflow — .form-row is a 2-col grid and grid items default to
+        min-width:auto, so an input's intrinsic width could push past the panel
+        and force horizontal scrolling with fields clipped off the right edge.
+     2. Legibility — labels were 10.5px uppercase mono with 0.12em tracking,
+        which is decorative, not readable. Now sans, sentence case, 13px.
+     3. Flatness — inputs used var(--bg), which became #fff in the white
+        redesign, leaving white fields on a white panel. They now sit on a
+        tinted surface and turn white on focus. */
+  .field,
+  .cw-form .field {
+    min-width: 0;          /* the actual overflow fix */
+    margin-bottom: 18px;
+  }
+  .form-row,
+  .cw-form .form-row { gap: 14px; }
+
+  .field label,
+  .cw-form .field label {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink-2);
+    margin-bottom: 7px;
+  }
+
+  .field input,
+  .field select,
+  .field textarea,
+  .cw-form .field input,
+  .cw-form .field select,
+  .cw-form .field textarea,
+  .tw-textarea {
+    width: 100%;
+    min-width: 0;
+    font-family: var(--sans);
+    font-size: 16px;       /* >=16px stops iOS zooming the page on focus */
+    line-height: 1.45;
+    background: var(--bg-2);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 13px 14px;
+    color: var(--ink);
+    transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  }
+  .field input::placeholder,
+  .field textarea::placeholder,
+  .cw-form .field input::placeholder,
+  .cw-form .field textarea::placeholder,
+  .tw-textarea::placeholder { color: var(--ink-3); opacity: 1; }
+
+  .field input:hover,
+  .field select:hover,
+  .field textarea:hover,
+  .cw-form .field input:hover,
+  .cw-form .field select:hover,
+  .cw-form .field textarea:hover { border-color: var(--ink-3); }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus,
+  .cw-form .field input:focus,
+  .cw-form .field select:focus,
+  .cw-form .field textarea:focus,
+  .tw-textarea:focus {
+    outline: none;
+    background: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(18, 154, 229, 0.16);
+  }
+
+  /* Native select arrows look dated and vary per platform. */
+  .field select,
+  .cw-form .field select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 38px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236e6a63' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    background-size: 15px;
+  }
+
+  .field textarea,
+  .cw-form .field textarea { min-height: 104px; resize: vertical; }
+
+  /* Wider panel so two-column rows aren't cramped. */
+  .cw-panel { width: min(540px, 100%); }
+  .cw-form .checkbox-row { font-size: 14px; }
+
+  /* Routing cards on the widget's first step. */
+  .cw-card { transition: border-color 160ms ease, box-shadow 200ms ease, transform 200ms ease; }
+  .cw-card:hover {
+    border-color: var(--ink-3);
+    box-shadow: 0 8px 20px -12px rgba(10, 10, 10, 0.28);
+    transform: translateY(-1px);
+  }
+
   /* ---------- FAQ ---------- */
   .faq { padding: clamp(56px, 8vw, 104px) 0; border-top: 1px solid var(--rule); }
   .faq-head { max-width: 60ch; margin-bottom: clamp(28px, 4vw, 44px); }
