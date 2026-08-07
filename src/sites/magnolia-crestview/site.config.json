@@ -54,21 +54,21 @@
   },
   "theme": {
     "colors": {
-      "--bg": "#f5efe4",
-      "--bg-2": "#efe7d8",
-      "--paper": "#f4f1ec",
+      "--bg": "#ffffff",
+      "--bg-2": "#f5f5f3",
+      "--paper": "#ffffff",
       "--paper-2": "#ffffff",
       "--ink": "#0a0a0a",
       "--ink-2": "#3a3733",
       "--ink-3": "#6e6a63",
-      "--rule": "#d9d0bd",
-      "--rule-2": "#eae1cc",
+      "--rule": "#ececea",
+      "--rule-2": "#f4f4f2",
       "--accent": "#129AE5",
       "--accent-2": "#129AE5",
       "--warm": "#d4ad7a"
     },
     "themeColor": "#129AE5",
-    "backgroundColor": "#f5efe4"
+    "backgroundColor": "#ffffff"
   },
   "manifest": {
     "description": "Apartments in Magnolia, Seattle — 1BR & 2BR, steps from Discovery Park."

@@ -1,13 +1,13 @@
   :root {
-    --bg: #f5efe4;
-    --bg-2: #efe7d8;
-    --paper: #f4f1ec;
+    --bg: #ffffff;
+    --bg-2: #f5f5f3;
+    --paper: #ffffff;
     --paper-2: #ffffff;
     --ink: #0a0a0a;
     --ink-2: #3a3733;
     --ink-3: #6e6a63;
-    --rule: #d9d0bd;
-    --rule-2: #eae1cc;
+    --rule: #ececea;
+    --rule-2: #f4f4f2;
     --accent: #129AE5;   /* AGM light blue */
     --accent-2: #129AE5; /* terracotta */
     --warm: #d4ad7a;
@@ -15,7 +15,7 @@
     --shadow-sm: 0 1px 2px rgba(10,10,10,0.06);
     --radius: 4px;
     --radius-lg: 8px;
-    --container: 1180px;
+    --container: 1280px;
     --serif: "Fraunces", "Source Serif 4", Georgia, serif;
     --sans: "Geist", -apple-system, "Helvetica Neue", Arial, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -93,7 +93,7 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(245, 239, 228, 0.78);
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     border-bottom: 1px solid transparent;
@@ -217,7 +217,7 @@
     position: absolute;
     left: 0; right: 0;
     top: 100%;
-    background: rgba(245, 239, 228, 0.96);
+    background: rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     border-bottom: 1px solid var(--rule);
@@ -596,14 +596,14 @@
   @media (max-width: 560px) { .features-grid { grid-template-columns: 1fr; } }
   .feature-card {
     background: var(--paper-2);
-    padding: 28px 26px;
+    padding: 36px 32px;
     display: flex;
     flex-direction: column;
     gap: 14px;
     transition: background 200ms ease;
     min-height: 200px;
   }
-  .feature-card:hover { background: #fffdf6; }
+  .feature-card:hover { background: var(--bg-2); }
   .feature-card .icon {
     width: 38px;
     height: 38px;
@@ -1661,16 +1661,16 @@
   }
 
   .unit-card-plan {
-    background: var(--bg);
+    background: var(--bg-2);
     border-bottom: 1px solid var(--rule);
-    padding: 22px;
+    padding: 28px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 130px;
+    min-height: 160px;
   }
-  .unit-card-plan svg { max-width: 100%; max-height: 100px; }
+  .unit-card-plan svg { max-width: 100%; max-height: 128px; }
   .unit-plan-placeholder {
     font-family: var(--serif);
     font-size: 17px;
@@ -1714,10 +1714,10 @@
   }
 
   .unit-card-body {
-    padding: 20px;
+    padding: 26px 24px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 18px;
     flex: 1;
   }
 
@@ -2215,7 +2215,7 @@
   }
   .gallery-strip {
     display: flex;
-    gap: 14px;
+    gap: 20px;
     overflow-x: auto;
     overflow-y: visible;
     scroll-snap-type: x mandatory;
@@ -2233,7 +2233,7 @@
   }
 
   .gallery-item {
-    flex: 0 0 340px;
+    flex: 0 0 clamp(320px, 32vw, 460px);
     scroll-snap-align: start;
     background: var(--paper-2);
     border: 1px solid var(--rule);
