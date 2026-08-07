@@ -162,6 +162,27 @@
     },
     "clarity": {
       "id": ""
+    },
+    "google": {
+      "ga4Id": "",
+      "adsId": "",
+      "conversionLabels": {
+        "tour_requested": "",
+        "phone_click": "",
+        "email_click": "",
+        "tour_3d_opened": "",
+        "floor_plan_viewed": ""
+      },
+      "conversionValues": {
+        "tour_requested": 150,
+        "phone_click": 100,
+        "email_click": 40,
+        "tour_3d_opened": 10,
+        "floor_plan_viewed": 5,
+        "unit_favorited": 5,
+        "commute_estimated": 5,
+        "gallery_opened": 2
+      }
     }
   },
   "availability": {

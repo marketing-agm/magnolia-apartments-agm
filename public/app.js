@@ -1829,6 +1829,7 @@
           source: 'tour wizard',
           message: finalMessage || '',
           page_url: location.href,
+          ...adAttributionFields(),
         };
         if (submitBtn) submitBtn.disabled = true;
         if (lbl) lbl.textContent = 'Sending…';
@@ -1842,6 +1843,17 @@
         }
         if (submitBtn) submitBtn.disabled = false;
         if (lbl) lbl.textContent = originalLabel;
+      }
+
+      // The wizard is a <div> driven by a type="button" submit, so the delegated
+      // 'submit' listener in Analytics.astro never sees it. Fire the conversion
+      // explicitly — this is the highest-intent action on the site.
+      if (window.trackEvent) {
+        window.trackEvent('tour_requested', {
+          source: 'tour wizard',
+          beds: state.beds || null,
+          move_in: state.window || null,
+        });
       }
 
       showConfirmation(finalMessage);
@@ -1990,6 +2002,19 @@
     updateFabVisibility();
   })();
 
+  // Attribution fields appended to every lead email. Lets leasing see which
+  // campaign produced a tour, and gives you the gclid needed to upload a
+  // signed-lease conversion back into Google Ads later.
+  function adAttributionFields() {
+    var a = (window.getAdAttribution && window.getAdAttribution()) || {};
+    return {
+      ad_source: a.utm_source || (a.gclid || a.wbraid || a.gbraid ? 'google-ads' : 'direct/organic'),
+      ad_campaign: a.utm_campaign || '—',
+      ad_keyword: a.utm_term || '—',
+      ad_click_id: a.gclid || a.wbraid || a.gbraid || '—',
+    };
+  }
+
   // Per-site EmailJS hook. No-op if the site config doesn't have publicKey/serviceId/templateId.
   async function sendViaEmailJS(payload) {
     const ej = window.__SITE__ && window.__SITE__.config && window.__SITE__.config.integrations && window.__SITE__.config.integrations.emailjs;
@@ -2028,6 +2053,7 @@
           source: 'floating widget',
           message: fd.get('msg') || '',
           page_url: location.href,
+          ...adAttributionFields(),
         };
         btn.disabled = true;
         btn.innerHTML = 'Sending…';

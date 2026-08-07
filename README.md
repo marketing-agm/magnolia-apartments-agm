@@ -99,6 +99,17 @@ keys into `site.config.json → analytics`:
   replay, per-site + portfolio dashboards. Every event is tagged with `site_id`
   so you get both a single-property view and a portfolio rollup.
 - **Microsoft Clarity** (`analytics.clarity.id`) — free heatmaps + session replay.
+- **Google** (`analytics.google.ga4Id` / `adsId`) — GA4 and Google Ads via one
+  `gtag.js` load. GA4 receives every event; Google Ads receives only the events
+  you give a conversion label in `analytics.google.conversionLabels`, so paid
+  bidding optimizes toward real leads instead of micro-interactions.
+  `conversionValues` sets each action's relative worth for Smart Bidding.
+  Paid clicks are stamped: `gclid`/`wbraid`/`gbraid` and `utm_*` are stored for
+  90 days and exposed via `window.getAdAttribution()`, which also appends
+  `ad_source` / `ad_campaign` / `ad_keyword` / `ad_click_id` to every lead email.
+
+  Campaign setup for Magnolia — structure, keywords, negatives, ad copy, budget:
+  `docs/plans/2026-08-07-magnolia-google-ads-playbook.md`.
 
 With no keys set, nothing loads (safe no-op). Named conversion events fire
 automatically off existing interactions: `tour_requested`, `unit_favorited`,

@@ -6,8 +6,21 @@
 const { site } = Astro.props as { site: { id: string; config: any } };
 const ph = site.config.analytics?.posthog ?? {};
 const clarity = site.config.analytics?.clarity ?? {};
+const google = site.config.analytics?.google ?? {};
 const siteId = site.id;
 const propertyName = site.config.name;
+
+// Google tag: GA4 and/or Google Ads. Either can be set alone. The tag only
+// loads when at least one ID is present, so an un-configured site stays clean.
+const ga4Id = google.ga4Id || '';
+const adsId = google.adsId || '';
+const googleTagId = ga4Id || adsId;
+// event name -> Google Ads conversion label (the part after the slash in
+// "AW-123456789/AbC-D_efGh"). Only labelled events are sent to Ads.
+const conversionLabels = google.conversionLabels ?? {};
+// event name -> value passed to Ads/GA4. Relative worth of each action, used
+// by Smart Bidding to prefer leads over low-intent micro-conversions.
+const conversionValues = google.conversionValues ?? {};
 ---
 
 {ph.key && (
@@ -32,13 +45,86 @@ const propertyName = site.config.name;
   </script>
 )}
 
+{googleTagId && (
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${googleTagId}`}></script>
+)}
+{googleTagId && (
+  <script is:inline define:vars={{ ga4Id, adsId, siteId, propertyName }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    // Ads conversions are attributed across the landing page and any guide page
+    // the visitor moves to, so the click ID has to survive navigation.
+    gtag('set', 'linker', { accept_incoming: true });
+    if (ga4Id) gtag('config', ga4Id, { site_id: siteId, property_name: propertyName });
+    if (adsId) gtag('config', adsId);
+  </script>
+)}
+
 <!-- Conversion event taxonomy. Fires named events when a tracker is loaded;
      no-op otherwise. Delegated listeners so template markup needs no edits. -->
-<script is:inline>
+<script is:inline define:vars={{ adsId, conversionLabels, conversionValues }}>
   (function () {
+    // --- Paid-click attribution -------------------------------------------
+    // Google stamps the landing URL with gclid (or wbraid/gbraid when the user
+    // can't be cookied). We stash it for 90 days — the Ads offline-conversion
+    // import window — so a lead that emails in today can still be tied back to
+    // the click that produced it, and a tour that turns into a signed lease
+    // weeks later can be uploaded as a conversion against the right keyword.
+    var STORE = 'ad_attribution';
+    var TTL = 90 * 24 * 60 * 60 * 1000;
+
+    function readStored() {
+      try {
+        var raw = window.localStorage.getItem(STORE);
+        if (!raw) return null;
+        var saved = JSON.parse(raw);
+        if (!saved || !saved.ts || Date.now() - saved.ts > TTL) return null;
+        return saved;
+      } catch (err) { return null; }
+    }
+
+    function captureAttribution() {
+      var params = new URLSearchParams(window.location.search);
+      var found = {};
+      ['gclid', 'wbraid', 'gbraid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
+        .forEach(function (k) { if (params.get(k)) found[k] = params.get(k); });
+      // First touch wins only when there's no newer click; a fresh gclid always
+      // overwrites, otherwise every later visit would be credited to the first ad.
+      if (!Object.keys(found).length) return readStored();
+      found.ts = Date.now();
+      found.landing_page = window.location.pathname;
+      try { window.localStorage.setItem(STORE, JSON.stringify(found)); } catch (err) { /* private mode */ }
+      return found;
+    }
+
+    var attribution = captureAttribution();
+    window.getAdAttribution = function () { return attribution || readStored() || {}; };
+
+    // --- Event fan-out ------------------------------------------------------
     function track(name, props) {
       if (window.posthog && window.posthog.capture) window.posthog.capture(name, props || {});
       if (window.clarity) window.clarity('event', name);
+
+      if (window.gtag) {
+        var value = conversionValues[name];
+        // GA4 gets everything, so the funnel stays visible even for actions we
+        // deliberately keep out of bidding.
+        window.gtag('event', name, Object.assign({}, props || {}, {
+          value: value || 0,
+          currency: 'USD',
+        }));
+        // Ads gets only the actions that have a conversion label configured.
+        var label = conversionLabels[name];
+        if (adsId && label) {
+          window.gtag('event', 'conversion', {
+            send_to: adsId + '/' + label,
+            value: value || 0,
+            currency: 'USD',
+          });
+        }
+      }
     }
     window.trackEvent = track;
 
