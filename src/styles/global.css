@@ -1512,7 +1512,7 @@
   footer {
     background: var(--ink);
     border-top: 1px solid rgba(244,241,236,0.08);
-    padding: 64px 0 32px;
+    padding: 44px 0 26px;
     font-size: 13px;
     color: rgba(244,241,236,0.62);
     line-height: 1.7;
@@ -1539,6 +1539,22 @@
   footer .col p { margin: 0 0 6px; }
   footer .col a { color: rgba(244,241,236,0.72); text-decoration: none; }
   footer .col a:hover { color: var(--accent); }
+  /* Collapsed by default: the disclosures must stay on the page, but three
+     paragraphs of legal text shouldn't dominate the footer. */
+  footer .disclaimer > summary {
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(244,241,236,0.55);
+    padding: 12px 0;
+  }
+  footer .disclaimer > summary::-webkit-details-marker { display: none; }
+  footer .disclaimer > summary::after { content: " +"; }
+  footer .disclaimer[open] > summary::after { content: " –"; }
+  footer .disclaimer > summary:hover { color: rgba(244,241,236,0.85); }
   footer .disclaimer {
     font-size: 11.5px;
     line-height: 1.7;
@@ -4076,6 +4092,28 @@
      Holds what used to be three full-width sections (inside the home, rental
      terms, application criteria) plus a per-unit summary. */
   .ct-panel--wide { max-width: 960px; width: 100%; }
+
+  /* Sheets hold what used to be full-width sections (neighborhood, tour, FAQ),
+     so they run wider and taller than the unit modal. */
+  .ct-panel--sheet {
+    max-width: 1120px;
+    width: 100%;
+    max-height: min(92vh, 1000px);
+  }
+  .ct-panel--sheet .ct-body { padding-bottom: 8px; }
+  .ct-panel--sheet .ud-inner { max-width: none; margin: 0; padding: 0; }
+  /* These blocks were authored as full-page sections; drop the section rhythm. */
+  .ct-panel--sheet section { padding: 0; }
+  .ct-panel--sheet .section-head {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .ct-panel--sheet h2.display { font-size: clamp(22px, 2.4vw, 30px); }
+  .ct-panel--sheet .lede { font-size: 15px; }
+  @media (max-width: 860px) {
+    .ct-panel--sheet .section-head { gap: 8px; }
+  }
   .ud-inner { max-width: none; margin: 0; padding: 0; }
 
   /* Plan media: floor plan drawing + representative photos of that layout. */

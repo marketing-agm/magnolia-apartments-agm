@@ -370,6 +370,40 @@
     ov.querySelectorAll('[data-ct-close]').forEach(b => b.addEventListener('click', () => closeOverlay(ov)));
   });
 
+  // ----- Sheet modals (neighborhood, tour, FAQ)
+  // These used to be full-page sections. Every existing link that pointed at
+  // them — nav, footer, hero CTA, unit cards, sticky mobile bar — now opens the
+  // matching dialog instead of scrolling, so no link had to be rewritten.
+  const SHEETS = {
+    '#neighborhood': 'neighborhood-overlay',
+    '#tour': 'tour-overlay',
+    '#faq': 'faq-overlay',
+  };
+
+  function openSheet(hash) {
+    const el = document.getElementById(SHEETS[hash]);
+    if (!el) return false;
+    openOverlay(el);
+    // Leaflet lays out to zero size while its container is hidden, so re-measure
+    // once the sheet is on screen.
+    if (hash === '#neighborhood' && typeof map !== 'undefined' && map) {
+      setTimeout(() => { try { map.invalidateSize(); } catch (e) {} }, 60);
+    }
+    if (window.trackEvent) window.trackEvent('sheet_opened', { sheet: hash.slice(1) });
+    return true;
+  }
+
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const hash = a.getAttribute('href');
+    if (!SHEETS[hash]) return;
+    e.preventDefault();
+    // Coming from another dialog (e.g. a unit's tour button): close it first.
+    document.querySelectorAll('.ct-overlay.is-open').forEach(closeOverlay);
+    openSheet(hash);
+  });
+
   // ----- Unit detail modal
   // Units carry a more specific plan key than the floor-plan config sometimes
   // does (e.g. "2br2ba" vs "2br"), so fall back to the bedroom-count prefix.
@@ -474,12 +508,8 @@
     if (window.trackEvent) window.trackEvent('unit_detail_opened', { unit: u.id });
   }
 
-  // Tour CTA inside the modal: dismiss, then jump to the form.
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('[data-ud-tour]')) return;
-    const ov = document.getElementById('unit-overlay');
-    if (ov) closeOverlay(ov);
-  });
+  // The tour CTA inside the unit modal is an <a href="#tour">, so the sheet
+  // handler above closes this dialog and opens the tour sheet.
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     document.querySelectorAll('.ct-overlay.is-open').forEach(closeOverlay);
@@ -579,8 +609,7 @@
     const msg = "I'm interested in " + plural + ' ' + list + '. Could we tour ' + (valid.length === 1 ? 'it' : 'them') + '?';
     if (typeof window.tourPrefill === 'function') window.tourPrefill(msg);
     document.querySelectorAll('.ct-overlay.is-open').forEach(closeOverlay);
-    const tour = document.getElementById('tour');
-    if (tour) tour.scrollIntoView({ behavior: 'smooth' });
+    openSheet('#tour');
   }
 
   // ----- Availability rail: arrows + scroll affordance
