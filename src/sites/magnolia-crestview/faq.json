@@ -1,0 +1,36 @@
+{
+  "faq": [
+    {
+      "q": "Where is Magnolia Crestview located?",
+      "a": "<p>Magnolia Crestview is at <a href=\"https://maps.google.com/maps?t=m&amp;z=14&amp;q=2701+W+Manor+Pl%2C+Seattle%2C+WA+98199\" target=\"_blank\" rel=\"noopener\">2701 W Manor Pl, Seattle, WA 98199</a> — in the heart of Seattle's Magnolia neighborhood, a short walk from Discovery Park and Magnolia Village.</p>"
+    },
+    {
+      "q": "How much is rent, and what floor plans are available?",
+      "a": "<p>We offer one-bedroom homes (about 600 sq ft) starting at $1,595/month and two-bedroom, two-bath homes (about 1,000 sq ft) up to $1,995/month. See current <a href=\"#availability\">availability</a> and <a href=\"#floor-plans\">floor plans</a> for live pricing.</p>"
+    },
+    {
+      "q": "Is there a move-in special right now?",
+      "a": "<p>Yes — one month free on a 12-month lease for current move-ins. Specials can change, so confirm the latest offer when you <a href=\"#tour\">schedule a tour</a>.</p>"
+    },
+    {
+      "q": "Is parking available?",
+      "a": "<p>Yes. The building has both covered and uncovered parking options on-site.</p>"
+    },
+    {
+      "q": "Is Magnolia Crestview pet-friendly?",
+      "a": "<p>Yes, the community is pet-friendly. Contact the leasing office at (206) 694-1713 for the current pet policy, deposits, and any breed or weight guidelines.</p>"
+    },
+    {
+      "q": "What are the rental application and screening requirements?",
+      "a": "<p>Applicants are screened for a credit score of 650 or higher with minimal negative reporting, 1–2 years of positive rental history, and a combined household income of about 3× the monthly rent. Seattle applications are processed in accordance with the First-in-Time Ordinance (SMC 14.08).</p>"
+    },
+    {
+      "q": "How close is Discovery Park, and what else is nearby?",
+      "a": "<p>Discovery Park — 534 acres of trails, beaches, and a historic lighthouse — is just minutes away. You're also near Magnolia Village's shops, cafés, and weekend farmers market, with downtown Seattle a short drive away. Explore the <a href=\"#neighborhood\">neighborhood map</a> for distances and travel times.</p>"
+    },
+    {
+      "q": "How do I schedule a tour or apply?",
+      "a": "<p>Use the <a href=\"#tour\">tour scheduler</a> on this page to pick a time, or call (206) 694-1713. Our leasing team will walk you through the application from there.</p>"
+    }
+  ]
+}

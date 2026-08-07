@@ -1,0 +1,36 @@
+---
+// FAQ section — content comes from src/sites/<id>/faq.json, so it's per-property
+// while the markup/behaviour stays shared. Renders nothing when a site has no
+// FAQ entries. Uses native <details> so it works without JS.
+//
+// The matching FAQPage JSON-LD is emitted in BaseLayout from the same data.
+import { formatPhone } from '../lib/site';
+
+const { site } = Astro.props as { site: { config: any; faq: { q: string; a: string }[] } };
+const c = site.config;
+const items = site.faq || [];
+const phoneLabel = formatPhone(c.contact?.phone);
+---
+{items.length > 0 && (
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="faq-head reveal">
+        <span class="eyebrow">Questions, answered</span>
+        <h2 class="display" id="faq-title">Frequently <span class="italic">asked</span></h2>
+        <p class="lede">
+          Renting in {c.address.addressLocality}, in plain terms. Still curious?{' '}
+          <a href={c.contact.phoneHref} class="faq-inline-link">Call {phoneLabel}</a>{' '}
+          or <a href="#tour" class="faq-inline-link">schedule a tour</a>.
+        </p>
+      </div>
+      <div class="faq-list reveal">
+        {items.map((item) => (
+          <details class="faq-item" name="faq">
+            <summary>{item.q}</summary>
+            <div class="faq-answer" set:html={item.a} />
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

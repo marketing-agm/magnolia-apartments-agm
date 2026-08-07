@@ -1,8 +1,9 @@
 ---
 import Analytics from '../components/Analytics.astro';
+import StickyCta from '../components/StickyCta.astro';
 import '../styles/global.css';
 
-const { site } = Astro.props as { site: { id: string; config: any; data: any } };
+const { site } = Astro.props as { site: { id: string; config: any; data: any; faq?: { q: string; a: string }[] } };
 const c = site.config;
 const url = c.domain.replace(/\/$/, '') + '/';
 
@@ -33,6 +34,23 @@ const jsonLd = {
     value: true,
   })),
 };
+
+// FAQPage structured data, built from the same per-site faq.json the FAQ section
+// renders. Wins rich results in search and gives AI answer engines clean Q&A.
+const faqItems = site.faq || [];
+const stripTags = (s: string) =>
+  s.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+const faqJsonLd = faqItems.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqItems.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: stripTags(f.a) },
+      })),
+    }
+  : null;
 
 const themeVars = Object.entries(c.theme.colors)
   .map(([k, v]) => `${k}: ${v};`)
@@ -92,6 +110,7 @@ const emailjsConfigured = !!(c.integrations?.emailjs?.publicKey
 <meta name="theme-color" content={c.theme.themeColor} />
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+{faqJsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(faqJsonLd)} />}
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -105,6 +124,7 @@ const emailjsConfigured = !!(c.integrations?.emailjs?.publicKey
 </head>
 <body>
 <slot />
+<StickyCta site={site} />
 <script is:inline set:html={`window.__SITE__=${JSON.stringify(siteRuntime)};`} />
 <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 {emailjsConfigured && <script is:inline src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>}
