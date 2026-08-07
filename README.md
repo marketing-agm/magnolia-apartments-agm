@@ -35,8 +35,11 @@ Two static-file surfaces: shared `public/` ships with every site, while
 a small integration in `astro.config.mjs`). On a path collision the per-site file
 wins.
 
-The original single-file `index.html` is kept at the repo root as the source the
-migration script slices from. It is **not** what gets deployed once you cut over.
+The original single-file `index.html` is kept at the repo root as a historical
+reference only. It is **not** deployed — the cutover to the Astro build is done
+(see "Cutover status" below). Note that `scripts/migrate.mjs` can no longer be
+re-run against it: `src/generated/body.html` has been edited by hand many times
+since (FAQ, unit modal, sheet dialogs), and re-running would overwrite all of it.
 
 ## Run locally
 
@@ -83,12 +86,23 @@ A push that touches the template rebuilds all sites; a push that touches one
 site's folder rebuilds only that project (set each project's build-watch paths to
 `src/sites/<id>` + the shared template folders).
 
-### Cutover note (Magnolia)
+### Cutover status (Magnolia): done
 
-Production currently serves the root `index.html` with **no build step**. Merging
-this branch does **not** change the live site by itself — it keeps serving the old
-file until you switch the Pages build command to `npm run build` and output dir to
-`dist`. So the migration is safe to merge first, cut over second.
+Magnolia Crestview is **live on the Astro build**. The Pages project runs
+`npm run build` with `SITE=magnolia-crestview`, and the output directory is
+pinned in `wrangler.toml` (`pages_build_output_dir = "./dist"`) so it can't be
+lost in the dashboard.
+
+The root `index.html` is the pre-migration single-file site, kept only as a
+historical reference. **It is not served.** Everything the live site needs —
+`/app.js`, `/favicon.svg`, `/robots.txt`, `/sitemap.xml`, `/site.webmanifest`,
+`/llms.txt`, `/guides/*` and `/images/*` — exists only in the build output, so
+if you ever see those 404 while the homepage still loads, the build step is the
+thing to check.
+
+To confirm the build is live at any time, open `/llms.txt`: it returns a text
+file when the Astro build is being served, and 404s (or falls through to the
+homepage) if the project has reverted to serving the repo root.
 
 ## Analytics
 
