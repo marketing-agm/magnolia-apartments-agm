@@ -109,6 +109,46 @@
     document.querySelectorAll('[data-unit-noun]').forEach((el) => { el.textContent = n === 1 ? 'home' : 'homes'; });
   }
 
+  // Advertised prices come from live unit data for the same reason counts do.
+  // A typed-in "from $X" goes stale the moment the feed moves, and on a page
+  // receiving paid traffic a stale price isn't a typo — it's a landing-page
+  // mismatch that costs Quality Score and can trip Google's misrepresentation
+  // policy. Fills [data-starting-at] with the overall lowest rent,
+  // [data-plan-from="<key>"] with "from $X", and [data-plan-rate="<key>"] with
+  // "$X / mo". A plan with nothing available says so rather than quoting a
+  // price nobody can actually rent.
+  const asMoney = (n) => '$' + Number(n).toLocaleString();
+  // Units carry a more specific key than the floor-plan tabs do ("2br2ba" vs
+  // "2br"), so reduce to the bedroom-count prefix — same rule as planConfig().
+  const planKeyOf = (plan) => {
+    const m = String(plan || '').match(/^(studio|\d+br)/);
+    return m ? m[1] : String(plan || '');
+  };
+  function syncPlanPricing() {
+    const rents = UNITS.map((u) => Number(u.rent)).filter((n) => Number.isFinite(n) && n > 0);
+    const overall = rents.length ? Math.min(...rents) : null;
+    document.querySelectorAll('[data-starting-at]').forEach((el) => {
+      el.textContent = overall == null ? '—' : asMoney(overall);
+    });
+
+    const lowestByPlan = new Map();
+    UNITS.forEach((u) => {
+      const rent = Number(u.rent);
+      if (!Number.isFinite(rent) || rent <= 0) return;
+      const k = planKeyOf(u.plan);
+      if (!lowestByPlan.has(k) || rent < lowestByPlan.get(k)) lowestByPlan.set(k, rent);
+    });
+
+    document.querySelectorAll('[data-plan-from]').forEach((el) => {
+      const min = lowestByPlan.get(el.dataset.planFrom);
+      el.textContent = min == null ? 'none available now' : 'from ' + asMoney(min);
+    });
+    document.querySelectorAll('[data-plan-rate]').forEach((el) => {
+      const min = lowestByPlan.get(el.dataset.planRate);
+      el.textContent = min == null ? 'None available now' : asMoney(min) + ' / mo';
+    });
+  }
+
   function toggleFav(id) {
     if (favorites.has(id)) favorites.delete(id);
     else favorites.add(id);
@@ -664,6 +704,7 @@
 
   // Initial render
   syncUnitCounts();
+  syncPlanPricing();
   renderUnits();
 
   // ============== FLOOR PLAN SWITCHER ==============

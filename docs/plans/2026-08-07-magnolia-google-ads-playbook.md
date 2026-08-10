@@ -56,6 +56,17 @@ What changed in this commit:
 - `numberOfBedrooms: "1-2"` — **left as-is.** The property genuinely has both
   plans; this describes the building, not current vacancy.
 
+> **The visible page was worse than the metadata.** `body.html` is injected as
+> static markup, and it hardcoded *"Starting at $1,595"* in the hero plus
+> `from $1,595` / `$1,595 / mo` across the 1BR floor-plan panel. So the page a
+> paid visitor actually saw advertised a price no unit was renting at — the
+> exact landing-page mismatch that costs Quality Score and trips the
+> misrepresentation policy. Correcting the meta description alone would not have
+> fixed it. Those four figures are now data-driven (`data-starting-at`,
+> `data-plan-from`, `data-plan-rate`) and a plan with no availability renders
+> "none available now" instead of a stale price. Verified in a headless browser
+> against both the live feed and a simulated 1BR vacancy.
+
 > **Root cause, now fixed.** `units.json` refreshes automatically from AppFolio on
 > a schedule, but `schema.priceRange` was a hand-typed string. Those two were
 > guaranteed to drift — and had, in both directions at once: `seo` claimed "from

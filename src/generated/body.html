@@ -53,7 +53,7 @@
         <div class="stat-row reveal" data-delay="3">
           <div class="stat"><div class="stat-label">Available</div><div class="stat-value"><span data-unit-count>9</span><span class="unit" data-unit-noun>homes</span></div></div>
           <div class="stat"><div class="stat-label">Floor Plans</div><div class="stat-value">2<span class="unit">layouts</span></div></div>
-          <div class="stat"><div class="stat-label">Starting at</div><div class="stat-value">$1,595</div></div>
+          <div class="stat"><div class="stat-label">Starting at</div><div class="stat-value" data-starting-at>$1,995</div></div>
           <div class="stat"><div class="stat-label">Move-in</div><div class="stat-value">Now</div></div>
         </div>
 
@@ -228,11 +228,11 @@
     <div class="plan-switcher reveal" role="tablist" aria-label="Floor plan selector">
       <button class="plan-tab is-active" data-plan="1br" role="tab">
         <span class="tab-title">1 Bedroom</span>
-        <span class="tab-meta">600 sqft · from $1,595</span>
+        <span class="tab-meta">600 sqft · <span data-plan-from="1br">none available now</span></span>
       </button>
       <button class="plan-tab" data-plan="2br" role="tab">
         <span class="tab-title">2 Bedroom</span>
-        <span class="tab-meta">1,000 sqft · from $1,995</span>
+        <span class="tab-meta">1,000 sqft · <span data-plan-from="2br">from $1,995</span></span>
       </button>
     </div>
 
@@ -275,7 +275,7 @@
             <li><span>Bathroom</span><strong>1 full</strong></li>
             <li><span>Outdoor</span><strong>Private deck</strong></li>
             <li><span>Views</span><strong>Neighborhood &amp; skyline</strong></li>
-            <li><span>Starting at</span><strong>$1,595 / mo</strong></li>
+            <li><span>Starting at</span><strong data-plan-rate="1br">None available now</strong></li>
           </ul>
           <a href="#availability" class="btn btn-ghost">See available 1 BRs →</a>
         </div>
@@ -289,7 +289,7 @@
             <li><span>Bathrooms</span><strong>2 full</strong></li>
             <li><span>Kitchen</span><strong>Updated</strong></li>
             <li><span>Outdoor</span><strong>Private deck</strong></li>
-            <li><span>Starting at</span><strong>$1,995 / mo</strong></li>
+            <li><span>Starting at</span><strong data-plan-rate="2br">$1,995 / mo</strong></li>
           </ul>
           <a href="#availability" class="btn btn-ghost">See available 2 BRs →</a>
         </div>
