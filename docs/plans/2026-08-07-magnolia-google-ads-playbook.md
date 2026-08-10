@@ -107,20 +107,21 @@ cutover step gating it. Good news for the timeline.
 
 Two things still to settle before ads point anywhere:
 
-- **`site.config.json → domain` still reads
-  `https://magnolia-apartments-agm.pages.dev`.** Whether that's stale like the
-  build docs were, or genuinely the live hostname, it needs to be right —
-  `domain` feeds the canonical URL, Open Graph tags, `sitemap.xml`, and
-  `robots.txt`. If a custom domain is attached, update this value; a canonical
-  pointing at `.pages.dev` while ads land on the real domain splits your SEO
-  signals and confuses conversion attribution.
-- **Use the custom domain as the Ads final URL if one exists.** A `.pages.dev`
-  URL is permitted, but it reads as untrustworthy in the ad's display URL and
-  can't be verified as a domain you own for advertiser verification — which
-  Google increasingly requires before serving.
-
-If there's no custom domain yet, you *can* launch on `.pages.dev`; just expect a
-softer CTR, and plan to migrate the final URLs later.
+- **Domain chosen: `magnoliacrestviewseattle.com`.** `site.config.json → domain`
+  is set to it, and the whole build follows — home canonical, og:url, JSON-LD,
+  the three guide pages, `llms.txt`, `robots.txt`, and `sitemap.xml`.
+  The geo-loaded name also disambiguates from Magnolia TX/AR, which is the same
+  confusion the Phase 3 negative list defends against.
+- **⚠ Merge order matters.** Register the domain and confirm it resolves
+  *before* deploying that change. A canonical pointing at a domain that doesn't
+  exist is worse than one pointing at `.pages.dev` — it names a dead host as
+  authoritative and can deindex the live page. The domain switch is deliberately
+  an isolated commit so it can be reverted independently of the tracking work.
+- **⚠ EmailJS is domain-restricted.** The public key is locked to specific
+  hosts. Add `magnoliacrestviewseattle.com` in EmailJS → Account → Security
+  *before* traffic moves, or the tour form stops sending — silently, because the
+  send is wrapped in a try/catch and the button still animates "Thanks ✓".
+  This is the failure that would waste the most ad spend.
 
 **Deploy-order note:** because a merge to `main` now changes the live site
 directly, deploy this branch and verify the tag with Tag Assistant **before**
@@ -421,8 +422,7 @@ Same asset pool otherwise — that's the point of RSAs.
 
 ### Final URL + tracking
 
-Final URL: your custom domain if one is attached, otherwise the live
-`.pages.dev` hostname — landing on the main page.
+Final URL: `https://magnoliacrestviewseattle.com/` — landing on the main page.
 
 **Final URL suffix** (Settings → Campaign URL options) — this is what makes the
 `ad_campaign` / `ad_keyword` fields in your lead emails actually populate:
