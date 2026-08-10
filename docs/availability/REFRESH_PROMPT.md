@@ -49,20 +49,53 @@ Work in the repo marketing-agm/magnolia-apartments-agm. Follow this exact workfl
     config's `floorPlans`, note in the PR that a new floor-plan type needs adding,
     or the card label will render blank.
 
-### 5. Commit, push, open PR
+### 5. Check the bedroom-mix / price-floor signal (paid-marketing follow-up)
+The script prints a machine-readable trailer on every run:
+```
+CHANGED=            BEDROOM_MIX_CHANGED=   BEDS_GAINED=   BEDS_LOST=
+PRICE_FLOOR_CHANGED=   PRICE_FLOOR=   PRICE_FLOOR_WAS=
+```
+The site updates itself from `units.json`, but **the Google Ads account and the
+hand-written SEO prose do not.** If the mix or the floor price moved, the
+campaign is now advertising inventory that doesn't exist, or missing inventory
+that does — both burn budget quietly.
+
+- **If `BEDROOM_MIX_CHANGED=true`** — the set of available bedroom counts changed:
+  - Add a **`⚠ ACTION REQUIRED — Google Ads`** section at the **top** of the PR
+    body (above the change report), pasting the action block the script printed.
+  - Label the PR `needs-ads-update` if the label exists.
+  - Call it out explicitly in your report-back — this is the headline, not a
+    footnote.
+- **If `PRICE_FLOOR_CHANGED=true`** — the lowest available rent moved. The
+  "from $X" sentence in `site.config.json` → `seo.description` and
+  `seo.twitterDescription` is hand-written prose and is now stale.
+  - Still **do not edit it in this PR** (guardrail: units.json only). Flag it in
+    the PR body as a follow-up with the exact old → new numbers.
+  - `schema.priceRange` needs no action — it is derived from `units.json` at
+    build time in `BaseLayout.astro` and tracks the feed automatically.
+- **If both are `false`** — nothing to do; omit the section entirely.
+
+Background and the full ads-side checklist:
+`docs/plans/2026-08-07-magnolia-google-ads-playbook.md` § Phase 0a.
+
+### 6. Commit, push, open PR
 - `git add src/sites/magnolia-crestview/units.json`
 - `git commit` with a one-line summary (e.g. "Availability refresh — Magnolia
   Crestview: 1 new, 1 removed, 1 updated").
 - `git push -u origin <branch>`
 - Open a PR into `main`. Title: "Availability refresh — Magnolia Crestview (<date>)".
-  Body: paste the full change report from step 2. If there are NEW units, add a
+  Body: the `⚠ ACTION REQUIRED — Google Ads` section from step 5 if any, then the
+  full change report from step 2. If there are NEW units, add a
   "⚠ Needs human enrichment before merge" section listing them.
 
-### 6. Report back
+### 7. Report back
 - Post the change report so a human can review and merge.
+- Lead with the bedroom-mix/price-floor warning if either fired.
 
 ### Guardrails
-- Only `units.json` changes. Never touch other files.
+- Only `units.json` changes. Never touch other files — the bedroom-mix signal is
+  **reported, never auto-applied**. Editing SEO copy or touching the ad account
+  is a human decision; your job is to make sure it can't be missed.
 - Never hand-edit `units.json` to "fix" data — re-run the script; it's the source of truth for the merge.
 - Empty/zero-unit feed → the script writes nothing and exits; do not force an empty units.json.
 - Merging the PR triggers the normal Cloudflare build/deploy, so the live site updates on merge.

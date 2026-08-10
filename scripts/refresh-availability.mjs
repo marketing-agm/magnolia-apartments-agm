@@ -81,7 +81,15 @@ const mine = feedListings.filter((l) => l.property === propertyName);
 if (!mine.length) {
   console.error(`[refresh] WARNING: 0 listings for "${propertyName}" in the feed (updatedAt: ${feed.updatedAt || 'n/a'}).`);
   console.error('[refresh] Refusing to wipe units.json on an empty result — check the property name / source. No changes written.');
+  // Same trailer shape as the normal path so the Routine's parser doesn't have
+  // to special-case the bail-out. Nothing was written, so nothing changed.
   console.log('CHANGED=false');
+  console.log('BEDROOM_MIX_CHANGED=false');
+  console.log('BEDS_GAINED=');
+  console.log('BEDS_LOST=');
+  console.log('PRICE_FLOOR_CHANGED=false');
+  console.log('PRICE_FLOOR=');
+  console.log('PRICE_FLOOR_WAS=');
   process.exit(0);
 }
 
@@ -159,6 +167,51 @@ for (const u of merged) {
 const money = (r) => (r == null ? 'Inquire' : `$${Number(r).toLocaleString()}/mo`);
 const line = (u) => `  ${propertyName} — Unit ${u.id}: ${money(u.rent)} | ${u.beds === 0 ? 'Studio' : u.beds + ' bd'} / ${u.baths} ba | ${u.sqft.toLocaleString()} sqft | Avail: ${u.available}`;
 
+// ---- bedroom-mix signal --------------------------------------------------
+// The site self-updates from this feed, but the Google Ads account and the
+// hand-written SEO prose do not. When the set of *available* bedroom counts
+// changes — the last 1BR leases, or the first one opens — paid campaigns start
+// advertising inventory that doesn't exist, or miss inventory that does. Both
+// cost money silently, so surface it loudly here rather than hoping someone
+// notices in the diff.
+const bedsLabel = (b) => (b === 0 ? 'Studio' : `${b} bd`);
+// How the count reads as a Google Ads negative keyword, so the action lines can
+// be copy-pasted into the shared list rather than translated by hand.
+const WORDS = ['', 'one', 'two', 'three', 'four', 'five', 'six'];
+const bedsKeywords = (b) => (b === 0
+  ? '"studio"'
+  : `"${b} bedroom"/"${WORDS[b] || b} bedroom"`);
+
+// Lowest rent per bedroom count, so the report can quote a real "from" price.
+function mixOf(units) {
+  const m = new Map();
+  for (const u of units) {
+    const beds = normBeds(u.beds);
+    if (!Number.isFinite(beds)) continue;
+    const rent = u.rent == null ? null : Number(u.rent);
+    const prev = m.get(beds);
+    if (prev === undefined) m.set(beds, rent);
+    else if (rent != null && (prev == null || rent < prev)) m.set(beds, rent);
+  }
+  return m;
+}
+
+const mixBefore = mixOf(currentUnits);
+const mixAfter = mixOf(merged);
+const bedsGained = [...mixAfter.keys()].filter((b) => !mixBefore.has(b)).sort((a, b) => a - b);
+const bedsLost = [...mixBefore.keys()].filter((b) => !mixAfter.has(b)).sort((a, b) => a - b);
+const mixChanged = bedsGained.length > 0 || bedsLost.length > 0;
+
+// The "from $X" price quoted in seo.description is also hand-written prose, so
+// a moved price floor needs the same human follow-up even when the mix holds.
+const floorOf = (units) => {
+  const rents = units.map((u) => Number(u.rent)).filter((n) => Number.isFinite(n) && n > 0);
+  return rents.length ? Math.min(...rents) : null;
+};
+const floorBefore = floorOf(currentUnits);
+const floorAfter = floorOf(merged);
+const floorChanged = floorBefore !== floorAfter;
+
 const R = [];
 R.push('============================================================');
 R.push(`AVAILABILITY REFRESH — ${propertyName}  (feed updated ${feed.updatedAt || 'n/a'})`);
@@ -184,6 +237,44 @@ if (skipped.length) {
   R.push(`SKIPPED (no unit number in address) (${skipped.length})`);
   skipped.forEach((l) => R.push(`  ${l.address} — ${l.title}`));
 }
+
+if (mixChanged || floorChanged) {
+  R.push('');
+  R.push('------------------------------------------------------------');
+  R.push(mixChanged
+    ? '⚠  BEDROOM MIX CHANGED — Google Ads + SEO copy need a human'
+    : '⚠  PRICE FLOOR MOVED — SEO copy needs a human');
+  R.push('------------------------------------------------------------');
+  const avail = [...mixAfter.keys()].sort((a, b) => a - b)
+    .map((b) => `${bedsLabel(b)} (from ${money(mixAfter.get(b))})`).join(', ') || '(none)';
+  R.push(`  Available mix now:   ${avail}`);
+  if (bedsGained.length) {
+    R.push(`  NEWLY available:     ${bedsGained.map((b) => `${bedsLabel(b)} from ${money(mixAfter.get(b))}`).join(', ')}`);
+  }
+  if (bedsLost.length) {
+    R.push(`  NO LONGER available: ${bedsLost.map((b) => bedsLabel(b)).join(', ')}`);
+  }
+  if (floorChanged) {
+    R.push(`  Price floor:         ${money(floorBefore)} → ${money(floorAfter)}`);
+  }
+  R.push('');
+  R.push('  These do NOT update themselves:');
+  if (bedsGained.length) {
+    R.push(`    • Ads → drop ${bedsGained.map(bedsKeywords).join(', ')} from the conditional negative list`);
+    R.push(`    • Ads → unpause the matching ad group; quote the real rent above`);
+  }
+  if (bedsLost.length) {
+    R.push(`    • Ads → ADD ${bedsLost.map(bedsKeywords).join(', ')} to the conditional negative list`);
+    R.push(`    • Ads → pause the matching ad group (you'd be buying clicks for nothing)`);
+  }
+  if (floorChanged) {
+    R.push('    • site.config.json → seo.description / seo.twitterDescription price sentence');
+    R.push('    • Ads → any headline quoting a "from" price');
+  }
+  R.push('    See docs/plans/2026-08-07-magnolia-google-ads-playbook.md § Phase 0a');
+  R.push('------------------------------------------------------------');
+}
+
 R.push('============================================================');
 console.log(R.join('\n'));
 
@@ -200,4 +291,14 @@ if (changed && !dryRun) {
   console.error('\n[refresh] no changes');
 }
 if (flagged.length) console.error(`[refresh] NEW units need human review: ${flagged.join(', ')}`);
+if (mixChanged) console.error('[refresh] BEDROOM MIX CHANGED — see the action block above; Google Ads needs a manual update');
+
+// Machine-readable trailer. Always emitted, including the false cases, so the
+// Routine can parse it unconditionally instead of inferring from absence.
 console.log(`CHANGED=${changed}`);
+console.log(`BEDROOM_MIX_CHANGED=${mixChanged}`);
+console.log(`BEDS_GAINED=${bedsGained.join(',')}`);
+console.log(`BEDS_LOST=${bedsLost.join(',')}`);
+console.log(`PRICE_FLOOR_CHANGED=${floorChanged}`);
+console.log(`PRICE_FLOOR=${floorAfter ?? ''}`);
+console.log(`PRICE_FLOOR_WAS=${floorBefore ?? ''}`);
