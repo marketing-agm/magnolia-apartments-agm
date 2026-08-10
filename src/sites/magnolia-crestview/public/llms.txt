@@ -15,13 +15,13 @@
 - Location highlights: steps from Discovery Park (534 acres); near Magnolia Village shops, cafés, and farmers market; ~15 minutes to downtown Seattle
 
 ## Pages
-- [Home / availability / floor plans / tour scheduling](https://magnolia-apartments-agm.pages.dev/)
-- [Frequently asked questions](https://magnolia-apartments-agm.pages.dev/#faq)
+- [Home / availability / floor plans / tour scheduling]({{SITE_DOMAIN}}/)
+- [Frequently asked questions]({{SITE_DOMAIN}}/#faq)
 
 ## Neighborhood guides
-- [Living in Magnolia, Seattle: neighborhood guide](https://magnolia-apartments-agm.pages.dev/guides/living-in-magnolia/)
-- [Discovery Park: trails, beach, and lighthouse guide](https://magnolia-apartments-agm.pages.dev/guides/discovery-park/)
-- [Commuting from Magnolia to downtown, South Lake Union, and beyond](https://magnolia-apartments-agm.pages.dev/guides/magnolia-commute/)
+- [Living in Magnolia, Seattle: neighborhood guide]({{SITE_DOMAIN}}/guides/living-in-magnolia/)
+- [Discovery Park: trails, beach, and lighthouse guide]({{SITE_DOMAIN}}/guides/discovery-park/)
+- [Commuting from Magnolia to downtown, South Lake Union, and beyond]({{SITE_DOMAIN}}/guides/magnolia-commute/)
 
 ## Contact
-- To schedule a tour or apply, call (206) 694-1713 or use the tour scheduler at https://magnolia-apartments-agm.pages.dev/#tour
+- To schedule a tour or apply, call (206) 694-1713 or use the tour scheduler at {{SITE_DOMAIN}}/#tour

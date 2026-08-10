@@ -35,6 +35,14 @@ Two static-file surfaces: shared `public/` ships with every site, while
 a small integration in `astro.config.mjs`). On a path collision the per-site file
 wins.
 
+**Never hardcode a site's own absolute URL in `src/sites/<id>/public/`.** Write
+`{{SITE_DOMAIN}}` instead — the build substitutes `site.config.json → domain`
+into every copied `.html/.txt/.xml/.json/.css/.js/.md`. Astro templates read the
+config directly, but these files are copied byte-for-byte, so a literal host
+would survive a custom-domain migration and leave guide canonicals and
+`llms.txt` pointing at the old hostname — telling Google the wrong URL is
+authoritative. Changing a property's domain should be a one-line config edit.
+
 The original single-file `index.html` is kept at the repo root as the source the
 migration script slices from. It is **not** deployed — production serves the
 Astro build in `dist/`.
