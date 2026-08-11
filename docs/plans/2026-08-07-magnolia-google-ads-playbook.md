@@ -107,18 +107,26 @@ cutover step gating it. Good news for the timeline.
 
 Two things still to settle before ads point anywhere:
 
-- **Domain chosen: `magnoliacrestviewseattle.com`.** `site.config.json → domain`
+- **Domain chosen: `magnoliaapartmentsseattle.com`.** `site.config.json → domain`
   is set to it, and the whole build follows — home canonical, og:url, JSON-LD,
   the three guide pages, `llms.txt`, `robots.txt`, and `sitemap.xml`.
-  The geo-loaded name also disambiguates from Magnolia TX/AR, which is the same
-  confusion the Phase 3 negative list defends against.
-- **⚠ Merge order matters.** Register the domain and confirm it resolves
-  *before* deploying that change. A canonical pointing at a domain that doesn't
-  exist is worse than one pointing at `.pages.dev` — it names a dead host as
-  authoritative and can deindex the live page. The domain switch is deliberately
-  an isolated commit so it can be reverted independently of the tracking work.
+  The name disambiguates from Magnolia TX/AR — the same confusion the Phase 3
+  negative list defends against — and matches the Ad group A keyword set
+  ("apartments in magnolia seattle") almost word for word, which helps the
+  display URL read as relevant to exactly the query being bid on.
+
+  Note it is a *neighborhood-generic* name, not property-specific: it says
+  nothing about Crestview. Fine for a single property, and better for generic
+  organic search. But if AGM ever markets a second Magnolia-neighborhood
+  building, this domain describes the neighborhood rather than the property —
+  worth deciding then whether it stays with Crestview or becomes a portfolio
+  landing page.
+- **Domain is registered** (Cloudflare, active, auto-renew on, expires
+  2027-08-10). Still attach it to the Pages project and confirm it serves the
+  site before merging the domain commit — a canonical naming a host that isn't
+  wired up yet points Google at nothing.
 - **⚠ EmailJS is domain-restricted.** The public key is locked to specific
-  hosts. Add `magnoliacrestviewseattle.com` in EmailJS → Account → Security
+  hosts. Add `magnoliaapartmentsseattle.com` in EmailJS → Account → Security
   *before* traffic moves, or the tour form stops sending — silently, because the
   send is wrapped in a try/catch and the button still animates "Thanks ✓".
   This is the failure that would waste the most ad spend.
@@ -422,7 +430,7 @@ Same asset pool otherwise — that's the point of RSAs.
 
 ### Final URL + tracking
 
-Final URL: `https://magnoliacrestviewseattle.com/` — landing on the main page.
+Final URL: `https://magnoliaapartmentsseattle.com/` — landing on the main page.
 
 **Final URL suffix** (Settings → Campaign URL options) — this is what makes the
 `ad_campaign` / `ad_keyword` fields in your lead emails actually populate:
