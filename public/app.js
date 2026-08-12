@@ -783,6 +783,14 @@
           img = document.createElement('img');
           img.className = 'plan-image';
           img.loading = 'lazy';
+          // A configured path is not a guarantee the file shipped. Without this,
+          // a missing drawing hides the placeholder and leaves a broken image in
+          // its place — worse than the honest "Coming Soon" it replaced.
+          img.addEventListener('error', function () {
+            img.style.display = 'none';
+            var ph = view2d.querySelector('.plan-placeholder');
+            if (ph) ph.style.display = '';
+          });
           view2d.appendChild(img);
         }
         img.src = cfg.image;
