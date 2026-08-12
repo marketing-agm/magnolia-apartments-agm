@@ -35,8 +35,17 @@ Two static-file surfaces: shared `public/` ships with every site, while
 a small integration in `astro.config.mjs`). On a path collision the per-site file
 wins.
 
+**Never hardcode a site's own absolute URL in `src/sites/<id>/public/`.** Write
+`{{SITE_DOMAIN}}` instead — the build substitutes `site.config.json → domain`
+into every copied `.html/.txt/.xml/.json/.css/.js/.md`. Astro templates read the
+config directly, but these files are copied byte-for-byte, so a literal host
+would survive a custom-domain migration and leave guide canonicals and
+`llms.txt` pointing at the old hostname — telling Google the wrong URL is
+authoritative. Changing a property's domain should be a one-line config edit.
+
 The original single-file `index.html` is kept at the repo root as the source the
-migration script slices from. It is **not** what gets deployed once you cut over.
+migration script slices from. It is **not** deployed — production serves the
+Astro build in `dist/`.
 
 ## Run locally
 
@@ -83,12 +92,20 @@ A push that touches the template rebuilds all sites; a push that touches one
 site's folder rebuilds only that project (set each project's build-watch paths to
 `src/sites/<id>` + the shared template folders).
 
-### Cutover note (Magnolia)
+### Cutover status (Magnolia) — done
 
-Production currently serves the root `index.html` with **no build step**. Merging
-this branch does **not** change the live site by itself — it keeps serving the old
-file until you switch the Pages build command to `npm run build` and output dir to
-`dist`. So the migration is safe to merge first, cut over second.
+Magnolia is **live on the Astro build**. The Pages project runs `npm run build`,
+and the output directory is pinned as config-as-code in `wrangler.toml`
+(`pages_build_output_dir = "./dist"`), so it can't be lost or reset in the
+dashboard. The build command and the per-site `SITE` variable still live in the
+Pages dashboard.
+
+Practical consequence: **a merge to `main` changes the live site.** Template
+edits (`layouts/`, `components/`, `styles/`, `generated/`, `public/app.js`) ship
+to production on the next deploy, so preview them on a branch deploy first.
+
+The root `index.html` is **not deployed** — it's kept only as the source
+`scripts/migrate.mjs` slices from. Editing it has no effect on the live site.
 
 ## Analytics
 
@@ -99,6 +116,17 @@ keys into `site.config.json → analytics`:
   replay, per-site + portfolio dashboards. Every event is tagged with `site_id`
   so you get both a single-property view and a portfolio rollup.
 - **Microsoft Clarity** (`analytics.clarity.id`) — free heatmaps + session replay.
+- **Google** (`analytics.google.ga4Id` / `adsId`) — GA4 and Google Ads via one
+  `gtag.js` load. GA4 receives every event; Google Ads receives only the events
+  you give a conversion label in `analytics.google.conversionLabels`, so paid
+  bidding optimizes toward real leads instead of micro-interactions.
+  `conversionValues` sets each action's relative worth for Smart Bidding.
+  Paid clicks are stamped: `gclid`/`wbraid`/`gbraid` and `utm_*` are stored for
+  90 days and exposed via `window.getAdAttribution()`, which also appends
+  `ad_source` / `ad_campaign` / `ad_keyword` / `ad_click_id` to every lead email.
+
+  Campaign setup for Magnolia — structure, keywords, negatives, ad copy, budget:
+  `docs/plans/2026-08-07-magnolia-google-ads-playbook.md`.
 
 With no keys set, nothing loads (safe no-op). Named conversion events fire
 automatically off existing interactions: `tour_requested`, `unit_favorited`,

@@ -2,7 +2,7 @@
   "id": "magnolia-crestview",
   "name": "Magnolia Crestview",
   "shortName": "Crestview",
-  "domain": "https://magnolia-apartments-agm.pages.dev",
+  "domain": "https://magnoliaapartmentsseattle.com",
   "locale": "en_US",
   "lang": "en",
   "contact": {
@@ -25,11 +25,11 @@
   },
   "seo": {
     "title": "Magnolia Crestview · Apartments in Magnolia, Seattle",
-    "description": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Updated kitchens, private decks, views. Steps from Discovery Park. From $1,595/mo.",
+    "description": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Updated kitchens, private decks, views. Steps from Discovery Park. 2BR available now from $1,995/mo.",
     "keywords": "apartments in Magnolia, Magnolia Seattle apartments, Magnolia Crestview, apartments near Discovery Park, 2701 W Manor Pl, 1 bedroom apartment Seattle 98199, 2 bedroom apartment Magnolia, apartments for rent Magnolia Seattle",
     "author": "Magnolia Crestview",
     "ogImage": "",
-    "twitterDescription": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Steps from Discovery Park. From $1,595/mo."
+    "twitterDescription": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Steps from Discovery Park. 2BR available now from $1,995/mo."
   },
   "schema": {
     "type": [
@@ -37,7 +37,7 @@
       "LocalBusiness"
     ],
     "description": "1BR and 2BR/2BA apartments for rent in Magnolia, Seattle. Updated kitchens, private decks, and views — steps from Discovery Park.",
-    "priceRange": "$1,395–$1,995/mo",
+    "priceRange": "$1,995–$2,195/mo",
     "numberOfBedrooms": "1-2",
     "petsAllowed": true,
     "areaServed": [
@@ -162,6 +162,27 @@
     },
     "clarity": {
       "id": ""
+    },
+    "google": {
+      "ga4Id": "",
+      "adsId": "",
+      "conversionLabels": {
+        "tour_requested": "",
+        "phone_click": "",
+        "email_click": "",
+        "tour_3d_opened": "",
+        "floor_plan_viewed": ""
+      },
+      "conversionValues": {
+        "tour_requested": 150,
+        "phone_click": 100,
+        "email_click": 40,
+        "tour_3d_opened": 10,
+        "floor_plan_viewed": 5,
+        "unit_favorited": 5,
+        "commute_estimated": 5,
+        "gallery_opened": 2
+      }
     }
   },
   "availability": {

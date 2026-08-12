@@ -1,5 +1,14 @@
 # Launch Magnolia — next-steps playbook
 
+> **⚠️ Historical document — Phase 2 is complete. Do not follow it as a to-do list.**
+>
+> **Phase 2 (Cutover) was done.** Magnolia is live on the Astro build: the Pages
+> project runs `npm run build` and `wrangler.toml` pins
+> `pages_build_output_dir = "./dist"`. The "production still serves the old root
+> `index.html`" statements below are **no longer true** and are preserved only as
+> a record of the 2026-06-04 session. A merge to `main` now *does* change the
+> live site.
+>
 > _Archived planning artifact from the 2026-06-04 working session. Captures the launch sequence agreed on after PRs #19 (FAQ/guides), #20 (Astro multi-site + Sveltia CMS), and #21 (EmailJS tour-form wiring) were merged to `main`._
 
 ## Context

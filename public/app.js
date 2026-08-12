@@ -124,6 +124,48 @@
     });
   }
 
+  // The floor-plan panel quotes a "from $X" per layout, which drifts from the
+  // feed exactly like the hero figure did — and on a page taking paid traffic a
+  // stale price is a landing-page mismatch that costs Quality Score and can trip
+  // Google's misrepresentation policy, not just a typo. The hero's overall
+  // minimum is handled by [data-unit-min-rent] in syncUnitCounts(); this fills
+  // the per-plan figures: [data-plan-from="<key>"] → "from $X" and
+  // [data-plan-rate="<key>"] → "$X / mo".
+  //
+  // Scoped to move-in-ready units, matching syncUnitCounts() — advertising a
+  // price you can only get by waiting for a coming-soon unit is the same
+  // mismatch in a subtler form. A plan with nothing available says so rather
+  // than quoting a price nobody can rent today.
+  const asMoney = (n) => '$' + Number(n).toLocaleString();
+  // Units carry a more specific key than the floor-plan tabs do ("2br2ba" vs
+  // "2br"), so reduce to the bedroom-count prefix — same rule as planConfig().
+  const planKeyOf = (plan) => {
+    const m = String(plan || '').match(/^(studio|\d+br)/);
+    return m ? m[1] : String(plan || '');
+  };
+  function syncPlanPricing() {
+    const available = UNITS.filter((u) => u.availType === 'now');
+    const scope = available.length ? available : UNITS;
+
+    const lowestByPlan = new Map();
+    scope.forEach((u) => {
+      if (u.rent == null) return;
+      const rent = Number(u.rent);
+      if (!Number.isFinite(rent) || rent <= 0) return;
+      const k = planKeyOf(u.plan);
+      if (!lowestByPlan.has(k) || rent < lowestByPlan.get(k)) lowestByPlan.set(k, rent);
+    });
+
+    document.querySelectorAll('[data-plan-from]').forEach((el) => {
+      const min = lowestByPlan.get(el.dataset.planFrom);
+      el.textContent = min == null ? 'none available now' : 'from ' + asMoney(min);
+    });
+    document.querySelectorAll('[data-plan-rate]').forEach((el) => {
+      const min = lowestByPlan.get(el.dataset.planRate);
+      el.textContent = min == null ? 'None available now' : asMoney(min) + ' / mo';
+    });
+  }
+
   function toggleFav(id) {
     if (favorites.has(id)) favorites.delete(id);
     else favorites.add(id);
@@ -710,6 +752,7 @@
 
   // Initial render
   syncUnitCounts();
+  syncPlanPricing();
   renderUnits();
 
   // ============== FLOOR PLAN SWITCHER ==============
@@ -1911,6 +1954,7 @@
           source: 'tour wizard',
           message: finalMessage || '',
           page_url: location.href,
+          ...adAttributionFields(),
         };
         if (submitBtn) submitBtn.disabled = true;
         if (lbl) lbl.textContent = 'Sending…';
@@ -1924,6 +1968,17 @@
         }
         if (submitBtn) submitBtn.disabled = false;
         if (lbl) lbl.textContent = originalLabel;
+      }
+
+      // The wizard is a <div> driven by a type="button" submit, so the delegated
+      // 'submit' listener in Analytics.astro never sees it. Fire the conversion
+      // explicitly — this is the highest-intent action on the site.
+      if (window.trackEvent) {
+        window.trackEvent('tour_requested', {
+          source: 'tour wizard',
+          beds: state.beds || null,
+          move_in: state.window || null,
+        });
       }
 
       showConfirmation(finalMessage);
@@ -2072,6 +2127,19 @@
     updateFabVisibility();
   })();
 
+  // Attribution fields appended to every lead email. Lets leasing see which
+  // campaign produced a tour, and gives you the gclid needed to upload a
+  // signed-lease conversion back into Google Ads later.
+  function adAttributionFields() {
+    var a = (window.getAdAttribution && window.getAdAttribution()) || {};
+    return {
+      ad_source: a.utm_source || (a.gclid || a.wbraid || a.gbraid ? 'google-ads' : 'direct/organic'),
+      ad_campaign: a.utm_campaign || '—',
+      ad_keyword: a.utm_term || '—',
+      ad_click_id: a.gclid || a.wbraid || a.gbraid || '—',
+    };
+  }
+
   // Per-site EmailJS hook. No-op if the site config doesn't have publicKey/serviceId/templateId.
   async function sendViaEmailJS(payload) {
     const ej = window.__SITE__ && window.__SITE__.config && window.__SITE__.config.integrations && window.__SITE__.config.integrations.emailjs;
@@ -2110,6 +2178,7 @@
           source: 'floating widget',
           message: fd.get('msg') || '',
           page_url: location.href,
+          ...adAttributionFields(),
         };
         btn.disabled = true;
         btn.innerHTML = 'Sending…';
