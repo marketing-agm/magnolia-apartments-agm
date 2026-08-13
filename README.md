@@ -67,14 +67,18 @@ SITE=magnolia-crestview npm run build
 1. `cp -r src/sites/magnolia-crestview src/sites/<new-id>`
 2. Edit `<new-id>/site.config.json` — name, domain, address, geo, theme colors,
    SEO copy, analytics IDs, and the `sitemap.pages` list (extra URLs like guides).
-3. Replace `units.json` / `places.json` / `photos.json` / `bus-stops.json` with
+3. Add floor-plan drawings and 3D tour URLs — see
+   `docs/content/floor-plans-and-tours.md` for where they live, how the linking
+   works, and a copy-paste prompt. Both are **per-site**; nothing about a
+   property's tour belongs in the shared template.
+4. Replace `units.json` / `places.json` / `photos.json` / `bus-stops.json` with
    that property's data. Heavy assets (photos, 3D tours) should point at object
    storage (e.g. Cloudflare R2/Images), not be committed here.
-4. Update `<new-id>/public/` — swap in that property's guides, `llms.txt`, and any
+5. Update `<new-id>/public/` — swap in that property's guides, `llms.txt`, and any
    property-specific static files (or delete the ones you don't need).
-5. Add `<new-id>` to the `site` matrix in `.github/workflows/build.yml` so CI
+6. Add `<new-id>` to the `site` matrix in `.github/workflows/build.yml` so CI
    verifies its build.
-6. `SITE=<new-id> npm run build` and deploy (below).
+7. `SITE=<new-id> npm run build` and deploy (below).
 
 Template-wide changes (anything in `layouts/`, `components/`, `styles/`,
 `generated/`, `public/app.js`) automatically apply to every site on its next build.

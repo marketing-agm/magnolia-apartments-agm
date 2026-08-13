@@ -822,10 +822,18 @@
   // Floor-plan images + 3D tour URLs come from site config (CMS-editable).
   (function applyFloorPlanConfig() {
     const fp = (window.__SITE__ && window.__SITE__.config.floorPlans) || {};
-    // 3D tours: feed the existing data-tour-* attributes the tour logic reads.
+    // 3D tours: feed the data-tour-* attributes applyTourSrc() reads. Iterates
+    // whatever plan keys the site actually configured — this used to check
+    // '1br' and '2br' by name, so a property with a studio or 3BR could set a
+    // tourUrl and have it silently ignored, with the tab stuck on
+    // "Coming Soon" and nothing logged to explain why.
     if (planTourEl) {
-      if (fp['1br'] && fp['1br'].tourUrl) planTourEl.dataset.tour1br = fp['1br'].tourUrl;
-      if (fp['2br'] && fp['2br'].tourUrl) planTourEl.dataset.tour2br = fp['2br'].tourUrl;
+      Object.keys(fp).forEach((key) => {
+        const plan = fp[key];
+        if (!plan || !plan.tourUrl) return;
+        // Mirrors the read in applyTourSrc(): '1br' -> tour1br, 'studio' -> tourStudio.
+        planTourEl.dataset['tour' + key.charAt(0).toUpperCase() + key.slice(1)] = plan.tourUrl;
+      });
     }
     // 2D floor plan image: swap the placeholder for an uploaded drawing.
     const view2d = document.querySelector('.plan-view-2d');
