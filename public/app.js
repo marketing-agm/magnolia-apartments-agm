@@ -98,7 +98,27 @@
   function saveFavs() {
     try { localStorage.setItem('mc_favs', JSON.stringify([...favorites])); } catch (e) {}
   }
-  function unitById(id) { return UNITS.find(u => u.id === id); }
+  // Unit numbers repeat across buildings — two Magnolia properties both have a
+  // 307 — so identity is the uid, not the printed unit number. Falls back to id
+  // for sites whose units.json predates multi-property support.
+  const uidOf = (u) => String(u.uid || u.id);
+  function unitById(uid) { return UNITS.find(u => uidOf(u) === String(uid)); }
+  // More than one building in the list means the unit number alone is ambiguous
+  // to a renter, so cards and the modal have to name the property.
+  const MULTI_PROPERTY = new Set(UNITS.map(u => u.property).filter(Boolean)).size > 1;
+
+  // Saved favourites persist across visits, so they outlive both the feed and
+  // the id scheme: a home can lease and vanish, and favourites saved before
+  // uids existed are keyed by bare unit number. Either way the id no longer
+  // resolves — drop it, or the shortlist counter advertises homes the panel
+  // can't show.
+  (function pruneStaleFavs() {
+    let dropped = false;
+    favorites.forEach((key) => {
+      if (!UNITS.some((u) => uidOf(u) === String(key))) { favorites.delete(key); dropped = true; }
+    });
+    if (dropped) saveFavs();
+  })();
 
   // Advertised home counts come from the live unit data, never hardcoded copy —
   // availability is refreshed automatically, so any typed-in number goes stale.
@@ -219,8 +239,8 @@
       ? `<div class="price price--inquire">Inquire</div>`
       : `<div class="price">$${unit.rent.toLocaleString()}<span>/mo</span></div>`;
 
-    const isFaved = favorites.has(unit.id);
-    const isCmp = compareSet.has(unit.id);
+    const isFaved = favorites.has(uidOf(unit));
+    const isCmp = compareSet.has(uidOf(unit));
     let budgetClass = '';
     if (affordableMax != null && unit.rent != null) {
       budgetClass = unit.rent <= affordableMax ? ' fits-budget' : ' below-budget';
@@ -233,7 +253,7 @@
       : '';
     const cls = 'unit-card' + (unit.featured ? ' is-featured' : '') + (isFaved ? ' is-faved' : '') + (isCmp ? ' is-compared' : '') + budgetClass;
     return `
-      <article class="${cls}" style="animation-delay:${idx * 50}ms" data-unit-open="${unit.id}">
+      <article class="${cls}" style="animation-delay:${idx * 50}ms" data-unit-open="${uidOf(unit)}">
         <div class="unit-card-plan">
           <span class="unit-plan-label">${PLAN_LABELS[unit.plan]}</span>
           ${featured}
@@ -242,14 +262,14 @@
         <div class="unit-card-body">
           <div class="unit-card-head">
             <div>
-              <button class="unit-card-num" type="button" data-unit-open="${unit.id}">Unit <span class="italic">${unit.id}</span><span class="sr-only"> — view details</span></button>
-              <span class="unit-card-floor">${unit.floor}</span>
+              <button class="unit-card-num" type="button" data-unit-open="${uidOf(unit)}">Unit <span class="italic">${unit.id}</span><span class="sr-only"> — view details</span></button>
+              <span class="unit-card-floor">${unit.floor}${MULTI_PROPERTY && unit.address ? ' · ' + unit.address : ''}</span>
             </div>
             <div class="unit-card-tools">
-              <button class="unit-fav" type="button" data-fav="${unit.id}" aria-pressed="${isFaved}" aria-label="${isFaved ? 'Remove Unit ' + unit.id + ' from saved homes' : 'Save Unit ' + unit.id}" title="Save home">
+              <button class="unit-fav" type="button" data-fav="${uidOf(unit)}" aria-pressed="${isFaved}" aria-label="${(isFaved ? 'Remove Unit ' : 'Save Unit ') + unit.id + (MULTI_PROPERTY && unit.property ? ' at ' + unit.property : '') + (isFaved ? ' from saved homes' : '')}" title="Save home">
                 <svg width="16" height="16" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
               </button>
-              <button class="unit-cmp" type="button" data-cmp="${unit.id}" aria-pressed="${isCmp}" aria-label="${isCmp ? 'Remove Unit ' + unit.id + ' from comparison' : 'Add Unit ' + unit.id + ' to comparison'}" title="Compare">vs</button>
+              <button class="unit-cmp" type="button" data-cmp="${uidOf(unit)}" aria-pressed="${isCmp}" aria-label="${(isCmp ? 'Remove Unit ' : 'Add Unit ') + unit.id + (MULTI_PROPERTY && unit.property ? ' at ' + unit.property : '') + (isCmp ? ' from comparison' : ' to comparison')}" title="Compare">vs</button>
             </div>
           </div>
           ${budgetTag}
@@ -564,7 +584,15 @@
     const summary = document.getElementById('ud-summary');
 
     if (title) title.innerHTML = 'Unit <span class="italic">' + u.id + '</span>';
-    if (eyebrow) eyebrow.textContent = PLAN_LABELS[u.plan] || 'Available home';
+    if (eyebrow) {
+      const plan = PLAN_LABELS[u.plan] || 'Available home';
+      // With more than one building in play, the plan alone doesn't tell a
+      // renter which home they're looking at — name the property and street.
+      const where = MULTI_PROPERTY
+        ? [u.property, u.address].filter(Boolean).join(' · ')
+        : '';
+      eyebrow.textContent = where ? plan + ' · ' + where : plan;
+    }
     if (summary) {
       const price = u.rent == null
         ? 'Inquire'
@@ -593,7 +621,7 @@
     if (firstTab) firstTab.click();
 
     openOverlay(overlay);
-    if (window.trackEvent) window.trackEvent('unit_detail_opened', { unit: u.id });
+    if (window.trackEvent) window.trackEvent('unit_detail_opened', { unit: u.id, uid: uidOf(u), property: u.property || null });
   }
 
   // The tour CTA inside the unit modal is an <a href="#tour">, so the sheet
@@ -620,10 +648,10 @@
       return `<div class="sl-row">
         <div class="sl-row-info">
           <div class="sl-row-title">Unit <span class="italic">${u.id}</span></div>
-          <div class="sl-row-meta">${PLAN_LABELS[u.plan]} · ${u.sqft.toLocaleString()} sqft · ${u.floor}</div>
+          <div class="sl-row-meta">${PLAN_LABELS[u.plan]} · ${u.sqft.toLocaleString()} sqft · ${MULTI_PROPERTY && u.address ? u.address : u.floor}</div>
         </div>
         <div class="sl-row-price">${price}</div>
-        <button class="sl-row-remove" type="button" data-sl-remove="${u.id}" aria-label="Remove Unit ${u.id}">
+        <button class="sl-row-remove" type="button" data-sl-remove="${uidOf(u)}" aria-label="Remove Unit ${u.id}">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>`;
@@ -1427,7 +1455,7 @@
     // Populate from priced UNITS (skip inquire-only), 1BR then 2BR
     const priced = UNITS.filter(u => u.rent != null).sort((a, b) => a.beds - b.beds || a.rent - b.rent);
     sel.innerHTML = priced.map(u =>
-      `<option value="${u.id}">Unit ${u.id} · ${PLAN_LABELS[u.plan]} · $${u.rent.toLocaleString()}/mo</option>`
+      `<option value="${uidOf(u)}">Unit ${u.id}${MULTI_PROPERTY && u.property ? " · " + u.property : ""} · ${PLAN_LABELS[u.plan]} · $${u.rent.toLocaleString()}/mo</option>`
     ).join('');
 
     function money(n) { return '$' + Math.round(n).toLocaleString(); }

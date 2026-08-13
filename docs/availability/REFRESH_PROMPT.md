@@ -6,8 +6,8 @@ It mirrors the `agm-availabilities` workflow, adapted to this multi-site templat
 
 **How the data flows:** AppFolio public listings → parsed into a clean feed by the
 `agm-availabilities` app (`listings.json`) → this repo's `scripts/refresh-availability.mjs`
-filters to one property and **merges** it into `src/sites/<site>/units.json`,
-preserving curated marketing copy. You (a human) review and merge the PR.
+filters to the property (or properties) the site markets and **merges** them into
+`src/sites/<site>/units.json`, preserving curated marketing copy. You (a human) review and merge the PR.
 
 ---
 
@@ -24,9 +24,16 @@ Work in the repo marketing-agm/magnolia-apartments-agm. Follow this exact workfl
 ### 2. Run the deterministic refresh (do NOT hand-edit units.json)
 - `node scripts/refresh-availability.mjs --site magnolia-crestview`
 - The script fetches the feed named in `src/sites/magnolia-crestview/site.config.json`
-  → `availability.source`, filters to `availability.appfolioProperty`, and MERGES:
+  → `availability.source`, filters to `availability.appfolioProperty` — which may be
+  a single name or a list, and for Magnolia is **both** "Magnolia Crestview" and
+  "Magnolia Vista & Manor" — and MERGES:
     • AppFolio drives: beds, baths, sqft, rent, available, availType
-    • Preserved by unit id: floor, floorNum, features, featured, plan (curated copy)
+    • Preserved by uid: floor, floorNum, features, featured, plan (curated copy)
+      Unit numbers repeat across buildings (both Magnolia properties have a 307),
+      so records are keyed by `uid` = property slug + unit number, never the bare
+      number. A warning is printed for any configured property name that matches
+      zero listings — usually a rename in AppFolio, which otherwise fails
+      silently by just dropping that building from the site.
     • New units: created with a guessed plan/floor + EMPTY features, and flagged
     • Vanished units: removed
 - Read the printed change report and the final `CHANGED=` line.

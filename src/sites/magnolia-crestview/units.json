@@ -1,7 +1,10 @@
 {
   "units": [
     {
+      "uid": "magnolia-crestview-301",
       "id": "301",
+      "property": "Magnolia Crestview",
+      "address": "2701 W Manor Pl",
       "beds": 2,
       "baths": 2,
       "sqft": 1000,
@@ -21,7 +24,10 @@
       "featured": true
     },
     {
+      "uid": "magnolia-crestview-307",
       "id": "307",
+      "property": "Magnolia Crestview",
+      "address": "2701 W Manor Pl",
       "beds": 2,
       "baths": 2,
       "sqft": 1000,
@@ -39,7 +45,10 @@
       "plan": "2br2ba"
     },
     {
+      "uid": "magnolia-crestview-402",
       "id": "402",
+      "property": "Magnolia Crestview",
+      "address": "2701 W Manor Pl",
       "beds": 2,
       "baths": 2,
       "sqft": 1000,
@@ -57,7 +66,10 @@
       "plan": "2br2ba"
     },
     {
+      "uid": "magnolia-crestview-407",
       "id": "407",
+      "property": "Magnolia Crestview",
+      "address": "2701 W Manor Pl",
       "beds": 2,
       "baths": 2,
       "sqft": 1000,
@@ -73,6 +85,86 @@
         "Updated kitchen"
       ],
       "plan": "2br2ba"
+    },
+    {
+      "uid": "magnolia-vista-and-manor-101",
+      "id": "101",
+      "property": "Magnolia Vista & Manor",
+      "address": "2710 W Manor Pl",
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1000,
+      "rent": 1995,
+      "floor": "First floor",
+      "floorNum": 1,
+      "available": "Now",
+      "availType": "now",
+      "features": [],
+      "plan": "2br2ba"
+    },
+    {
+      "uid": "magnolia-vista-and-manor-102",
+      "id": "102",
+      "property": "Magnolia Vista & Manor",
+      "address": "3711 27th Pl W",
+      "beds": 1,
+      "baths": 1,
+      "sqft": 600,
+      "rent": 1595,
+      "floor": "First floor",
+      "floorNum": 1,
+      "available": "Now",
+      "availType": "now",
+      "features": [],
+      "plan": "1br"
+    },
+    {
+      "uid": "magnolia-vista-and-manor-306",
+      "id": "306",
+      "property": "Magnolia Vista & Manor",
+      "address": "2710 W Manor Pl",
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1000,
+      "rent": 2195,
+      "floor": "Third floor",
+      "floorNum": 3,
+      "available": "Now",
+      "availType": "now",
+      "features": [],
+      "plan": "2br2ba"
+    },
+    {
+      "uid": "magnolia-vista-and-manor-307",
+      "id": "307",
+      "property": "Magnolia Vista & Manor",
+      "address": "3711 27th Pl W",
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1000,
+      "rent": 1995,
+      "floor": "Third floor",
+      "floorNum": 3,
+      "available": "Now",
+      "availType": "now",
+      "features": [],
+      "plan": "2br2ba"
+    },
+    {
+      "uid": "magnolia-vista-and-manor-404",
+      "id": "404",
+      "property": "Magnolia Vista & Manor",
+      "address": "3711 27th Pl W",
+      "beds": 1,
+      "baths": 1,
+      "sqft": 600,
+      "rent": 1595,
+      "floor": "Fourth floor",
+      "floorNum": 4,
+      "available": "Now",
+      "availType": "now",
+      "features": [],
+      "plan": "1br"
     }
   ]
 }

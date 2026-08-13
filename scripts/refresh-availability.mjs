@@ -2,10 +2,11 @@
 //
 // Source of truth is the AppFolio public listings, already parsed into a clean
 // feed by the agm-availabilities app (listings.json). This script pulls that
-// feed, filters to one property, and MERGES it into the site's units.json:
+// feed, filters to the property (or properties) the site markets, and MERGES it
+// into the site's units.json:
 //
-//   • AppFolio drives:   beds, baths, sqft, rent, available, availType
-//   • Curated, preserved: floor, floorNum, features, featured, plan  (by unit id)
+//   • AppFolio drives:   beds, baths, sqft, rent, available, availType, address
+//   • Curated, preserved: floor, floorNum, features, featured, plan  (by uid)
 //   • New units:          created with derived floor/plan + empty features, FLAGGED
 //   • Vanished units:     dropped (no longer listed)
 //
@@ -39,9 +40,17 @@ const unitsPath = join(siteDir, 'units.json');
 
 const config = JSON.parse(readFileSync(configPath, 'utf8'));
 const av = config.availability || {};
-const propertyName = av.appfolioProperty;
+// A site can market more than one AppFolio property — e.g. Magnolia lists both
+// "Magnolia Crestview" and "Magnolia Vista & Manor". Accepts a string or an
+// array; the first entry is treated as the site's original property for the
+// purpose of migrating pre-multi-property units.json records (see findCurrent).
+const propertyNames = (Array.isArray(av.appfolioProperty) ? av.appfolioProperty : [av.appfolioProperty])
+  .filter(Boolean)
+  .map(String);
+const legacyProperty = propertyNames[0];
+const propertyLabel = propertyNames.join(' + ');
 const sourceUrl = av.source;
-if (!propertyName) throw new Error(`[refresh] ${SITE}/site.config.json is missing availability.appfolioProperty`);
+if (!propertyNames.length) throw new Error(`[refresh] ${SITE}/site.config.json is missing availability.appfolioProperty`);
 
 // ---- derivations ---------------------------------------------------------
 const ORDINALS = ['', 'First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth'];
@@ -76,10 +85,18 @@ async function loadFeed() {
 
 const feed = await loadFeed();
 const feedListings = Array.isArray(feed) ? feed : feed.listings || [];
-const mine = feedListings.filter((l) => l.property === propertyName);
+const mine = feedListings.filter((l) => propertyNames.includes(l.property));
+
+// A name that matches nothing is almost always a typo or a renamed property in
+// AppFolio, and it fails silently — the site just quietly stops listing that
+// building. Call it out even when other properties did match.
+const matchedNames = new Set(mine.map((l) => l.property));
+propertyNames.filter((n) => !matchedNames.has(n)).forEach((n) => {
+  console.error(`[refresh] WARNING: "${n}" matched 0 listings — check the exact name in the feed.`);
+});
 
 if (!mine.length) {
-  console.error(`[refresh] WARNING: 0 listings for "${propertyName}" in the feed (updatedAt: ${feed.updatedAt || 'n/a'}).`);
+  console.error(`[refresh] WARNING: 0 listings for "${propertyLabel}" in the feed (updatedAt: ${feed.updatedAt || 'n/a'}).`);
   console.error('[refresh] Refusing to wipe units.json on an empty result — check the property name / source. No changes written.');
   // Same trailer shape as the normal path so the Routine's parser doesn't have
   // to special-case the bail-out. Nothing was written, so nothing changed.
@@ -96,7 +113,25 @@ if (!mine.length) {
 // ---- build merged units --------------------------------------------------
 const current = JSON.parse(readFileSync(unitsPath, 'utf8'));
 const currentUnits = current.units || [];
-const byId = new Map(currentUnits.map((u) => [String(u.id), u]));
+
+// Unit numbers are only unique WITHIN a property — Crestview and Vista & Manor
+// both have a 307. Keying anything on the bare unit number silently merges two
+// different homes into one, so every unit carries a `uid` scoped by property.
+const slug = (s) => String(s).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const uidFor = (property, unit) => `${slug(property)}-${slug(unit)}`;
+
+const byUid = new Map();
+const legacyById = new Map();
+for (const u of currentUnits) {
+  if (u.uid) byUid.set(String(u.uid), u);
+  // Records written before multi-property support have no uid. They can only
+  // have belonged to the site's original property, so match them by bare id —
+  // but ONLY for that property, or a second building's 307 would inherit the
+  // first building's curated features.
+  else legacyById.set(String(u.id), u);
+}
+const findCurrent = (uid, id, property) =>
+  byUid.get(uid) || (property === legacyProperty ? legacyById.get(String(id)) : undefined) || null;
 
 const skipped = [];
 const flagged = [];
@@ -114,17 +149,23 @@ const merged = mine
   })
   .map((l) => {
     const id = String(l.unit).trim();
+    const property = String(l.property);
+    const uid = uidFor(property, id);
     const beds = normBeds(l.bedrooms);
     const baths = Number(l.bathrooms);
     const sqft = Number(l.sqft) || 0;
     const rent = l.rent ? Number(l.rent) : null;
     const available = String(l.available || 'Now');
     const availType = availTypeOf(available);
-    const cur = byId.get(id);
+    // "2701 W Manor Pl, Apt 301, Seattle, WA 98199" -> "2701 W Manor Pl".
+    // Vista & Manor spans two streets, so the building name alone doesn't
+    // locate a home; the street does.
+    const address = String(l.address || '').split(/,\s*(?:Apt|Unit|#)\b/i)[0].trim();
+    const cur = findCurrent(uid, id, property);
     if (cur) {
       // preserve curated fields, refresh AppFolio-driven ones, keep key order stable
       const next = {
-        id,
+        uid, id, property, address,
         beds, baths, sqft, rent,
         floor: cur.floor,
         floorNum: cur.floorNum,
@@ -136,9 +177,9 @@ const merged = mine
       return next;
     }
     // brand-new unit — derive best guesses, flag for review
-    flagged.push(id);
+    flagged.push(`${property} ${id}`);
     return {
-      id,
+      uid, id, property, address,
       beds, baths, sqft, rent,
       floor: floorLabelFromId(id),
       floorNum: floorNumFromId(id),
@@ -147,17 +188,27 @@ const merged = mine
       plan: derivePlan(beds, baths),
     };
   })
-  .sort((a, b) => numeric(a.id) - numeric(b.id) || String(a.id).localeCompare(String(b.id)));
+  // Group by property so the file (and the change report) reads building by
+  // building, then by unit number within each.
+  .sort((a, b) =>
+    propertyNames.indexOf(a.property) - propertyNames.indexOf(b.property) ||
+    numeric(a.id) - numeric(b.id) ||
+    String(a.id).localeCompare(String(b.id)));
 
 // ---- change report -------------------------------------------------------
-const newById = new Map(merged.map((u) => [u.id, u]));
-const added = merged.filter((u) => !byId.has(u.id));
-const removed = currentUnits.filter((u) => !newById.has(String(u.id)));
+// Diffed by uid, not unit number — two buildings can both have a 307, and
+// comparing those to each other would report phantom rent changes every run.
+const newByUid = new Map(merged.map((u) => [u.uid, u]));
+const added = merged.filter((u) => !findCurrent(u.uid, u.id, u.property));
+const removed = currentUnits.filter((u) => {
+  const uid = u.uid || uidFor(legacyProperty, u.id);
+  return !newByUid.has(String(uid));
+});
 const dataFields = ['beds', 'baths', 'sqft', 'rent', 'available', 'availType'];
 const updated = [];
 const unchanged = [];
 for (const u of merged) {
-  const prev = byId.get(u.id);
+  const prev = findCurrent(u.uid, u.id, u.property);
   if (!prev) continue;
   const diffs = dataFields.filter((f) => (prev[f] ?? null) !== (u[f] ?? null))
     .map((f) => ({ f, from: prev[f] ?? null, to: u[f] ?? null }));
@@ -165,7 +216,7 @@ for (const u of merged) {
 }
 
 const money = (r) => (r == null ? 'Inquire' : `$${Number(r).toLocaleString()}/mo`);
-const line = (u) => `  ${propertyName} — Unit ${u.id}: ${money(u.rent)} | ${u.beds === 0 ? 'Studio' : u.beds + ' bd'} / ${u.baths} ba | ${u.sqft.toLocaleString()} sqft | Avail: ${u.available}`;
+const line = (u) => `  ${u.property || propertyLabel} — Unit ${u.id}: ${money(u.rent)} | ${u.beds === 0 ? 'Studio' : u.beds + ' bd'} / ${u.baths} ba | ${u.sqft.toLocaleString()} sqft | Avail: ${u.available}`;
 
 // ---- bedroom-mix signal --------------------------------------------------
 // The site self-updates from this feed, but the Google Ads account and the
@@ -214,7 +265,7 @@ const floorChanged = floorBefore !== floorAfter;
 
 const R = [];
 R.push('============================================================');
-R.push(`AVAILABILITY REFRESH — ${propertyName}  (feed updated ${feed.updatedAt || 'n/a'})`);
+R.push(`AVAILABILITY REFRESH — ${propertyLabel}  (feed updated ${feed.updatedAt || 'n/a'})`);
 R.push('============================================================');
 R.push(`Active units: ${merged.length} (was ${currentUnits.length})`);
 R.push('');
@@ -222,11 +273,11 @@ R.push(`NEW UNITS (${added.length})`);
 added.forEach((u) => R.push(`${line(u)}   ⚠ review plan/features/floor`));
 R.push('');
 R.push(`REMOVED UNITS (${removed.length})`);
-removed.forEach((u) => R.push(`  ${propertyName} — Unit ${u.id}: was ${money(u.rent)} | ${u.beds} bd / ${u.baths} ba`));
+removed.forEach((u) => R.push(`  ${u.property || legacyProperty} — Unit ${u.id}: was ${money(u.rent)} | ${u.beds} bd / ${u.baths} ba`));
 R.push('');
 R.push(`UPDATED UNITS (${updated.length})`);
 updated.forEach(({ u, diffs }) => {
-  R.push(`  ${propertyName} — Unit ${u.id}`);
+  R.push(`  ${u.property || legacyProperty} — Unit ${u.id}`);
   diffs.forEach((d) => R.push(`    ${d.f}: ${d.f === 'rent' ? money(d.from) + ' → ' + money(d.to) : d.from + ' → ' + d.to}`));
 });
 R.push('');
