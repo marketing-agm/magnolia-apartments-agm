@@ -761,6 +761,10 @@
   let activePlan = '1br';
   let activeView = '2d';
 
+  // Plans whose 3D tour has already been counted this pageview, so switching
+  // back and forth between tabs doesn't inflate the conversion.
+  const tour3dTracked = new Set();
+
   function applyTourSrc() {
     if (!planTourEl || !planTourIframe) return;
     const placeholder = planTourEl.querySelector('.plan-tour-placeholder');
@@ -769,6 +773,15 @@
       if (planTourIframe.getAttribute('src') !== url) planTourIframe.setAttribute('src', url);
       planTourIframe.hidden = false;
       if (placeholder) placeholder.style.display = 'none';
+      // The 3D tab is a <button>, so the delegated tour_3d_opened listener in
+      // Analytics.astro — which matches matterport links and [data-3d-tour] —
+      // never saw it. Fire here instead, and only once a tour is actually on
+      // screen: clicking the tab while it still says "Coming Soon" is not a
+      // tour view and shouldn't be counted as one.
+      if (!tour3dTracked.has(activePlan) && window.trackEvent) {
+        tour3dTracked.add(activePlan);
+        window.trackEvent('tour_3d_opened', { plan: activePlan });
+      }
     } else {
       planTourIframe.hidden = true;
       if (placeholder) placeholder.style.display = '';
