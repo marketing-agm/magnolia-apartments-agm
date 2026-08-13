@@ -16,7 +16,9 @@ about Magnolia's tour is in the shared template.
 | Tour URL | `src/sites/<id>/site.config.json` → `floorPlans.<plan>.tourUrl` | **Per-property** |
 | Floor-plan drawing | `src/sites/<id>/public/images/floorplans/<plan>.png` | **Per-property** |
 | Drawing path | `site.config.json` → `floorPlans.<plan>.image` | **Per-property** |
-| The iframe, tabs, placeholder | `src/generated/body.html` | Shared |
+| Per-plan copy (optional) | `site.config.json` → `floorPlans.<plan>.copy` | **Per-property** |
+| Section heading (optional) | `site.config.json` → `floorPlansSection` | **Per-property** |
+| Tabs, panels, iframe, placeholders | `src/components/FloorPlans.astro` | Shared |
 | Load/swap logic | `public/app.js` | Shared |
 | Conversion tracking | `src/components/Analytics.astro` + `app.js` | Shared |
 
@@ -139,18 +141,70 @@ block embedding entirely, and that failure is silent.
 
 ---
 
-## Known limitation before property #2
+## Adapting to any plan mix (studio, 1BR, 2BR, 3BR…)
 
-**The floor-plan tabs are hardcoded in the shared `body.html`** as exactly two:
-`data-plan="1br"` and `data-plan="2br"`, with matching hand-written copy blocks
-(square footage, narrative, feature lists).
+The floor-plan section is rendered by `src/components/FloorPlans.astro` — one
+tab and one detail panel per layout the property actually has. There is no
+markup to fork per property.
 
-The *config* side is fully general — `applyFloorPlanConfig()` iterates whatever
-plan keys a site defines, so a `studio` or `3br` tour wires up correctly. But
-there's no **tab** for it to appear under, so nothing renders.
+**Which plans appear** = the union of the keys in `floorPlans` and the plan keys
+found in `units.json` (reduced to their bedroom prefix, so `3br2ba` → `3br`),
+sorted by bedroom count. So a layout shows up whether it is configured,
+currently rentable, or both — and a fully-leased layout still gets a tab.
 
-Practically: a property whose layouts are 1BR + 2BR works today with no template
-changes. A property with a studio, a 3BR, or a single layout needs the plan
-tabs and their copy lifted out of `body.html` into per-site config. That's the
-same refactor the README already flags for narrative copy — worth doing once,
-before onboarding a property that needs it, rather than forking `body.html`.
+**Facts prefer live data.** Beds, baths, sqft and the starting price come from
+`units.json` when that plan has units, falling back to values declared on the
+plan. That fallback is what lets a fully-leased layout render: Magnolia's 1BR
+has no units in the feed, so its `beds`/`baths`/`sqft` come from config.
+
+A brand-new property needs **no copy at all** — labels, eyebrow, stats and CTA
+are all derived. Authored copy is purely an upgrade:
+
+```json
+"floorPlans": {
+  "studio": {
+    "image": "/images/floorplans/studio.png",
+    "tourUrl": "",
+    "beds": 0, "baths": 1, "sqft": 480,        // used only when no live units
+    "copy": {
+      "eyebrow": "Studio · 1 Bath",            // default: "Studio · 1 Bath"
+      "title": "Small footprint,",             // default: "Studio,"
+      "titleItalic": "big windows.",           // default: "designed to live in."
+      "description": "Optional paragraph.",    // default: omitted
+      "stats": [                               // extra rows between baths and price
+        { "label": "Outdoor", "value": "Juliet balcony" }
+      ]
+    }
+  }
+}
+```
+
+Stat rows render as: **Square feet → Bathrooms → your `stats` → Starting at.**
+The price row is data-driven and refreshed from the feed on load; never type a
+price into `stats`.
+
+**Section heading** derives from the plan count — "Four layouts, designed for
+living." Override per property with:
+
+```json
+"floorPlansSection": {
+  "eyebrow": "Floor plans",
+  "title": "Two layouts,",
+  "titleItalic": "designed for living.",
+  "lede": "Optional paragraph under the heading."
+}
+```
+
+Omit `lede` entirely and no paragraph renders. Zero plans renders no section.
+
+### What this means in practice
+
+| Property has | Work required |
+|---|---|
+| 1BR + 2BR | None — same as Magnolia |
+| Studio, 3BR, 4BR | None. Add the plan key; tab, panel, CTA and ordering follow |
+| One single layout | None. Heading becomes "One layout," (singular handled) |
+| A layout with no units yet | Declare `beds`/`baths`/`sqft` on the plan so it still renders |
+
+The section is **server-rendered**, so every layout is in the HTML source for
+crawlers — not injected after hydration.

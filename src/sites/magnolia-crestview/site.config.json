@@ -117,7 +117,26 @@
           "src": "/images/plans/1br-bath.jpg",
           "title": "Bathroom"
         }
-      ]
+      ],
+      "beds": 1,
+      "baths": 1,
+      "sqft": 600,
+      "copy": {
+        "eyebrow": "1 Bedroom · 1 Bath",
+        "title": "Bright 1BR,",
+        "titleItalic": "private deck.",
+        "description": "An open kitchen and living area connect to a separate bedroom with closet and a full bath. Every one-bedroom in the building includes a private deck and a quick walk to Discovery Park.",
+        "stats": [
+          {
+            "label": "Outdoor",
+            "value": "Private deck"
+          },
+          {
+            "label": "Views",
+            "value": "Neighborhood & skyline"
+          }
+        ]
+      }
     },
     "2br": {
       "image": "/images/floorplans/2br.png",
@@ -143,7 +162,26 @@
           "src": "/images/plans/2br-bath.jpg",
           "title": "Bathroom"
         }
-      ]
+      ],
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1000,
+      "copy": {
+        "eyebrow": "2 Bedroom · 2 Bath",
+        "title": "Spacious 2BR/2BA,",
+        "titleItalic": "by Seattle standards.",
+        "description": "Two true bedrooms, two full bathrooms, an updated kitchen, and a private deck with built-in storage. The layout gives every roommate, partner, or family member their own space — steps from Discovery Park.",
+        "stats": [
+          {
+            "label": "Kitchen",
+            "value": "Updated"
+          },
+          {
+            "label": "Outdoor",
+            "value": "Private deck"
+          }
+        ]
+      }
     }
   },
   "integrations": {
@@ -188,5 +226,11 @@
   "availability": {
     "source": "https://raw.githubusercontent.com/marketing-agm/agm-availabilities/main/listings.json",
     "appfolioProperty": "Magnolia Crestview"
+  },
+  "floorPlansSection": {
+    "eyebrow": "Floor plans",
+    "title": "Two layouts,",
+    "titleItalic": "designed for living.",
+    "lede": "Bright one-bedrooms with private decks and spacious two-bedroom, two-bath homes — every plan built around how people actually live."
   }
 }

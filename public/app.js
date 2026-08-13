@@ -758,7 +758,11 @@
   // ============== FLOOR PLAN SWITCHER ==============
   const planTourEl = document.querySelector('.plan-view-3d');
   const planTourIframe = document.querySelector('.plan-tour-iframe');
-  let activePlan = '1br';
+  // Whatever plan the server rendered first, not a hardcoded '1br' — a property
+  // whose cheapest layout is a studio (or which has no 1BR at all) would
+  // otherwise start on a tab that doesn't exist, leaving the panel blank.
+  const firstPlanTab = document.querySelector('.plan-tab.is-active') || document.querySelector('.plan-tab');
+  let activePlan = (firstPlanTab && firstPlanTab.dataset.plan) || '1br';
   let activeView = '2d';
 
   // Plans whose 3D tour has already been counted this pageview, so switching

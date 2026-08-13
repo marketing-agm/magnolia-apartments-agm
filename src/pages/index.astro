@@ -1,20 +1,35 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Faq from '../components/Faq.astro';
+import FloorPlans from '../components/FloorPlans.astro';
 import { getSite } from '../lib/site';
 import bodyHtml from '../generated/body.html?raw';
 
 const site = getSite();
 
-// The shared body markup ends with the footer. Split there so the data-driven
-// FAQ section renders in its designed position (after the tour CTA, before the
-// footer) without editing the generated markup — keeping scripts/migrate.mjs
-// re-runnable. If no footer is found, the FAQ simply appends after the body.
-const footerAt = bodyHtml.lastIndexOf('<footer');
-const bodyMain = footerAt === -1 ? bodyHtml : bodyHtml.slice(0, footerAt);
-const bodyFooter = footerAt === -1 ? '' : bodyHtml.slice(footerAt);
+// The shared body markup carries the static sections. Two sections are
+// data-driven and rendered as components instead, spliced into their designed
+// positions so scripts/migrate.mjs stays re-runnable and the markup file never
+// has to know about per-site data:
+//
+//   FloorPlans — one tab per layout the property actually has, so a studio or
+//                3BR property needs no markup fork. Slotted at the FLOOR PLANS
+//                marker comment left in body.html.
+//   Faq        — after the tour CTA, before the footer.
+const FLOOR_PLANS_MARKER = '<!-- ================= FLOOR PLANS ================= -->';
+const floorPlansAt = bodyHtml.indexOf(FLOOR_PLANS_MARKER);
+
+// Fall back to appending rather than dropping content if a marker ever moves.
+const beforePlans = floorPlansAt === -1 ? bodyHtml : bodyHtml.slice(0, floorPlansAt);
+const afterPlans = floorPlansAt === -1 ? '' : bodyHtml.slice(floorPlansAt + FLOOR_PLANS_MARKER.length);
+
+const footerAt = afterPlans.lastIndexOf('<footer');
+const bodyMain = footerAt === -1 ? afterPlans : afterPlans.slice(0, footerAt);
+const bodyFooter = footerAt === -1 ? '' : afterPlans.slice(footerAt);
 ---
 <BaseLayout site={site}>
+  <Fragment set:html={beforePlans} />
+  <FloorPlans site={site} />
   <Fragment set:html={bodyMain} />
   <Faq site={site} />
   <Fragment set:html={bodyFooter} />
