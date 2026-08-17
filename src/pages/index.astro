@@ -19,11 +19,23 @@ const cityState = [addr.addressLocality, addr.addressRegion].filter(Boolean).joi
 const mapQuery = encodeURIComponent(
   [addr.streetAddress, addr.addressLocality, cityState.split(', ').pop()].filter(Boolean).join(', ')
 );
+// The wordmark sets the last word in italic ("Magnolia *Apartments*"). Split on
+// the final space by default so any property name works; a site whose name
+// doesn't split that way can set `wordmark` explicitly.
+const siteName: string = site.config.name ?? '';
+const wordmark = site.config.wordmark ?? {};
+const lastSpace = siteName.lastIndexOf(' ');
+const nameLead = wordmark.lead ?? (lastSpace === -1 ? siteName : siteName.slice(0, lastSpace));
+const nameEmph = wordmark.emph ?? (lastSpace === -1 ? '' : siteName.slice(lastSpace + 1));
+
 const ADDRESS_TOKENS: Record<string, string> = {
   '{{SITE_STREET}}': addr.streetAddress ?? '',
   '{{SITE_CITYSTATE}}': cityState,
   '{{SITE_LOCALITY}}': addr.addressLocality ?? '',
   '{{SITE_MAP_HREF}}': 'https://maps.google.com/maps?t=m&z=14&q=' + mapQuery,
+  '{{SITE_NAME}}': siteName,
+  '{{SITE_NAME_LEAD}}': nameLead,
+  '{{SITE_NAME_EMPH}}': nameEmph,
 };
 const resolveTokens = (html: string) =>
   Object.entries(ADDRESS_TOKENS).reduce((out, [token, value]) => out.replaceAll(token, value), html);

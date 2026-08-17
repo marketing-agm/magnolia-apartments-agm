@@ -35,6 +35,20 @@ Two static-file surfaces: shared `public/` ships with every site, while
 a small integration in `astro.config.mjs`). On a path collision the per-site file
 wins.
 
+**Never hardcode a property's name or address in `src/generated/body.html`.** It
+renders every site. Use these tokens; `src/pages/index.astro` resolves them from
+`site.config.json` at build time, so the right values are in the HTML source for
+crawlers and for anyone without JS:
+
+| Token | Resolves to |
+|---|---|
+| `{{SITE_NAME}}` | `name` — e.g. "Magnolia Apartments" |
+| `{{SITE_NAME_LEAD}}` / `{{SITE_NAME_EMPH}}` | the wordmark's two halves (split on the last space; override with `wordmark: {lead, emph}`) |
+| `{{SITE_STREET}}` | `address.streetAddress` |
+| `{{SITE_CITYSTATE}}` | "Seattle, WA 98199" |
+| `{{SITE_LOCALITY}}` | `address.addressLocality` |
+| `{{SITE_MAP_HREF}}` | Google Maps link to the address |
+
 **Never hardcode a site's own absolute URL in `src/sites/<id>/public/`.** Write
 `{{SITE_DOMAIN}}` instead — the build substitutes `site.config.json → domain`
 into every copied `.html/.txt/.xml/.json/.css/.js/.md`. Astro templates read the

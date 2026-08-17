@@ -1,10 +1,11 @@
-# Magnolia Crestview
+# Magnolia Apartments
 
-> Magnolia Crestview is an apartment community at 2701 W Manor Pl, Seattle, WA 98199, in Seattle's Magnolia neighborhood — a short walk from Discovery Park. It offers one-bedroom and two-bedroom/two-bath apartments for rent, professionally managed by AGM Real Estate Group, LLC.
+> Magnolia Apartments is an apartment community in Seattle's Magnolia neighborhood — a short walk from Discovery Park — made up of three buildings: Magnolia Crestview (2701 W Manor Pl), Magnolia Vista (2710 W Manor Pl) and Magnolia Manor (3711 27th Pl W). It offers one-bedroom and two-bedroom/two-bath apartments for rent, professionally managed by AGM Real Estate Group, LLC.
 
 ## Key facts
-- Property name: Magnolia Crestview
-- Address: 2701 W Manor Pl, Seattle, WA 98199
+- Property name: Magnolia Apartments
+- Leasing address: 2701 W Manor Pl, Seattle, WA 98199
+- Buildings: Magnolia Crestview (2701 W Manor Pl), Magnolia Vista (2710 W Manor Pl), Magnolia Manor (3711 27th Pl W) — all Seattle, WA 98199
 - Neighborhood: Magnolia, Seattle, Washington
 - Phone: (206) 694-1713
 - Email: leasing@agmrealestategroup.com

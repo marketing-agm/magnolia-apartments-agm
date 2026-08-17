@@ -1,7 +1,7 @@
 {
   "id": "magnolia-crestview",
-  "name": "Magnolia Crestview",
-  "shortName": "Crestview",
+  "name": "Magnolia Apartments",
+  "shortName": "Magnolia",
   "domain": "https://magnoliaapartmentsseattle.com",
   "locale": "en_US",
   "lang": "en",
@@ -24,10 +24,10 @@
     "longitude": -122.3915
   },
   "seo": {
-    "title": "Magnolia Crestview · Apartments in Magnolia, Seattle",
+    "title": "Magnolia Apartments · 1BR & 2BR in Magnolia, Seattle",
     "description": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Updated kitchens, private decks, views. Steps from Discovery Park. Available now from $1,595/mo.",
-    "keywords": "apartments in Magnolia, Magnolia Seattle apartments, Magnolia Crestview, apartments near Discovery Park, 2701 W Manor Pl, 1 bedroom apartment Seattle 98199, 2 bedroom apartment Magnolia, apartments for rent Magnolia Seattle",
-    "author": "Magnolia Crestview",
+    "keywords": "apartments in Magnolia, Magnolia Seattle apartments, Magnolia Apartments Seattle, Magnolia Crestview, Magnolia Vista, Magnolia Manor, apartments near Discovery Park, 1 bedroom apartment Seattle 98199, 2 bedroom apartment Magnolia, apartments for rent Magnolia Seattle",
+    "author": "Magnolia Apartments",
     "ogImage": "",
     "twitterDescription": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Steps from Discovery Park. Available now from $1,595/mo."
   },
@@ -36,7 +36,7 @@
       "ApartmentComplex",
       "LocalBusiness"
     ],
-    "description": "1BR and 2BR/2BA apartments for rent in Magnolia, Seattle. Updated kitchens, private decks, and views — steps from Discovery Park.",
+    "description": "1BR and 2BR/2BA apartments for rent in Magnolia, Seattle across three buildings. Updated kitchens, private decks, and views — steps from Discovery Park.",
     "priceRange": "$1,995–$2,195/mo",
     "numberOfBedrooms": "1-2",
     "petsAllowed": true,
@@ -94,7 +94,7 @@
   },
   "hero": {
     "image": "/images/hero.jpg",
-    "alt": "Magnolia Crestview building exterior with private balconies"
+    "alt": "Magnolia Apartments building exterior with private balconies"
   },
   "floorPlans": {
     "1br": {
