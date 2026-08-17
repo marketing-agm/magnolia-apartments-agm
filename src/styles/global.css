@@ -407,6 +407,19 @@
   .hero-sub a { color: var(--ink-2); border-bottom: 1px solid var(--rule); padding-bottom: 1px; transition: color 160ms, border-color 160ms; }
   .hero-sub a:hover { color: var(--accent); border-color: var(--accent); }
 
+  /* Replaces the old 4-up stat grid: a short prose intro instead of figures
+     that duplicated what the availability section already shows. */
+  .hero-intro {
+    max-width: 46ch;
+    margin: 26px 0 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  @media (max-width: 720px) {
+    .hero-intro { font-size: 15.5px; margin-top: 20px; }
+  }
+
   .stat-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -2207,6 +2220,14 @@
     line-height: 1.6;
     color: var(--ink-2);
     margin: 0;
+  }
+
+  .plan-disclaimer {
+    margin: 22px 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-3);
+    max-width: 70ch;
   }
 
   .plan-details {
@@ -4259,6 +4280,10 @@
     border-radius: var(--radius-lg);
   }
   .lightbox-photo[hidden] { display: none; }
+  /* display:flex beats the UA stylesheet's [hidden]{display:none}, so setting
+     .hidden on the placeholder had no visual effect and the "Coming soon" card
+     stayed on screen beside the photo it was meant to stand in for. */
+  .lightbox-placeholder[hidden] { display: none; }
 
   /* ---------- Form system ----------
      One treatment for every lead-capture form (page forms, the contact widget,

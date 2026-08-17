@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Faq from '../components/Faq.astro';
 import FloorPlans from '../components/FloorPlans.astro';
-import { getSite } from '../lib/site';
+import { getSite, formatPhone } from '../lib/site';
 import bodyHtml from '../generated/body.html?raw';
 
 const site = getSite();
@@ -28,7 +28,21 @@ const lastSpace = siteName.lastIndexOf(' ');
 const nameLead = wordmark.lead ?? (lastSpace === -1 ? siteName : siteName.slice(0, lastSpace));
 const nameEmph = wordmark.emph ?? (lastSpace === -1 ? '' : siteName.slice(lastSpace + 1));
 
+// Hero copy is per-property, not template text. Defaults keep a site that
+// hasn't written any from rendering empty headings.
+const hero = site.config.hero ?? {};
+// Strip a US country code so sms:/tel: keep the 10-digit form they had —
+// same normalisation formatPhone() applies for display.
+const digits = String(site.config.contact?.phone ?? '').replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
+
 const ADDRESS_TOKENS: Record<string, string> = {
+  '{{HERO_TITLE}}': hero.title ?? siteName,
+  '{{HERO_TITLE_ITALIC}}': hero.titleItalic ?? '',
+  '{{HERO_INTRO}}': hero.intro ?? '',
+  '{{HERO_OFFER}}': hero.offer ?? '',
+  '{{SITE_PHONE}}': formatPhone(site.config.contact?.phone),
+  '{{SITE_PHONE_HREF}}': site.config.contact?.phoneHref ?? ('tel:' + digits),
+  '{{SITE_PHONE_SMS}}': 'sms:' + digits,
   '{{SITE_STREET}}': addr.streetAddress ?? '',
   '{{SITE_CITYSTATE}}': cityState,
   '{{SITE_LOCALITY}}': addr.addressLocality ?? '',
@@ -37,8 +51,17 @@ const ADDRESS_TOKENS: Record<string, string> = {
   '{{SITE_NAME_LEAD}}': nameLead,
   '{{SITE_NAME_EMPH}}': nameEmph,
 };
-const resolveTokens = (html: string) =>
-  Object.entries(ADDRESS_TOKENS).reduce((out, [token, value]) => out.replaceAll(token, value), html);
+// A site with no hero offer or intro shouldn't render an empty pill or an empty
+// paragraph, so strip those wrappers before substituting.
+const dropIfEmpty: [string, RegExp][] = [
+  [hero.offer, /\s*<span class="pill pill--accent">\{\{HERO_OFFER\}\}<\/span>/],
+  [hero.intro, /\s*<p class="hero-intro reveal" data-delay="3">\{\{HERO_INTRO\}\}<\/p>/],
+];
+const resolveTokens = (html: string) => {
+  let out = html;
+  for (const [value, pattern] of dropIfEmpty) if (!value) out = out.replace(pattern, '');
+  return Object.entries(ADDRESS_TOKENS).reduce((acc, [token, v]) => acc.replaceAll(token, v), out);
+};
 
 // The shared body markup carries the static sections. Two sections are
 // data-driven and rendered as components instead, spliced into their designed

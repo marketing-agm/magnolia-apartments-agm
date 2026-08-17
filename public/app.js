@@ -163,6 +163,28 @@
     const m = String(plan || '').match(/^(studio|\d+br)/);
     return m ? m[1] : String(plan || '');
   };
+  // The Rental terms panel quoted a hand-typed rent range that had drifted from
+  // the feed — it advertised $1,395–$2,095 while nothing rented below $1,595.
+  // Derive it, and derive the move-in estimate from the same numbers so the two
+  // can never disagree with each other either.
+  //   due at signing = first month + one month deposit + screening fee
+  const SCREENING_FEE = 50;
+  function syncRentalTerms() {
+    const available = UNITS.filter((u) => u.availType === 'now');
+    const scope = available.length ? available : UNITS;
+    const rents = scope.map((u) => Number(u.rent)).filter((n) => Number.isFinite(n) && n > 0);
+    if (!rents.length) return;
+    const lo = Math.min(...rents), hi = Math.max(...rents);
+    const range = (a, b) => (a === b ? asMoney(a) : asMoney(a) + ' – ' + asMoney(b));
+
+    document.querySelectorAll('[data-terms-rent-range]').forEach((el) => {
+      el.textContent = range(lo, hi);
+    });
+    document.querySelectorAll('[data-terms-due-range]').forEach((el) => {
+      el.textContent = range(lo * 2 + SCREENING_FEE, hi * 2 + SCREENING_FEE);
+    });
+  }
+
   function syncPlanPricing() {
     const available = UNITS.filter((u) => u.availType === 'now');
     const scope = available.length ? available : UNITS;
@@ -781,6 +803,7 @@
   // Initial render
   syncUnitCounts();
   syncPlanPricing();
+  syncRentalTerms();
   renderUnits();
 
   // ============== FLOOR PLAN SWITCHER ==============
@@ -1396,6 +1419,9 @@
       // if the file hasn't been uploaded yet.
       const lbPhoto = document.getElementById('lightbox-photo');
       if (p.src && lbPhoto) {
+        // Hide the placeholder up front: waiting for onload flashes the
+        // "Coming soon" card on every open of a photo that does exist.
+        lbImg.hidden = true;
         lbPhoto.onerror = () => { lbPhoto.hidden = true; lbImg.hidden = false; };
         lbPhoto.onload = () => { lbPhoto.hidden = false; lbImg.hidden = true; };
         lbPhoto.alt = p.title;

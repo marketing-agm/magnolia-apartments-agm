@@ -118,7 +118,11 @@
   },
   "hero": {
     "image": "/images/hero.jpg",
-    "alt": "Magnolia Apartments building exterior with private balconies"
+    "alt": "Magnolia Apartments building exterior with private balconies",
+    "title": "Spacious Living",
+    "titleItalic": "in Magnolia.",
+    "offer": "1 Month Free · 12-Month Lease",
+    "intro": "One- and two-bedroom homes, with two full bathrooms in every 2BR. Full kitchens, private decks, in-unit laundry and covered parking — a short walk from Discovery Park."
   },
   "floorPlans": {
     "1br": {

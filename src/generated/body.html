@@ -35,14 +35,11 @@
     <div class="hero-grid">
       <div>
         <div class="hero-meta reveal">
-          <span class="pill"><span class="dot"></span><span data-unit-count>9</span> <span data-unit-noun>homes</span> available</span>
-          <span class="pill pill--accent">1 Month Free · 12-Month Lease</span>
+          <span class="pill pill--accent">{{HERO_OFFER}}</span>
         </div>
 
         <h1 class="display reveal" data-delay="1">
-          <span class="line">A small Magnolia</span>
-          <span class="line">building, <span class="italic">big on</span></span>
-          <span class="line">living.</span>
+          <span class="line">{{HERO_TITLE}} <span class="italic">{{HERO_TITLE_ITALIC}}</span></span>
         </h1>
 
         <div class="hero-sub reveal" data-delay="2">
@@ -50,21 +47,20 @@
           <a href="{{SITE_MAP_HREF}}" target="_blank" rel="noopener">{{SITE_STREET}} · {{SITE_CITYSTATE}}</a>
         </div>
 
-        <div class="stat-row reveal" data-delay="3">
-          <div class="stat"><div class="stat-label">Available</div><div class="stat-value"><span data-unit-count>9</span><span class="unit" data-unit-noun>homes</span></div></div>
-          <div class="stat"><div class="stat-label">Floor Plans</div><div class="stat-value">2<span class="unit">layouts</span></div></div>
-          <div class="stat"><div class="stat-label">Starting at</div><div class="stat-value" data-unit-min-rent>$1,995</div></div>
-          <div class="stat"><div class="stat-label">Move-in</div><div class="stat-value">Now</div></div>
-        </div>
+        <p class="hero-intro reveal" data-delay="3">{{HERO_INTRO}}</p>
 
         <div class="cta-row reveal" data-delay="4">
           <a href="#tour" class="btn btn-primary">
             Schedule a tour
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
-          <a href="tel:2066941713" class="btn btn-ghost">
+          <a href="#availability" class="btn btn-ghost">
+            See What's Available
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          </a>
+          <a href="{{SITE_PHONE_HREF}}" class="btn btn-ghost">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.91.32 1.8.57 2.66a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.42-1.13a2 2 0 0 1 2.11-.45c.86.25 1.75.44 2.66.57a2 2 0 0 1 1.72 2z"/></svg>
-            (206) 694-1713
+            {{SITE_PHONE}}
           </a>
         </div>
       </div>
@@ -286,7 +282,7 @@
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       </div>
       <h4>No homes match those filters</h4>
-      <p>Try adjusting your selection — or call <a href="tel:2066941713">(206) 694-1713</a> to be notified when something opens up.</p>
+      <p>Try adjusting your selection — or call <a href="{{SITE_PHONE_HREF}}">{{SITE_PHONE}}</a> to be notified when something opens up.</p>
       <button class="btn btn-ghost" id="reset-filters">Reset filters</button>
     </div>
   </div>
@@ -535,7 +531,7 @@
             Submit maintenance request
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
-          <p class="form-note">For after-hours emergencies (active leak, no heat, lockout), please call <a href="tel:2066941713" style="color:var(--accent);">(206) 694-1713</a>.</p>
+          <p class="form-note">For after-hours emergencies (active leak, no heat, lockout), please call <a href="{{SITE_PHONE_HREF}}" style="color:var(--accent);">{{SITE_PHONE}}</a>.</p>
         </form>
       </div>
     </div>
@@ -736,7 +732,7 @@
           </div>
           <div class="ml">
             <small>Call us</small>
-            <a href="tel:2066941713">(206) 694-1713</a>
+            <a href="{{SITE_PHONE_HREF}}">{{SITE_PHONE}}</a>
           </div>
         </div>
         <div class="contact-method">
@@ -982,7 +978,7 @@
                 Get directions to {{SITE_STREET}}
                 <svg class="tw-action-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
               </a>
-              <a class="tw-action" href="sms:2066941713">
+              <a class="tw-action" href="{{SITE_PHONE_SMS}}">
                 <span class="tw-action-ic">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 </span>
@@ -1122,7 +1118,7 @@
           <div class="label">Monthly rent
             <small>Varies by home · 12-month lease</small>
           </div>
-          <div class="value">$1,395 – $2,095</div>
+          <div class="value" data-terms-rent-range>$1,395 – $2,095</div>
         </div>
         <div class="ledger-row">
           <div class="label">Refundable security deposit
@@ -1165,7 +1161,7 @@
         </ul>
         <div class="move-in-cost">
           <span class="lbl">Estimated due at signing</span>
-          <span class="val">$2,840 – $4,240</span>
+          <span class="val" data-terms-due-range>$2,840 – $4,240</span>
         </div>
         <ul class="summary-list" style="margin-top:8px;">
           <li><span>Lease term</span><strong>12 months</strong></li>
@@ -1290,7 +1286,7 @@
       </div>
       <div class="col">
         <h6>Contact</h6>
-        <p><a href="tel:2066941713">(206) 694-1713</a></p>
+        <p><a href="{{SITE_PHONE_HREF}}">{{SITE_PHONE}}</a></p>
         <p><a href="mailto:leasing@agmrealestategroup.com">leasing@agmrealestategroup.com</a></p>
         <p>{{SITE_STREET}}<br/>{{SITE_CITYSTATE}}</p>
       </div>

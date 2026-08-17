@@ -87,6 +87,11 @@ const defaultTitle = `${countWord} layout${plans.length === 1 ? '' : 's'},`;
 const heading = sec.title || defaultTitle;
 const headingItalic = sec.titleItalic || 'designed for living.';
 const lede = sec.lede || '';
+// Drawings are per-plan, not per-unit: a renter comparing the drawing to the
+// home they tour will find differences, and saying so up front is both fairer
+// and safer than letting them discover it at signing.
+const disclaimer = sec.disclaimer ??
+  'Floor plans are representative of each layout. Dimensions, finishes and features vary by home — square footage is approximate.';
 ---
 {plans.length > 0 && (
 <section class="floor-plans" id="floor-plans">
@@ -156,6 +161,8 @@ const lede = sec.lede || '';
         ))}
       </aside>
     </div>
+
+    {disclaimer && <p class="plan-disclaimer reveal">{disclaimer}</p>}
   </div>
 </section>
 )}
