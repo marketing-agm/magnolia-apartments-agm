@@ -7,6 +7,27 @@ import bodyHtml from '../generated/body.html?raw';
 
 const site = getSite();
 
+// The shared markup can't hardcode a street address — it renders every property.
+// Address tokens are substituted at build time (same idea as {{SITE_DOMAIN}} in
+// the per-site public/ folder) rather than filled in by JS, so the correct
+// address is in the HTML source for crawlers and for anyone without JS. Doing it
+// client-side would have shipped one property's address as every other
+// property's no-JS fallback.
+const addr = site.config.address ?? {};
+const cityState = [addr.addressLocality, addr.addressRegion].filter(Boolean).join(', ') +
+  (addr.postalCode ? ' ' + addr.postalCode : '');
+const mapQuery = encodeURIComponent(
+  [addr.streetAddress, addr.addressLocality, cityState.split(', ').pop()].filter(Boolean).join(', ')
+);
+const ADDRESS_TOKENS: Record<string, string> = {
+  '{{SITE_STREET}}': addr.streetAddress ?? '',
+  '{{SITE_CITYSTATE}}': cityState,
+  '{{SITE_LOCALITY}}': addr.addressLocality ?? '',
+  '{{SITE_MAP_HREF}}': 'https://maps.google.com/maps?t=m&z=14&q=' + mapQuery,
+};
+const resolveTokens = (html: string) =>
+  Object.entries(ADDRESS_TOKENS).reduce((out, [token, value]) => out.replaceAll(token, value), html);
+
 // The shared body markup carries the static sections. Two sections are
 // data-driven and rendered as components instead, spliced into their designed
 // positions so scripts/migrate.mjs stays re-runnable and the markup file never
@@ -28,9 +49,9 @@ const bodyMain = footerAt === -1 ? afterPlans : afterPlans.slice(0, footerAt);
 const bodyFooter = footerAt === -1 ? '' : afterPlans.slice(footerAt);
 ---
 <BaseLayout site={site}>
-  <Fragment set:html={beforePlans} />
+  <Fragment set:html={resolveTokens(beforePlans)} />
   <FloorPlans site={site} />
-  <Fragment set:html={bodyMain} />
+  <Fragment set:html={resolveTokens(bodyMain)} />
   <Faq site={site} />
-  <Fragment set:html={bodyFooter} />
+  <Fragment set:html={resolveTokens(bodyFooter)} />
 </BaseLayout>

@@ -22,7 +22,35 @@ const priceRange = liveRents.length
       : `${money(Math.min(...liveRents))}–${money(Math.max(...liveRents))}/mo`)
   : c.schema.priceRange;
 
-const jsonLd = {
+// A site can market a property made of several buildings (Magnolia lists
+// Crestview, Vista and Manor). config.address/geo stay the leasing anchor —
+// where a renter actually goes to tour — and `buildings` describes the rest.
+// Absent or single-entry `buildings` leaves the structured data exactly as it
+// was, so single-building sites are unaffected.
+const buildings: any[] = Array.isArray(c.buildings) ? c.buildings : [];
+const postal = (a: any) => ({
+  '@type': 'PostalAddress',
+  streetAddress: a.streetAddress,
+  addressLocality: a.addressLocality,
+  addressRegion: a.addressRegion,
+  postalCode: a.postalCode,
+  addressCountry: a.addressCountry,
+});
+// Only buildings with real coordinates get a geo block — a guessed lat/lng in
+// structured data is worse than none, since search engines will place a pin on it.
+const containsPlace = buildings.map((b) => {
+  const place: any = {
+    '@type': 'ApartmentComplex',
+    name: b.name,
+    address: postal(b.address || {}),
+  };
+  if (b.geo && b.geo.latitude != null && b.geo.longitude != null) {
+    place.geo = { '@type': 'GeoCoordinates', latitude: b.geo.latitude, longitude: b.geo.longitude };
+  }
+  return place;
+});
+
+const jsonLd: any = {
   '@context': 'https://schema.org',
   '@type': c.schema.type,
   name: c.name,
@@ -49,6 +77,10 @@ const jsonLd = {
     value: true,
   })),
 };
+// Declaring the buildings tells search engines the listing spans several
+// addresses. Without it the markup asserts every home is at the anchor address,
+// which is simply untrue once a second building is listed.
+if (containsPlace.length > 1) jsonLd.containsPlace = containsPlace;
 
 // FAQPage structured data, built from the same per-site faq.json the FAQ section
 // renders. Wins rich results in search and gives AI answer engines clean Q&A.
@@ -82,6 +114,7 @@ const siteRuntime = {
     geo: c.geo,
     hero: c.hero || {},
     floorPlans: c.floorPlans || {},
+    buildings: c.buildings || [],
   },
   data: site.data,
 };

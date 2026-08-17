@@ -1,29 +1,6 @@
 {
   "units": [
     {
-      "uid": "magnolia-crestview-301",
-      "id": "301",
-      "property": "Magnolia Crestview",
-      "address": "2701 W Manor Pl",
-      "beds": 2,
-      "baths": 2,
-      "sqft": 1000,
-      "rent": 2195,
-      "floor": "Third floor",
-      "floorNum": 3,
-      "available": "Now",
-      "availType": "now",
-      "features": [
-        "In-unit W/D",
-        "2 balconies",
-        "Corner unit",
-        "Views",
-        "Updated kitchen"
-      ],
-      "plan": "2br2ba",
-      "featured": true
-    },
-    {
       "uid": "magnolia-crestview-307",
       "id": "307",
       "property": "Magnolia Crestview",

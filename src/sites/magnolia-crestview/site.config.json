@@ -235,5 +235,47 @@
     "title": "Two layouts,",
     "titleItalic": "designed for living.",
     "lede": "Bright one-bedrooms with private decks and spacious two-bedroom, two-bath homes — every plan built around how people actually live."
-  }
+  },
+  "buildings": [
+    {
+      "id": "crestview",
+      "name": "Magnolia Crestview",
+      "appfolioProperty": "Magnolia Crestview",
+      "address": {
+        "streetAddress": "2701 W Manor Pl",
+        "addressLocality": "Seattle",
+        "addressRegion": "WA",
+        "postalCode": "98199",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "latitude": 47.6528,
+        "longitude": -122.3915
+      }
+    },
+    {
+      "id": "vista",
+      "name": "Magnolia Vista",
+      "appfolioProperty": "Magnolia Vista & Manor",
+      "address": {
+        "streetAddress": "2710 W Manor Pl",
+        "addressLocality": "Seattle",
+        "addressRegion": "WA",
+        "postalCode": "98199",
+        "addressCountry": "US"
+      }
+    },
+    {
+      "id": "manor",
+      "name": "Magnolia Manor",
+      "appfolioProperty": "Magnolia Vista & Manor",
+      "address": {
+        "streetAddress": "3711 27th Pl W",
+        "addressLocality": "Seattle",
+        "addressRegion": "WA",
+        "postalCode": "98199",
+        "addressCountry": "US"
+      }
+    }
+  ]
 }

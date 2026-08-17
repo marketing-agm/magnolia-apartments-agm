@@ -918,6 +918,25 @@
     };
   })();
 
+  // Additional buildings this property is made of. Only those with real
+  // coordinates are pinned — a guessed lat/lng would drop a renter on the wrong
+  // block, which is worse than the building simply not being on the map. A
+  // building at the anchor coordinates is skipped so it doesn't stack on the
+  // main marker.
+  const BUILDINGS = ((window.__SITE__ && window.__SITE__.config.buildings) || [])
+    .filter((b) => b && b.geo && b.geo.latitude != null && b.geo.longitude != null)
+    .filter((b) => !(b.geo.latitude === PROPERTY.lat && b.geo.longitude === PROPERTY.lng))
+    .map((b) => {
+      const a = b.address || {};
+      return {
+        lat: b.geo.latitude,
+        lng: b.geo.longitude,
+        name: b.name || '',
+        address: [a.streetAddress, [a.addressLocality, a.addressRegion].filter(Boolean).join(', ') +
+          (a.postalCode ? ' ' + a.postalCode : '')].filter(Boolean).join('<br>'),
+      };
+    });
+
   // Map popup copy, derived from the live unit data for the same reason the hero
   // counts are: availability is refreshed automatically and typed-in figures go stale.
   function homesLabel() {
@@ -1134,6 +1153,14 @@
       L.marker([PROPERTY.lat, PROPERTY.lng], { icon: homeIcon, zIndexOffset: 1000 })
         .addTo(map)
         .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>${PROPERTY.name}</h4><p>${PROPERTY.address}</p><div class="foot"><span>${homesLabel()}</span><span>${fromLabel()}</span></div></div>`);
+
+      // Sibling buildings get the same marker, named individually — a renter
+      // looking at a home on a different street should see where it actually is.
+      BUILDINGS.forEach((b) => {
+        L.marker([b.lat, b.lng], { icon: homeIcon, zIndexOffset: 900 })
+          .addTo(map)
+          .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>Building</span><h4>${b.name}</h4><p>${b.address}</p></div>`);
+      });
 
       // Bus routes — drawn once, beneath the markers, always visible
       BUS_ROUTES.forEach(r => {
@@ -1594,7 +1621,10 @@
           result.classList.remove('is-active');
           return;
         }
-        destLabel.innerHTML = 'From <strong>2701 W Manor Pl</strong> to <strong>' + dest.name.split(',').slice(0, 2).join(',') + '</strong>';
+        // Shared template — the origin is whichever property this site is, not
+        // a baked-in street address.
+        const originLabel = (PROPERTY && PROPERTY.address ? PROPERTY.address.split('<br>')[0] : '') || 'the property';
+        destLabel.innerHTML = 'From <strong>' + originLabel + '</strong> to <strong>' + dest.name.split(',').slice(0, 2).join(',') + '</strong>';
         let routes = {}, approx = false;
         if (ORS_API_KEY) {
           try {
