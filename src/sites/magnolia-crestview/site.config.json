@@ -8,7 +8,20 @@
   "contact": {
     "phone": "+1-206-694-1713",
     "phoneHref": "tel:2066941713",
-    "email": "leasing@agmrealestategroup.com"
+    "email": "leasing@agmrealestategroup.com",
+    "officeHours": [
+      {
+        "days": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "17:00"
+      }
+    ]
   },
   "address": {
     "streetAddress": "2701 W Manor Pl",
@@ -29,7 +42,18 @@
     "keywords": "apartments in Magnolia, Magnolia Seattle apartments, Magnolia Apartments Seattle, Magnolia Crestview, Magnolia Vista, Magnolia Manor, apartments near Discovery Park, 1 bedroom apartment Seattle 98199, 2 bedroom apartment Magnolia, apartments for rent Magnolia Seattle",
     "author": "Magnolia Apartments",
     "ogImage": "",
-    "twitterDescription": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Steps from Discovery Park. Available now from $1,595/mo."
+    "twitterDescription": "1BR and 2BR/2BA apartments in Magnolia, Seattle. Steps from Discovery Park. Available now from $1,595/mo.",
+    "verification": {
+      "google": "",
+      "bing": ""
+    },
+    "alternateNames": [
+      "Magnolia Crestview",
+      "Magnolia Vista",
+      "Magnolia Manor",
+      "Magnolia Crestview Apartments"
+    ],
+    "sameAs": []
   },
   "schema": {
     "type": [
