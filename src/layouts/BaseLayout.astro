@@ -12,7 +12,14 @@ const url = c.domain.replace(/\/$/, '') + '/';
 // schema.priceRange silently drifts out of date the moment rents move — which is
 // exactly how this file ended up advertising a range no unit was renting at.
 // Falls back to the configured string when a site has no units loaded yet.
-const liveRents: number[] = (site.data?.units ?? [])
+// Scoped to move-in-ready homes, matching the hero figure and the plan tabs.
+// Spanning every unit made the structured data quote a floor price that nothing
+// on the page listed, because a cheaper home was still weeks from available.
+const allUnits: any[] = site.data?.units ?? [];
+const rentScope = allUnits.filter((u: any) => u.availType === 'now').length
+  ? allUnits.filter((u: any) => u.availType === 'now')
+  : allUnits;
+const liveRents: number[] = rentScope
   .map((u: any) => Number(u.rent))
   .filter((n: number) => Number.isFinite(n) && n > 0);
 const money = (n: number) => '$' + n.toLocaleString('en-US');

@@ -51,9 +51,12 @@ const plans = allKeys.map((key) => {
   const priceScope = now.length ? now : mine;
   const rents = priceScope.map((u) => Number(u.rent)).filter((n) => Number.isFinite(n) && n > 0);
 
-  const beds = mine.length ? Number(mode(mine.map((u) => Number(u.beds)))) : Number(cfg.beds ?? bedsOfKey(key));
-  const baths = mine.length ? Number(mode(mine.map((u) => Number(u.baths)))) : Number(cfg.baths ?? 0);
-  const sqftVals = mine.map((u) => Number(u.sqft)).filter((n) => Number.isFinite(n) && n > 0);
+  // Describe the same homes the price describes. Using every unit here while
+  // scoping the price to available-now let a plan advertise a coming-soon
+  // unit's square footage beside an available unit's rent.
+  const beds = priceScope.length ? Number(mode(priceScope.map((u) => Number(u.beds)))) : Number(cfg.beds ?? bedsOfKey(key));
+  const baths = priceScope.length ? Number(mode(priceScope.map((u) => Number(u.baths)))) : Number(cfg.baths ?? 0);
+  const sqftVals = priceScope.map((u) => Number(u.sqft)).filter((n) => Number.isFinite(n) && n > 0);
   const sqft = sqftVals.length ? Number(mode(sqftVals)) : Number(cfg.sqft ?? 0);
 
   const bedLabel = beds === 0 ? 'Studio' : `${beds} Bedroom`;
