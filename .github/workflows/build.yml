@@ -15,7 +15,7 @@ jobs:
       matrix:
         # One entry per property folder in src/sites/. Add new sites here so
         # their build is verified on every change to the shared template.
-        site: [magnolia-crestview]
+        site: [magnolia-crestview, niwa]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

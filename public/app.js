@@ -933,13 +933,27 @@
     const c = (window.__SITE__ && window.__SITE__.config) || {};
     const a = c.address || {};
     return {
-      lat: c.geo ? c.geo.latitude : 47.6528,
-      lng: c.geo ? c.geo.longitude : -122.3915,
+      // No hardcoded default: this used to fall back to Magnolia's coordinates,
+      // so any site launched before its geo was filled in would centre the map
+      // and drop its "you are here" pin on a different property entirely.
+      // null means "unknown" and the map skips the pin rather than lying.
+      lat: c.geo && c.geo.latitude != null ? c.geo.latitude : null,
+      lng: c.geo && c.geo.longitude != null ? c.geo.longitude : null,
       name: c.name || '',
       address: [a.streetAddress, [a.addressLocality, a.addressRegion].filter(Boolean).join(', ') +
         (a.postalCode ? ' ' + a.postalCode : '')].filter(Boolean).join('<br>'),
     };
   })();
+
+  // Where to centre the map when the property's own coordinates are unknown:
+  // a sibling building, else the first neighborhood pin. Returns null if the
+  // site has nothing positioned yet, and the map section is skipped.
+  function mapCentre() {
+    if (PROPERTY.lat != null) return [PROPERTY.lat, PROPERTY.lng];
+    if (BUILDINGS.length) return [BUILDINGS[0].lat, BUILDINGS[0].lng];
+    if (PLACES.length && PLACES[0].lat != null) return [PLACES[0].lat, PLACES[0].lng];
+    return null;
+  }
 
   // Additional buildings this property is made of. Only those with real
   // coordinates are pinned — a guessed lat/lng would drop a renter on the wrong
@@ -1120,10 +1134,10 @@
       const visible = getFilteredPlaces();
       if (visible.length > 0 && cat !== 'all') {
         const bounds = L.latLngBounds(visible.map(p => [p.lat, p.lng]));
-        bounds.extend([PROPERTY.lat, PROPERTY.lng]);
+        if (PROPERTY.lat != null) bounds.extend([PROPERTY.lat, PROPERTY.lng]);
         map.flyToBounds(bounds, { padding: [60, 60], duration: 0.8, maxZoom: 15 });
       } else if (cat === 'all') {
-        map.flyTo([PROPERTY.lat, PROPERTY.lng], 14, { duration: 0.6 });
+        if (PROPERTY.lat != null) map.flyTo([PROPERTY.lat, PROPERTY.lng], 14, { duration: 0.6 });
       }
     }
 
@@ -1148,10 +1162,14 @@
   // ----- Map init: only if Leaflet loaded -----
   function initLeafletMap() {
     if (typeof L === 'undefined') return false;
+    // A site with no coordinates anywhere has nothing to centre on. Skip rather
+    // than let Leaflet throw or centre on an arbitrary point.
+    const centre = mapCentre();
+    if (!centre) return false;
 
     try {
       map = L.map('leaflet-map', {
-        center: [PROPERTY.lat, PROPERTY.lng],
+        center: centre,
         zoom: 14,
         zoomControl: false,
         scrollWheelZoom: true,
@@ -1173,7 +1191,7 @@
         iconSize: [32, 32],
         iconAnchor: [16, 16]
       });
-      L.marker([PROPERTY.lat, PROPERTY.lng], { icon: homeIcon, zIndexOffset: 1000 })
+      if (PROPERTY.lat != null) L.marker([PROPERTY.lat, PROPERTY.lng], { icon: homeIcon, zIndexOffset: 1000 })
         .addTo(map)
         .bindPopup(`<div class="map-popup home"><span class="cat"><span class="dot" style="background:var(--accent)"></span>You are here</span><h4>${PROPERTY.name}</h4><p>${PROPERTY.address}</p><div class="foot"><span>${homesLabel()}</span><span>${fromLabel()}</span></div></div>`);
 

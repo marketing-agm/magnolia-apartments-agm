@@ -102,17 +102,20 @@
       {
         "path": "/guides/living-in-magnolia/",
         "changefreq": "monthly",
-        "priority": 0.7
+        "priority": 0.7,
+        "label": "Living in Magnolia"
       },
       {
         "path": "/guides/discovery-park/",
         "changefreq": "monthly",
-        "priority": 0.7
+        "priority": 0.7,
+        "label": "Discovery Park guide"
       },
       {
         "path": "/guides/magnolia-commute/",
         "changefreq": "monthly",
-        "priority": 0.7
+        "priority": 0.7,
+        "label": "Commuting from Magnolia"
       }
     ]
   },
@@ -304,6 +307,43 @@
         "postalCode": "98199",
         "addressCountry": "US"
       }
+    }
+  ],
+  "neighborhood": {
+    "title": "Magnolia, at the edge of everything",
+    "guidesHeading": "Magnolia guides",
+    "intro": "A peninsula neighborhood with trail access to Discovery Park, the weekend energy of Magnolia Village, and direct bus routes to downtown."
+  },
+  "features": [
+    {
+      "icon": "kitchen",
+      "title": "Updated kitchen",
+      "body": "Modern appliances, full-size dishwasher, generous counter space — set up for cooking, not just reheating."
+    },
+    {
+      "icon": "bedrooms",
+      "title": "Two true bedrooms",
+      "body": "Both rooms are generously sized — real bedrooms with closets, not converted nooks."
+    },
+    {
+      "icon": "deck",
+      "title": "Private deck",
+      "body": "Outdoor space that's actually yours, with built-in storage. Skyline views from the upper floors."
+    },
+    {
+      "icon": "baths",
+      "title": "Two full baths",
+      "body": "Roommate-friendly, family-friendly, guest-friendly. No more morning queues for the shower."
+    },
+    {
+      "icon": "closets",
+      "title": "Abundant closets",
+      "body": "Storage you'll actually use. Coats, gear, off-season clothes — all with somewhere to go."
+    },
+    {
+      "icon": "views",
+      "title": "Skyline views",
+      "body": "Select upper-floor units look out over Magnolia and the downtown Seattle skyline. Cascade views available."
     }
   ]
 }

@@ -86,7 +86,6 @@ const jsonLd: any = {
     postalCode: c.address.postalCode,
     addressCountry: c.address.addressCountry,
   },
-  geo: { '@type': 'GeoCoordinates', latitude: c.geo.latitude, longitude: c.geo.longitude },
   areaServed: (c.schema.areaServed || []).map((name: string) => ({ '@type': 'Place', name })),
   containedInPlace: { '@type': 'Place', name: c.schema.containedInPlace },
   numberOfBedrooms: c.schema.numberOfBedrooms,
@@ -100,6 +99,12 @@ const jsonLd: any = {
 // Declaring the buildings tells search engines the listing spans several
 // addresses. Without it the markup asserts every home is at the anchor address,
 // which is simply untrue once a second building is listed.
+// Coordinates are optional: a site can launch before anyone has looked up its
+// lat/lng, and asserting a guessed point in structured data would place the
+// property somewhere it isn't.
+if (c.geo && c.geo.latitude != null && c.geo.longitude != null) {
+  jsonLd.geo = { '@type': 'GeoCoordinates', latitude: c.geo.latitude, longitude: c.geo.longitude };
+}
 if (containsPlace.length > 1) jsonLd.containsPlace = containsPlace;
 if (alternateName.length) jsonLd.alternateName = alternateName;
 if (sameAs.length) jsonLd.sameAs = sameAs;
@@ -175,8 +180,8 @@ const emailjsConfigured = !!(c.integrations?.emailjs?.publicKey
 
 <meta name="geo.region" content={c.address.geoRegion} />
 <meta name="geo.placename" content={c.address.placename} />
-<meta name="geo.position" content={`${c.geo.latitude};${c.geo.longitude}`} />
-<meta name="ICBM" content={`${c.geo.latitude}, ${c.geo.longitude}`} />
+{c.geo?.latitude != null && <meta name="geo.position" content={`${c.geo.latitude};${c.geo.longitude}`} />}
+{c.geo?.latitude != null && <meta name="ICBM" content={`${c.geo.latitude}, ${c.geo.longitude}`} />}
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={c.name} />

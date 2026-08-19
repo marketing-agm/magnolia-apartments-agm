@@ -595,7 +595,7 @@
     <header class="cw-head">
       <div class="cw-head-text">
         <span class="cw-head-eyebrow">The neighborhood</span>
-        <h3 class="cw-head-title" id="neighborhood-overlay-title">Magnolia, at the edge of everything</h3>
+        <h3 class="cw-head-title" id="neighborhood-overlay-title">{{NEIGHBORHOOD_TITLE}}</h3>
       </div>
       <div class="cw-head-actions">
         <button class="cw-icon-btn" type="button" aria-label="Close" data-ct-close>
@@ -606,7 +606,7 @@
     <div class="ct-body">
 
   <div class="ud-inner">
-    <p class="ud-intro">A peninsula neighborhood with trail access to Discovery Park, the weekend energy of Magnolia Village, and direct bus routes to downtown. Filter by category — or just explore the map.</p>
+    <p class="ud-intro">{{NEIGHBORHOOD_INTRO}} Filter by category — or just explore the map.</p>
 
     <!-- Category filter chips -->
     <div class="nb-filters">
@@ -1031,48 +1031,7 @@
     
 
     <div class="features-grid">
-      <div class="feature-card">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
-        </div>
-        <h4>Updated kitchen</h4>
-        <p>Modern appliances, full-size dishwasher, generous counter space — set up for cooking, not just heating things up.</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21V12h6v9"/></svg>
-        </div>
-        <h4>Two true bedrooms</h4>
-        <p>Both rooms are generously sized — real bedrooms with closets, not converted nooks or office corners.</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 9h18M7 5v14M17 5v14"/></svg>
-        </div>
-        <h4>Private deck</h4>
-        <p>Outdoor space that's actually yours, with built-in storage. Skyline views from the upper floors.</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
-        </div>
-        <h4>Two full baths</h4>
-        <p>Roommate-friendly, family-friendly, guest-friendly. No more morning queues for the shower.</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M5 9l-2 3 2 3M19 9l2 3-2 3M12 16v6M3 12h18"/></svg>
-        </div>
-        <h4>Abundant closets</h4>
-        <p>Storage you'll actually use. Coats, gear, off-season clothes — all with somewhere to live.</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-        </div>
-        <h4>Skyline views</h4>
-        <p>Select upper-floor units look out over Magnolia and the downtown Seattle skyline. Cascade views available.</p>
-      </div>
+      {{FEATURE_CARDS}}
     </div>
 
     <!-- Lists -->
@@ -1291,10 +1250,7 @@
         <p>{{SITE_STREET}}<br/>{{SITE_CITYSTATE}}</p>
       </div>
       <div class="col">
-        <h6>Magnolia guides</h6>
-        <p><a href="/guides/living-in-magnolia/">Living in Magnolia</a></p>
-        <p><a href="/guides/discovery-park/">Discovery Park guide</a></p>
-        <p><a href="/guides/magnolia-commute/">Commuting from Magnolia</a></p>
+{{FOOTER_GUIDES}}
         <p><a href="#faq">FAQ</a></p>
       </div>
     </div>

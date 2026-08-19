@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Faq from '../components/Faq.astro';
 import FloorPlans from '../components/FloorPlans.astro';
 import { getSite, formatPhone } from '../lib/site';
+import { FEATURE_ICONS } from '../lib/featureIcons';
 import bodyHtml from '../generated/body.html?raw';
 
 const site = getSite();
@@ -35,7 +36,39 @@ const hero = site.config.hero ?? {};
 // same normalisation formatPhone() applies for display.
 const digits = String(site.config.contact?.phone ?? '').replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
 
+// Footer guide links are built from sitemap.pages — the same list that decides
+// what goes in sitemap.xml — so a site can't advertise guides it doesn't ship.
+// The old hardcoded links pointed at Magnolia's three guides and would have
+// 404'd on every other property.
+const guidePages: any[] = (site.config.sitemap?.pages ?? []).filter((pg: any) =>
+  String(pg.path || '').startsWith('/guides/'));
+const escapeHtml = (v: string) =>
+  String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// Derive a label from the slug when the page doesn't supply one.
+const guideLabel = (pg: any) => pg.label ?? String(pg.path).replace(/^\/guides\//, '').replace(/\/$/, '')
+  .split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+const footerGuides = guidePages.length
+  ? `        <h6>${escapeHtml(site.config.neighborhood?.guidesHeading ?? 'Guides')}</h6>\n` +
+    guidePages.map((pg) => `        <p><a href="${escapeHtml(pg.path)}">${escapeHtml(guideLabel(pg))}</a></p>`).join('\n')
+  : '';
+
+// Feature cards come from config: the six that used to live in the shared
+// markup described Magnolia specifically, so a studio building inherited
+// claims like "Two true bedrooms" and "Two full baths" that were untrue of it.
+const featureCards: any[] = site.config.features ?? [];
+const featuresHtml = featureCards.map((f: any) => `      <div class="feature-card">
+        <div class="icon">${FEATURE_ICONS[f.icon] ?? FEATURE_ICONS.kitchen}</div>
+        <h4>${escapeHtml(f.title)}</h4>
+        <p>${escapeHtml(f.body)}</p>
+      </div>`).join('\n');
+
+const nb = site.config.neighborhood ?? {};
+
 const ADDRESS_TOKENS: Record<string, string> = {
+  '{{NEIGHBORHOOD_TITLE}}': nb.title ?? `${site.config.address?.addressLocality ?? ''}`,
+  '{{NEIGHBORHOOD_INTRO}}': nb.intro ?? '',
+  '{{FEATURE_CARDS}}': featuresHtml,
+  '{{FOOTER_GUIDES}}': footerGuides,
   '{{HERO_TITLE}}': hero.title ?? siteName,
   '{{HERO_TITLE_ITALIC}}': hero.titleItalic ?? '',
   '{{HERO_INTRO}}': hero.intro ?? '',
