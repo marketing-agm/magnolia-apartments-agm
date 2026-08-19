@@ -167,7 +167,9 @@ const emailjsConfigured = !!(c.integrations?.emailjs?.publicKey
 <title>{c.seo.title}</title>
 <meta name="description" content={c.seo.description} />
 <meta name="keywords" content={c.seo.keywords} />
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="robots" content={c.seo.noindex
+  ? 'noindex, nofollow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
 <meta name="author" content={c.seo.author} />
 
 <link rel="canonical" href={url} />

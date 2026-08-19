@@ -89,6 +89,34 @@ Check the branch preview Cloudflare builds for the PR. Specifically:
 
 ---
 
+## Step 3a — Not ready to buy a domain?
+
+Skip to step 4 and run on the free `*.pages.dev` hostname Cloudflare gives every
+project. The site is **fully functional** there — availability, tours, the lead
+form, everything. Set `domain` to that hostname and carry on.
+
+**But set `seo.noindex: true` while you do.** It emits `noindex, nofollow` and a
+`Disallow: /` robots.txt, so the site is live and shareable but invisible to
+search. Without it you accumulate SEO history on a hostname you intend to throw
+away — and Google can end up ranking the `.pages.dev` URL, which you then have to
+migrate with a change of address and redirects.
+
+Indexing an interim host is a cost you pay later. Not indexing it costs nothing,
+because a brand-new site ranks for nothing in its first weeks anyway.
+
+When the domain arrives, it's two lines in `site.config.json`:
+
+```json
+"domain": "https://<the-real-domain>",
+"seo": { "noindex": false }
+```
+
+Everything follows — canonical, Open Graph, sitemap, robots, guide pages.
+
+> Don't run Google Ads to a `.pages.dev` URL. It can't be verified as a domain
+> you own, which Google increasingly requires, and the display URL reads as
+> untrustworthy in the ad.
+
 ## Step 3 — Buy the domain
 
 Cloudflare dashboard → **Domain Registration → Register Domains**. Buying it

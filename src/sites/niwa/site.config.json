@@ -2,7 +2,7 @@
   "id": "niwa",
   "name": "Niwa Apartments",
   "shortName": "Niwa",
-  "domain": "https://niwaapartmentsseattle.com",
+  "domain": "https://niwa-apartments-agm.pages.dev",
   "locale": "en_US",
   "lang": "en",
   "contact": {
@@ -47,7 +47,8 @@
       "Niwa",
       "Niwa Seattle"
     ],
-    "sameAs": []
+    "sameAs": [],
+    "noindex": true
   },
   "schema": {
     "type": [
