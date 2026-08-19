@@ -78,6 +78,9 @@ SITE=magnolia-crestview npm run build
 
 ## Add a new property (the path to 45 sites)
 
+Full walkthrough including domain, Cloudflare Pages, EmailJS and search setup:
+****. The short version:
+
 1. `cp -r src/sites/magnolia-crestview src/sites/<new-id>`
 2. Edit `<new-id>/site.config.json` — name, domain, address, geo, theme colors,
    SEO copy, analytics IDs, and the `sitemap.pages` list (extra URLs like guides).
