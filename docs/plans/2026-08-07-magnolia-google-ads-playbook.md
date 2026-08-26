@@ -272,7 +272,6 @@ so each gets its own ad copy and keyword set:
 
 **Ad group D — Amenity intent**
 ```
-"apartments with in unit washer dryer seattle"
 "apartments with balcony seattle"
 "pet friendly apartments magnolia seattle"
 "apartments with parking magnolia seattle"
@@ -376,7 +375,7 @@ H1  2BR/2BA in Magnolia, Seattle     ← pinned pos. 1
 H2  1 Month Free · 12-Mo Lease
 H3  Available Now — Move In This Month
 H4  1,000 Sq Ft · 2 Bed, 2 Bath
-H5  In-Unit Washer & Dryer
+H5  On-Site Laundry
 H6  Private Balcony & Views
 H7  Steps From Discovery Park
 H8  Updated Kitchens
@@ -391,7 +390,7 @@ H15 See Photos & Floor Plans
 
 **Descriptions**
 ```
-D1  Spacious 1,000 sq ft 2BR/2BA homes with in-unit laundry, private balconies
+D1  Spacious 1,000 sq ft 2BR/2BA homes with on-site laundry, private balconies
     and updated kitchens. Available now.
 D2  1 month free on a 12-month lease. Book a tour in under a minute — pick your
     day and time online.
@@ -417,9 +416,9 @@ Same asset pool otherwise — that's the point of RSAs.
   `Living in Magnolia` → `/guides/living-in-magnolia/` ·
   `Commute Times` → `/guides/magnolia-commute/`
   *(Your three guide pages are ideal sitelink targets and already built.)*
-- **Callouts:** `In-Unit W/D` · `Private Balconies` · `Covered Parking` ·
+- **Callouts:** `On-Site Laundry` · `Private Balconies` · `Covered Parking` ·
   `Pet Friendly` · `Updated Kitchens` · `Walk to Discovery Park` · `Puget Sound Views`
-- **Structured snippet** — *Amenities:* `In-unit laundry, Balcony, Covered parking,
+- **Structured snippet** — *Amenities:* `On-site laundry, Balcony, Covered parking,
   Updated kitchen, Views`
 - **Call asset:** `(206) 694-1713`, scheduled to leasing-office hours only.
   Don't run calls at 11pm into voicemail.
